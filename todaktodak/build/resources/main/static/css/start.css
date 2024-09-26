@@ -1,0 +1,34 @@
+body{
+    margin: 0;
+}
+
+#background {
+    margin: 0;
+    height: 100vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-image: url('/img/istockphoto-1170840978-2048x2048.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#toMain {
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    position: relative;
+    z-index: 2;
+}
+
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
