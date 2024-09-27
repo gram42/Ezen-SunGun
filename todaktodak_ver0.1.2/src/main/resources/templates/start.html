@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>start</title>
+    <link rel="stylesheet" th:href="@{/css/start.css}">
+
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="background">
+
+        <div id="overlay"></div>
+    
+        <div id="toMain">
+            <h1>환영</h1>
+            <div>기타 설명</div>
+        </div>
+
+    </div>
+
+    <script>
+        (() => {
+            document.querySelector("body").addEventListener('click', () => {
+                location.href="/ui/main"
+            });
+        })();
+    </script>
+</body>
+</html>
