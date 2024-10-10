@@ -49,13 +49,15 @@ public class RecordService {
 
     // 기록이 없을 시 기본 정보 생성
     public void createNewRecord(String userId, LocalDate localDate){
+        
+        Record record;
         List<Categories> categories = categoriesService.getAllCategories();
         User user = userService.getUserByUserid(userId);
 
         for (Categories category : categories) {
             
             RecordCompositeId recordCompositeId = new RecordCompositeId(userId, category.getId(), localDate);
-            Record record = new Record(recordCompositeId, "", 0, user, category);
+            record = new Record(recordCompositeId, "", 0, user, category);
 
             recordRepository.save(record);
         }

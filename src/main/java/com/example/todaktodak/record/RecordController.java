@@ -1,6 +1,7 @@
 package com.example.todaktodak.record;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +32,26 @@ public class RecordController {
         
         if((authentication != null) && (authentication.isAuthenticated())) {
 
+            LocalDate selectDate;
+            List<Record> userRecords;
             LocalDate today = LocalDate.now();
 
             if (date != null){
                 
-                LocalDate selectDate = LocalDate.parse(date);
+                try {
+                    selectDate = LocalDate.parse(date);
+                }
+                catch (DateTimeParseException e) {
+                    return "redirect:/error";
+                }
+                
 
                 if (selectDate.isAfter(today)){
                     return "redirect:/error";
                 }
                 else{
 
-                    List<Record> userRecords = recordService.getUserRecordByUseridAndRecordedDate(authentication.getName(), selectDate);
+                    userRecords = recordService.getUserRecordByUseridAndRecordedDate(authentication.getName(), selectDate);
                     model.addAttribute("userRecords", userRecords);
                     model.addAttribute("date", selectDate);
 
@@ -51,7 +60,7 @@ public class RecordController {
             }
             else{
 
-                List<Record> userRecords = recordService.getUserRecordByUseridAndRecordedDate(authentication.getName(), today);
+                userRecords = recordService.getUserRecordByUseridAndRecordedDate(authentication.getName(), today);
                 model.addAttribute("userRecords", userRecords);
                 model.addAttribute("date", today);
 
