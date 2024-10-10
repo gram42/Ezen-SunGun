@@ -95,8 +95,6 @@ public class RecordController {
     //         model.addAttribute("point", categoryIdAndPoint.getPoint(););
     //     }
 
-
-
     //     return "/record/mypage2";
     // }
     
