@@ -85,19 +85,21 @@ public class RecordController {
         return ResponseEntity.status(200).body("Success");
     }
 
-    // // 그래프 출력
-    // @GetMapping("/mypage2")
-    // public String graph(Authentication authentication, Model model) {
+    // 그래프 출력
+    @GetMapping("/mypage2")
+    public String graph(Authentication authentication, Model model) {
 
-    //     if((authentication != null) && (authentication.isAuthenticated())){
-    //         List<RecordDTO> categoryIdAndPoint = recordService.getCategoryPoint(authentication.getName());
-    //         model.addAttribute("categoryId", categoryIdAndPoint.getCategoryId(););
-    //         model.addAttribute("point", categoryIdAndPoint.getPoint(););
-    //     }
+        if((authentication != null) && (authentication.isAuthenticated())){
+            List<RecordDTO> categoryIdAndPoint = recordService.getCategoryPoint(authentication.getName());
+            model.addAttribute("categoryId", categoryIdAndPoint.getCategoryId(););
+            model.addAttribute("point", categoryIdAndPoint.getPoint(););
+        }
+
+        System.out.println("이거 테스트~~");
 
 
-    //     return "/record/mypage2";
-    // }
+        return "/record/mypage2";
+    }
     
 
 
