@@ -95,8 +95,6 @@ public class RecordController {
     //         model.addAttribute("point", categoryIdAndPoint.getPoint(););
     //     }
 
-    //     System.out.println("이거 테스트임~~");
-
     //     return "/record/mypage2";
     // }
     
