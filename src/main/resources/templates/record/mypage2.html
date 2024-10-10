@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mypage2</title>
+</head>
+<body>
+
+    <h1>mypage2</h1>
+    
+    <div sec:authorize="isAnonymous">
+        <h1>로그인 후 이용 가능합니다.</h1>
+        <a href="/user/login">로그인</a>
+        <a href="/ui/main">홈으로</a>
+    </div>
+
+    <div sec:authorize="isAuthenticated">
+        <span th:text="${points.all}"></span>
+    </div>
+    
+</body>
+</html>
