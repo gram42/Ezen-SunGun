@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Page</title>
+    <link rel="stylesheet" th:href="@{/css/record.css}">
+</head>
+<body>
+
+    <div sec:authorize="isAnonymous">
+        <div>로그인 후 이용 가능합니다</div>
+        <a href="/user/login">로그인</a>
+    </div>
+    
+    <div sec:authorize="isAuthenticated">
+        
+        
+        <!-- 기록 출력 -->
+        <div id="totalRecord">
+
+            <input id="inputDate" name="recordedDate" type="date" min="2000-1-1" th:value="${date}">
+            
+            <div class="record" th:each="record : ${userRecords}" th:userid="${record.user.userid}">
+
+                <input th:id="${record.category.id}" class="checkbox" type="checkbox" th:point="${record.point}">
+                <label th:for="${record.category.id}" th:text="${record.category.name}"></label>
+
+                <div class="body">
+                    <textarea th:text="${record.content}"></textarea>
+                    <a href="#" class="submitButton">완료</a>
+                </div>
+
+            </div>
+        </div>
+    
+    </div>
+
+<script src="/js/record/record.js"></script>
+    
+</body>
+</html>

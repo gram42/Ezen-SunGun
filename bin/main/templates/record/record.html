@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Page</title>
+</head>
+<body>
+
+    <div sec:authorize="isAnonymous">
+        <div>로그인 후 이용 가능합니다</div>
+        <a href="/user/login">로그인</a>
+    </div>
+    
+    <div sec:authorize="isAuthenticated">
+        
+        <input id="inputDate" name="recordedDate" type="date" min="2000-1-1">
+
+        <!-- 기록 출력 -->
+        <div id="totalRecord">
+
+            <div class="record" th:each="record : ${userRecords}" userid="${record.compositeId.userid}">
+                <input type="checkbox" name="${record.category.name}">
+                <p th:text="'Content: ' + ${record.content}">Content</p>
+            </div>
+
+        </div>
+    
+    </div>
+
+<script>
+(()=>{
+
+    const $inputDate = document.querySelector('#inputDate');
+    const $totalRecord = document.querySelector('#totalRecord');
+
+    $inputDate.max = new Date().toISOString().split("T")[0];
+    $inputDate.value = $inputDate.max;
+
+    // 날짜 변환 시 날짜에 맞는 기록 데이터 요청 & 응답
+    $inputDate.addEventListener('change', (event)=>{
+
+        const recordObj = {
+            recordedDate : $inputDate.value,
+            userid : document.querySelector('.record').getAttribute('userid')
+        }
+
+        fetch('/recordDate', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(recordObj)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('response fail');
+            }
+            return response.json();
+        })
+        .then(records =>{
+
+            $totalRecord.innerHTML = '';
+
+            records.forEach(record => {
+
+                const existingRecordDiv = document.querySelector('.record');
+                const newRecordDiv = existingRecordDiv.cloneNode(true);
+
+                newRecordDiv.setAttribute('userid', record.compositeId.userid);
+
+                const contentParagraph = newRecordDiv.querySelector('p');
+                contentParagraph.textContent = 'Content: ' + record.content;
+
+                const checkbox = newRecordDiv.querySelector('input[type="checkbox"]');
+                checkbox.name = record.category.name;
+
+                $totalRecord.appendChild(newRecordDiv);
+            });
+        })
+
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+        });
+
+})();
+</script>
+    
+</body>
+</html>

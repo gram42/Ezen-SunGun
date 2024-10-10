@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>response</title>
+</head>
+<body>
+
+<h1>결과 페이지</h1>
+
+<div class="btn">
+    <button type="button">책</button>
+    <button type="button">음악</button>
+    <button type="button">활동</button>
+    <button type="button">주류</button>
+    <button type="button">전체</button>
+</div>
+
+<div>
+    <span>책</span> <hr>
+    <div>책 답변</div><br>
+
+    <span>음악</span> <hr>
+    <div>음악 답변</div><br>
+
+    <span>활동</span> <hr>
+    <div>활동 답변</div><br>
+</div>
+    
+<script>
+
+    const $btn = document.querySelectorAll(".btn button");
+    $btn.forEach(eachButton => {
+        eachButton.addEventListener('click', (event)=>{
+            const buttonText = event.target.innerText;
+            if (buttonText == '책'){
+                location.href = '/ui/book_res'
+            }
+        })
+    });
+
+</script>
+
+</body>
+</html>
