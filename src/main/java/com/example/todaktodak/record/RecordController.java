@@ -45,7 +45,6 @@ public class RecordController {
                     return "redirect:/error";
                 }
                 
-
                 if (selectDate.isAfter(today)){
                     return "redirect:/error";
                 }
@@ -94,18 +93,26 @@ public class RecordController {
         return ResponseEntity.status(200).body("Success");
     }
 
-    // // 그래프 출력
-    // @GetMapping("/mypage2")
-    // public String graph(Authentication authentication, Model model) {
 
-    //     if((authentication != null) && (authentication.isAuthenticated())){
-    //         List<RecordDTO> categoryIdAndPoint = recordService.getAllPoint(authentication.getName());
-    //         model.addAttribute("categoryId", categoryIdAndPoint.getCategoryId(););
-    //         model.addAttribute("points", categoryIdAndPoint.getPoint(););
-    //     }
+    // *주의* 추후 메소드 위치 옮길 것 -> user 폴더로, mypage2 -> mypage로 바꿀 것
+    // 마이페이지 접속 - 포인트 값 리턴(주 단위, 약 5주), 기본 접속 - 전체 포인트 리턴
+    @GetMapping("/mypage2")
+    public String mypage2(Authentication authentication, Model model) {
+        
+        List<Record> points;
 
-    //     return "/record/mypage2";
-    // }
+        if((authentication != null) && (authentication.isAuthenticated())){
+
+            points = recordService.getTotalPointsByWeeks(authentication.getName());
+            
+            model.addAttribute("pointsInfo", points); // 받아온 데이터 넣기
+        }
+
+        return "/record/mypage2";
+    }
+
+
+    // post 매핑 - 카테고리 선택 시 입력한 카테고리 포인트 리턴, ajax 통신 예정
     
 
 

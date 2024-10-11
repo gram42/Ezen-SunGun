@@ -1,6 +1,7 @@
 package com.example.todaktodak.record;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,16 +32,15 @@ public class RecordService {
     // 날짜에 맞는 기록 리턴
     public List<Record> getUserRecordByUseridAndRecordedDate(String userid, LocalDate recordedDate){
 
-        LocalDate date = recordedDate;
-        List<Record> userRecords = recordRepository.findByCompositeIdUseridAndCompositeIdRecordedDate(userid, date);
+        List<Record> userRecords = recordRepository.findByCompositeIdUseridAndCompositeIdRecordedDate(userid, recordedDate);
         
         if (!userRecords.isEmpty()){
             return userRecords;
         } 
         else{
 
-            createNewRecord(userid, date);
-            return recordRepository.findByCompositeIdUseridAndCompositeIdRecordedDate(userid, date);
+            createNewRecord(userid, recordedDate);
+            return recordRepository.findByCompositeIdUseridAndCompositeIdRecordedDate(userid, recordedDate);
             
         }
 
@@ -98,6 +98,12 @@ public class RecordService {
             System.out.println("ID : " + compositeId.getUserid() + " " + "categoryId : " + compositeId.getCategoryId() + " " + "date : " + compositeId.getRecordedDate());
         }
 
+    }
+
+    // 오늘 기준 주차별 데이터 찾는 메소드 - 가져온 데이터에서 포인트만 뽑아서 더해야함, 리턴 값은 카테고리 정보(id, 이름)와 카테고리별 포인트 합산 결과
+    public List<Record> getTotalPointsByWeeks(String userid){ // 리턴 값 생각 할 것
+
+        return new ArrayList<>();
     }
 
 
