@@ -129,6 +129,10 @@ public class RecordService {
 
         }
 
+        if (weeksRecords.isEmpty() || categoryPoints.get("전체") == 0){
+            return null;
+        }
+
         return categoryPoints;
     }
 
