@@ -18,16 +18,18 @@
 
     <div sec:authorize="isAuthenticated">
 
+        <div th:if="${points.isEmpty()}">
+            <div>기록이 존재하지 않습니다.</div>
+        </div>
+
         <div th:unless="${points.isEmpty()}">
 
             <div th:each="point : ${points}">
-
+    
                 <div th:text="${point.key} + ' : ' + ${point.value}"></div>
-
+    
             </div>
-            
         </div>
-
     </div>
     
 </body>

@@ -1,8 +1,9 @@
 package com.example.todaktodak.record;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.example.todaktodak.user.UserService;
 
 @Service
 public class RecordService {
+
     @Autowired
     private final RecordRepository recordRepository;
     @Autowired
@@ -100,10 +102,43 @@ public class RecordService {
 
     }
 
-    // 오늘 기준 주차별 데이터 찾는 메소드 - 가져온 데이터에서 포인트만 뽑아서 더해야함, 리턴 값은 카테고리 정보(id, 이름)와 카테고리별 포인트 합산 결과
-    public List<Record> getTotalPointsByWeeks(String userid){ // 리턴 값 생각 할 것
 
-        return new ArrayList<>();
+    // 기간별 카테고리 당 포인트데이터 연산 메소드 - 가져온 데이터에서 포인트만 뽑아서 더해야함, 리턴 값은 카테고리 정보(id, 이름)와 카테고리별 포인트 합산 결과
+    public Map<String, Integer> getTotalPointsByMonth(String userid){ // 리턴 값 생각 할 것
+
+        int weeks = 5;
+        List<Record> weeksRecords = getRecordNWeeks(userid, weeks);
+
+        Map<String, Integer> categoryPoints = new HashMap<>();
+        categoryPoints.put("전체", 0);
+
+        for (Record record : weeksRecords) {
+            
+            String categoryName = record.getCategory().getName();
+            int point = record.getPoint();
+
+            if (categoryPoints.containsKey(categoryName)){
+                categoryPoints.put(categoryName, categoryPoints.get(categoryName) + point);
+            } else {
+                categoryPoints.put(categoryName, point);
+            }
+
+            categoryPoints.put("전체", categoryPoints.get("전체") + point);
+
+        }
+
+        return categoryPoints;
+    }
+
+    
+    // 오늘 기준 N주차 전까지 기록 찾는 메소드
+    public List<Record> getRecordNWeeks(String userid, Integer N){
+
+        LocalDate startDate = RecordController.TODAY.minusWeeks(N);
+        LocalDate endDate = RecordController.TODAY;
+
+        return recordRepository.findByCompositeIdUseridAndCompositeIdRecordedDateBetween(userid, startDate, endDate);
+
     }
 
 

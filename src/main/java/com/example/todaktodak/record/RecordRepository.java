@@ -11,6 +11,7 @@ public interface RecordRepository extends JpaRepository<Record, RecordCompositeI
     
     List<Record> findByCompositeIdUseridAndCompositeIdRecordedDate(String userId, LocalDate date);
     Optional<Record> findByCompositeId(RecordCompositeId compositeId);
+    List<Record> findByCompositeIdUseridAndCompositeIdRecordedDateBetween(String userId, LocalDate startDate, LocalDate endDate);
 
 
 }

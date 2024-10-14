@@ -3,6 +3,7 @@ package com.example.todaktodak.record;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RecordController {
     @Autowired
     private final RecordService recordService;
+    public static final LocalDate TODAY = LocalDate.now();
 
     public RecordController(RecordService recordService){
         this.recordService = recordService;
@@ -34,7 +36,6 @@ public class RecordController {
 
             LocalDate selectDate;
             List<Record> userRecords;
-            LocalDate today = LocalDate.now();
 
             if (date != null){
                 
@@ -45,7 +46,7 @@ public class RecordController {
                     return "redirect:/error";
                 }
                 
-                if (selectDate.isAfter(today)){
+                if (selectDate.isAfter(TODAY)){
                     return "redirect:/error";
                 }
                 else{
@@ -59,9 +60,9 @@ public class RecordController {
             }
             else{
 
-                userRecords = recordService.getUserRecordByUseridAndRecordedDate(authentication.getName(), today);
+                userRecords = recordService.getUserRecordByUseridAndRecordedDate(authentication.getName(), TODAY);
                 model.addAttribute("userRecords", userRecords);
-                model.addAttribute("date", today);
+                model.addAttribute("date", TODAY);
 
             }
         } 
@@ -95,24 +96,21 @@ public class RecordController {
 
 
     // *주의* 추후 메소드 위치 옮길 것 -> user 폴더로, mypage2 -> mypage로 바꿀 것
-    // 마이페이지 접속 - 포인트 값 리턴(주 단위, 약 5주), 기본 접속 - 전체 포인트 리턴
+    // 마이페이지 접속 - 포인트 값 리턴(주 단위, 약 5주), 기본 접속 - 카테고리별 포인트 전부 리턴
     @GetMapping("/mypage2")
     public String mypage2(Authentication authentication, Model model) {
         
-        List<Record> points;
+        Map<String, Integer> points;
 
         if((authentication != null) && (authentication.isAuthenticated())){
 
-            points = recordService.getTotalPointsByWeeks(authentication.getName());
+            points = recordService.getTotalPointsByMonth(authentication.getName());
             
-            model.addAttribute("pointsInfo", points); // 받아온 데이터 넣기
+            model.addAttribute("points", points); // 받아온 데이터 넣기
         }
 
         return "/record/mypage2";
     }
-
-
-    // post 매핑 - 카테고리 선택 시 입력한 카테고리 포인트 리턴, ajax 통신 예정
     
 
 
