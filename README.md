@@ -77,7 +77,7 @@ html - [record]
 카테고리 활성화 시에만 본문 내용과 저장 버튼 띄우기(+)
 
 
-<mypage>
+<My page>
 
 그래프 - 기록 포인트, userid, category id와 연결해 카테고리별 점수 그래프로 표시
 
