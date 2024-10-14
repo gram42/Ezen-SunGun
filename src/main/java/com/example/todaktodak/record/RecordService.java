@@ -78,7 +78,9 @@ public class RecordService {
         }
         else{
             System.out.println("유저 찾기 실패");
-            System.out.println("ID : " + compositeId.getUserid() + " " + "categoryId : " + compositeId.getCategoryId() + " " + "date : " + compositeId.getRecordedDate());
+            System.out.println("ID : " + compositeId.getUserid() + " " + 
+                               "categoryId : " + compositeId.getCategoryId() + " " +
+                               "date : " + compositeId.getRecordedDate());
         }
 
     }
@@ -113,7 +115,7 @@ public class RecordService {
         categoryPoints.put("전체", 0);
 
         for (Record record : weeksRecords) {
-            
+
             String categoryName = record.getCategory().getName();
             int point = record.getPoint();
 
