@@ -45,7 +45,7 @@
                     content_visible();
                 })
                 .catch(error => {
-                    alert("저장에 실패했습니다.");
+                    alert(error.message);
                 });
 
             } else {
@@ -67,7 +67,7 @@
                     content_visible();
                 })
                 .catch(error => {
-                    alert("저장에 실패했습니다.");
+                    alert(error.message);
                 });
             }
 
@@ -106,7 +106,7 @@
             .then((message)=>{return message.text()})
             .then(message => {console.log(message)})
             .catch(error => {
-                alert("저장에 실패했습니다.");
+                alert(error.message);
             });
         });
     });

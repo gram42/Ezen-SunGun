@@ -6,6 +6,7 @@
     <title>mypage2</title>
 </head>
 <body>
+    <!-- *주의* 추후 파일 위치 옮길 것 -> user, 이름 mypage로 바꿀 것 -->
 
     <h1>mypage2</h1>
     
@@ -16,7 +17,21 @@
     </div>
 
     <div sec:authorize="isAuthenticated">
-        <span th:text="${points}"></span>
+
+        <div th:if="${points == null or points.isEmpty()}">
+            <div> 최근 기록이 없습니다. </div>
+        </div>
+
+        <div th:if="${points != null and !points.isEmpty()}">
+
+            <div th:each="point : ${points}">
+
+                <div th:text="${point.key} + ' : ' + ${point.value}"></div>
+
+            </div>
+            
+        </div>
+
     </div>
     
 </body>

@@ -16,6 +16,7 @@ public class SecurityConfig {
         httpSecurity.csrf(csrf -> csrf.disable()); // CSRF 비활성화
 
         httpSecurity.authorizeHttpRequests((authorize)-> authorize.requestMatchers("/**").permitAll());
+        // .requestMatchers("/category").hasRole("ROLE-ADMIN") // 카테고리 수정 관리자만 접근 가능하게 하려면 이 코드 추가
 
         httpSecurity.formLogin((formLogin)->formLogin.loginPage("/user/login")
         .defaultSuccessUrl("/ui/main?login=true")
