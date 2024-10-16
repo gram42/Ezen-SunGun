@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community</title>
+    <style>
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .pagination {
+            margin: 20px 0;
+        }
+        .pagination button {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Community</h1>
+    <div sec:authorize="isAuthenticated()">
+        <button id="writeButton">글쓰기</button>
+    </div>
+
+    <h2>게시글 목록</h2>
+    <div id="postsList"></div> <!-- 게시글 목록을 표시할 영역 -->
+
+    <div class="pagination" id="pagination"></div> <!-- 페이지네이션 영역 -->
+
+    <script>
+        let currentPage = 1;
+        const postsPerPage = 4; // 페이지당 게시글 수
+
+        // 글쓰기 버튼 클릭 시 글쓰기 페이지로 이동
+        document.getElementById("writeButton").addEventListener("click", function() {
+            window.location.href = "/community/writing"; // 글쓰기 페이지로 리다이렉트
+        });
+
+      // 게시글 목록 가져오기
+      async function loadPosts(page = 1) {
+    try {
+        const response = await fetch(`/posts?page=${page}&size=${postsPerPage}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data); // 응답 데이터 확인
+        const posts = data.content || []; // undefined 방지
+
+        const postsList = document.getElementById('postsList');
+        postsList.innerHTML = ''; // 기존 목록 초기화
+        posts.forEach(post => {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+
+            const title = document.createElement('h3');
+            title.textContent = post.title;
+            title.addEventListener('click', () => {
+                window.location.href = `/posts/${post.postId}`;
+            });
+
+            const preview = document.createElement('p');
+            preview.textContent = post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content;
+
+            postDiv.appendChild(title);
+            postDiv.appendChild(preview);
+            postsList.appendChild(postDiv);
+        });
+    } catch (error) {
+        console.error("게시글을 불러오는 데 실패했습니다.", error);
+    }
+}
+
+    
+
+
+
+        // 페이지네이션 업데이트
+        function updatePagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = ''; // 기존 페이지네이션 초기화
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.addEventListener('click', () => {
+                    currentPage = i; // 현재 페이지 업데이트
+                    loadPosts(currentPage); // 새로운 페이지의 게시글 로드
+                });
+                pagination.appendChild(button);
+            }
+        }
+
+        // 페이지 로드 시 게시글 목록을 불러옴
+        loadPosts(currentPage);
+    </script>
+
+</body>
+</html>

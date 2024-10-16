@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my page</title>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+    <style>
+        #checkPassword{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>mypage test</h1>
+
+    <div sec:authorize="isAnonymous">
+        <h1>로그인 후 이용 가능합니다.</h1>
+        <a href="/user/login">로그인</a>
+        <a href="/ui/main">홈으로</a>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+
+        <a href="#" id="perInfoEdit">개인 정보 수정</a><br>
+        
+        <div id="checkPassword">
+
+            <span>개인 정보를 수정하시려면 비밀번호를 입력해주세요.</span><br>
+            <span id="resultMessage"></span><br>
+            <input id="saveId" type="hidden" name="userid" th:value="${user.userid}">
+            <input id="inputPassword" type="password" name="password">
+            <button id="sendPassword" type="submit">입력</button>
+
+        </div>
+
+        <div>
+            
+            <div class="info">
+                <span>ID </span>
+                <p th:if="${user.userid != null}" th:text="${user.userid}"></p>
+            </div>
+
+            <div class="info">
+                <span>이름 </span>
+                <p th:if="${user.userName != null}" th:text="${user.userName}"></p>
+            </div>
+
+            <div class="info">
+                <span>이메일 </span>
+                <p th:if="${user.email != null}" th:text="${user.email}"></p>
+            </div>
+
+            <div class="info">
+                <span>성별 </span>
+                <p th:if="${user.gender != null}" th:text="${user.gender}"></p>
+            </div>
+
+            <div class="info">
+                <span>생일 </span>
+                <p th:if="${user.birthDate != null}" th:text="${user.birthDate}"></p>
+            </div>
+
+        </div>
+
+        
+
+        <!-- 개인 정보 수정을 누르면 각종 정보 수정 가능하게 비밀번호와 정보 수정시 비번 재입력 -->
+
+        <a href="/user/logout">로그아웃</a>
+        
+    </div>
+
+
+<script>
+(()=>{
+
+    const $perInfoEdit = document.querySelector('#perInfoEdit');
+    const $resultMessage = document.querySelector('#resultMessage');
+
+    $perInfoEdit.addEventListener('click', () => {
+        document.querySelector('#checkPassword').style.display = "block";
+    })
+
+    document.querySelector('#sendPassword').addEventListener('click',()=>{
+
+        const userid = document.querySelector('#saveId').value;
+        const password = document.querySelector('#inputPassword').value;
+
+        if (password !== ''){
+            
+            fetch('/user/checkPassword', {
+
+                method : 'POST',
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify({userid, password})
+
+            })
+            .then(response => response.text())
+            .then((message)=>{
+
+                if (message === "비밀번호가 확인되었습니다."){
+
+                    location.href = "/user/editInfo";
+
+                } else {
+                    $resultMessage.style.display = "block";
+                    $resultMessage.style.color = "red";
+                    $resultMessage.textContent = message;
+                }
+            })
+            .catch(error => {
+                alert("비밀번호 확인 중 문제가 발생했습니다: " + error.message);
+            })
+
+        }
+        else {
+
+            $resultMessage.style.display = "block";
+            $resultMessage.style.color = "red";
+            $resultMessage.textContent = "비밀번호를 입력해주세요.";
+
+        }
+    })
+    
+
+
+
+
+
+
+
+})();
+</script>
+
+    
+</body>
+</html>
