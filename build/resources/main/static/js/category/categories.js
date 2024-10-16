@@ -1,34 +1,5 @@
 (()=>{
 
-    // 수정 완료 버튼 누를 시 저장 후 페이지 새로고침
-    document.querySelectorAll('.edit').forEach((button)=>{
-        button.querySelector('.editSubmitButton').addEventListener('click', ()=>{
-            const $editCategories = button.querySelector('.inputEditCategoryName');
-            if ($editCategories.value !== null && $editCategories.value.trim() !== ""){
-
-                fetch('/category/edit',{
-                    method: "POST",
-                    headers: {"Content-Type" : "application/json"},
-                    body: {
-                        id: $editCategories.getAttribute('data-id'),
-                        name:$editCategories.value
-                    }
-                })
-                .then(response => {return response.text()})
-                .then(()=>{location.reload();})
-                .catch(
-                    error => {
-                    alert("저장에 실패했습니다.");
-                })
-
-            } else {
-                alert('변경하실 내용을 입력해주세요.');
-                return
-            }
-        });
-    });
-
-
     // 수정 버튼 클릭시 수정 창 등장
     document.querySelectorAll('.editCategories').forEach((button)=>{
 
@@ -47,7 +18,7 @@
         document.querySelector('#inputAddCategoryName').focus();
     });
 
-    // 추가 완료 버튼 누를 시 저장 후 페이지 새로고침
+    // 추가 완료 버튼 누를 시 중복검사 실행 후 저장, 페이지 새로고침
     document.querySelector('#addSubmitButton').addEventListener('click',()=>{
         const inputAddCategoryName = document.querySelector('#inputAddCategoryName').value;
 
@@ -55,18 +26,77 @@
             alert('내용을 입력해주세요.');
             return
         } else {
-            fetch('/category/add', {
+            fetch('/category/overlapCheck', {
                 method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name : inputAddCategoryName})
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({name: inputAddCategoryName})
             })
-            .then(response => {return response.text()})
+            .then(response=>{return response.text()})
+            .then(message =>{
+                console.log(message);
+                if (message === "category exist"){
+                    throw new Error('이미 존재하는 카테고리입니다.');
+                }
+
+                return fetch('/category/add', {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name : inputAddCategoryName})
+                });
+            })
             .then(()=>{location.reload();})
-            .catch(
-                error => {
-                    alert("저장에 실패했습니다.");
+            .catch(error=>{
+                alert(error.message);
             })
+ 
         }
+    });
+
+    // 수정 완료 버튼 누를 시 중복검사 실행 후 저장, 페이지 새로고침
+    document.querySelectorAll('.edit').forEach((button)=>{
+        button.querySelector('.editSubmitButton').addEventListener('click', ()=>{
+            const $editCategories = button.querySelector('.inputEditCategoryName');
+            if ($editCategories.value !== null && $editCategories.value.trim() !== ""){
+
+                fetch('/category/overlapCheck',{
+                    method: "POST",
+                    headers: {'Content-Type' : 'application/json'},
+                    body: JSON.stringify({name:$editCategories.value})
+                })
+                .then(response=>{return response.text()})
+                .then(message =>{
+    
+                    if (message === "category exist"){
+                        throw new Error('이미 존재하는 카테고리입니다.');
+                    }
+    
+                    return fetch('/category/edit',{
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            strId: $editCategories.getAttribute('data-id'),
+                            name:$editCategories.value
+                        })
+                    })
+                })
+                .then(response => {return response.text()})
+                .then(message => {
+                    if (message === 'Success'){
+                        location.reload();
+                    } else {
+                        throw new Error('카테고리 수정 실패 다시 시도하십시오.');
+                    }
+                })
+                .catch(
+                    error => {
+                    alert(error.message);
+                })
+
+            } else {
+                alert('변경하실 내용을 입력해주세요.');
+                return
+            }
+        });
     });
     
 

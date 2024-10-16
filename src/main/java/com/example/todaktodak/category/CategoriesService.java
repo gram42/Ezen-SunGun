@@ -19,6 +19,18 @@ public class CategoriesService {
         return categoriesRepository.findAll();
     }
 
+    // 카테고리 이름 중복검사
+    public boolean checkOverlap(CategoriesDTO categoriesDTO){
+        String categoryName = categoriesDTO.getName();
+        List<Categories> existNames = getAllCategories();
+
+        for (Categories existName : existNames){
+            if(existName.getName().equals(categoryName)){return true;}
+        }
+        return false;
+        
+    }
+
     // 카테고리 추가
     public void add(Categories categories){
         categoriesRepository.save(categories);
@@ -29,10 +41,7 @@ public class CategoriesService {
 
         Categories editCategory = new Categories();
 
-        System.out.println(categoriesDTO);
-
         Long id = Long.parseLong(categoriesDTO.getStrId());
-        System.out.println(id);
         Optional<Categories> optionalCategory = categoriesRepository.findById(id);
         
         if (optionalCategory.isPresent()) {

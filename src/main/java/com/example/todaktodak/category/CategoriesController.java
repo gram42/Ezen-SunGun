@@ -34,6 +34,19 @@ public class CategoriesController {
 
     }
 
+    // 카테고리 이름 중복 검사
+    @PostMapping("/category/overlapCheck")
+    public ResponseEntity<String> overlapCheck(@RequestBody CategoriesDTO categoriesDTO) {
+        boolean exist = categoriesService.checkOverlap(categoriesDTO);
+        if (exist){
+            return ResponseEntity.status(200).body("category exist");
+        } else {
+            return ResponseEntity.status(200).body("No problem");
+        }
+        
+    }
+    
+
     // 카테고리 추가
     @PostMapping("/category/add")
     public ResponseEntity<String> addCategory(@RequestBody Categories categories) {

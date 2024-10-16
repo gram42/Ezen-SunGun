@@ -21,14 +21,14 @@
             <div th:text="${category.name}"></div>
 
             <a class="editCategories" href="#">수정</a>
-            
+            <br>
             <div class="edit">
 
-                <input data-id="${category.id}" class="inputEditCategoryName" th:value="${category.name}" type="text">
-                <a class="editSubmitButton" href="#" class="submitButton">완료</a>
+                <input th:data-id="${category.id}" class="inputEditCategoryName" th:value="${category.name}" type="text">
+                <a class="editSubmitButton" href="#">완료</a>
 
             </div>
-
+            <br>
         </div>
 
         <div>
