@@ -33,7 +33,7 @@
             })
             .then(response=>{return response.text()})
             .then(message =>{
-                console.log(message);
+
                 if (message === "category exist"){
                     throw new Error('이미 존재하는 카테고리입니다.');
                 }
