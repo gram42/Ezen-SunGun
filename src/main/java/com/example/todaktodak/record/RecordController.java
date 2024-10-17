@@ -104,9 +104,9 @@ public class RecordController {
 
         if((authentication != null) && (authentication.isAuthenticated())){
 
-            points = recordService.getTotalPointsByMonthAndCategory(authentication.getName());
+            points = recordService.getPointsByMonthAndCategory(authentication.getName());
             
-            model.addAttribute("points", points); // 받아온 데이터 넣기
+            model.addAttribute("points", points);
         }
 
         return "/record/mypage2";
