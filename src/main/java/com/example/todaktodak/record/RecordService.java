@@ -112,7 +112,6 @@ public class RecordService {
         List<Record> recordsByWeeks = getRecordNWeeks(userid, weeks);
 
         Map<String, Integer> categoryPoints = new HashMap<>();
-        categoryPoints.put("전체", 0);
 
         for (Record record : recordsByWeeks) {
 
@@ -124,16 +123,28 @@ public class RecordService {
             } else {
                 categoryPoints.put(categoryName, point);
             }
-
-            categoryPoints.put("전체", categoryPoints.get("전체") + point);
-
-        }
-
-        if (recordsByWeeks.isEmpty() || categoryPoints.get("전체") == 0){
-            return null;
         }
 
         return categoryPoints;
+    }
+
+    // 기간별 전체 포인트 데이터 연산 메소드
+    public Map<String, Integer> getTotalPointsByMonth(String userid){
+
+        int weeks = 5;
+        List<Record> recordsByWeeks = getRecordNWeeks(userid, weeks);
+
+        Map<String, Integer> totalPointMap = new HashMap<>();
+        totalPointMap.put("전체", 0);
+
+        for (Record record : recordsByWeeks) {
+            totalPointMap.put("전체", totalPointMap.get("전체") + record.getPoint());
+        }
+        if (recordsByWeeks.isEmpty() || totalPointMap.get("전체") == 0){
+            return null;
+        }
+
+        return totalPointMap;
     }
 
     

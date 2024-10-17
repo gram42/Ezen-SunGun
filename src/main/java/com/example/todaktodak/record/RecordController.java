@@ -101,12 +101,15 @@ public class RecordController {
     public String mypage2(Authentication authentication, Model model) {
         
         Map<String, Integer> points;
+        Map<String, Integer> totalPoint;
 
         if((authentication != null) && (authentication.isAuthenticated())){
 
             points = recordService.getPointsByMonthAndCategory(authentication.getName());
+            totalPoint = recordService.getTotalPointsByMonth(authentication.getName());
             
             model.addAttribute("points", points);
+            model.addAttribute("totalPoint", totalPoint);
         }
 
         return "/record/mypage2";

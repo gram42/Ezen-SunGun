@@ -119,10 +119,10 @@
             const recordDiv = checkbox.parentElement;
 
             if (checkbox.checked){
-                recordDiv.querySelector('.body').style.display = 'block';
+                recordDiv.querySelector('.content').style.display = 'block';
             }
             else {
-                recordDiv.querySelector('.body').style.display = 'none';
+                recordDiv.querySelector('.content').style.display = 'none';
             }
         });   
     }
