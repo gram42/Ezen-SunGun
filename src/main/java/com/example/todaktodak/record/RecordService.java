@@ -105,8 +105,8 @@ public class RecordService {
     }
 
 
-    // 기간별 카테고리 당 포인트데이터 연산 메소드 - 가져온 데이터에서 포인트만 뽑아서 더해야함, 리턴 값은 카테고리 정보(id, 이름)와 카테고리별 포인트 합산 결과
-    public Map<String, Integer> getTotalPointsByMonthAndCategory(String userid){ // 리턴 값 생각 할 것
+    // 기간별 카테고리 당 포인트 데이터 연산 메소드
+    public Map<String, Integer> getTotalPointsByMonthAndCategory(String userid){
 
         int weeks = 5;
         List<Record> weeksRecords = getRecordNWeeks(userid, weeks);
