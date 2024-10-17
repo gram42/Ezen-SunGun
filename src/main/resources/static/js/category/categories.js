@@ -5,21 +5,29 @@
 
         const $categoryDiv = button.parentElement;
 
-        button.addEventListener('click', ()=>{
+        button.addEventListener('click', (event)=>{
+            event.preventDefault();
+
             $categoryDiv.querySelector('.edit').style.display = 'block';
             $categoryDiv.querySelector('.edit').querySelector('.inputEditCategoryName').focus();
+            
         });
 
     });
 
     // 추가 버튼 클릭 시 추가 창 등장
-    document.querySelector('#add').addEventListener('click', ()=>{
+    document.querySelector('#add').addEventListener('click', (event)=>{
+        event.preventDefault();
+
         document.querySelector('.add').style.display = 'block';
         document.querySelector('#inputAddCategoryName').focus();
+
     });
 
     // 추가 완료 버튼 누를 시 중복검사 실행 후 저장, 페이지 새로고침
-    document.querySelector('#addSubmitButton').addEventListener('click',()=>{
+    document.querySelector('#addSubmitButton').addEventListener('click',(event)=>{
+        event.preventDefault();
+
         const inputAddCategoryName = document.querySelector('#inputAddCategoryName').value;
 
         if(inputAddCategoryName === null || inputAddCategoryName.trim() === ""){
@@ -54,8 +62,12 @@
 
     // 수정 완료 버튼 누를 시 중복검사 실행 후 저장, 페이지 새로고침
     document.querySelectorAll('.edit').forEach((button)=>{
-        button.querySelector('.editSubmitButton').addEventListener('click', ()=>{
+
+        button.querySelector('.editSubmitButton').addEventListener('click', (event)=>{
+            event.preventDefault();
+
             const $editCategories = button.querySelector('.inputEditCategoryName');
+
             if ($editCategories.value !== null && $editCategories.value.trim() !== ""){
 
                 fetch('/category/overlapCheck',{

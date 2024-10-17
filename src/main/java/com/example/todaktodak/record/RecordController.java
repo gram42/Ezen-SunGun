@@ -69,7 +69,7 @@ public class RecordController {
         return "/record/record";
     }
 
-    // 체크박스 선택시 포인트 증가
+    // 체크박스 체크여부에 다라 포인트 증감
     @PostMapping("/record/checkbox")
     public ResponseEntity<String> recordCheckbox(@RequestBody RecordDTO recordDTO) {
 
@@ -83,7 +83,7 @@ public class RecordController {
     }
 
     // 본문 기록
-    @PostMapping("/record/content")
+    @PostMapping("/record/saveContent")
     public ResponseEntity<String> recordContent(@RequestBody RecordDTO recordDTO) {
 
         RecordCompositeId compositeId = recordDTO.getCompositeId();
