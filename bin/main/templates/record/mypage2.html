@@ -18,17 +18,13 @@
 
     <div sec:authorize="isAuthenticated">
 
-        <div th:if="${totalPoint == null or totalPoint.isEmpty()}">
+        <div th:if="${totalPoint == null or totalPoint == 0}">
             <div> 최근 기록이 없습니다. </div>
         </div>
 
-        <div th:if="${totalPoint != null and !totalPoint.isEmpty()}">
+        <div th:if="${totalPoint != null and totalPoint != 0}">
 
-            <div th:each="totalPoint : ${totalPoint}">
-
-                <div th:text="${totalPoint.key} + ' : ' + ${totalPoint.value}"></div>
-
-            </div>
+            <div th:text="'전체 : ' + ${totalPoint}"></div>
 
             <div th:each="point : ${points}">
 

@@ -99,14 +99,11 @@ public class RecordController {
     // 마이페이지 접속 - 포인트 값 리턴(주 단위, 약 5주), 기본 접속 - 카테고리별 포인트 전부 리턴
     @GetMapping("/mypage2")
     public String mypage2(Authentication authentication, Model model) {
-        
-        Map<String, Integer> points;
-        Map<String, Integer> totalPoint;
 
         if((authentication != null) && (authentication.isAuthenticated())){
 
-            points = recordService.getPointsByMonthAndCategory(authentication.getName());
-            totalPoint = recordService.getTotalPointsByMonth(authentication.getName());
+            Map<String, Integer> points = recordService.getPointsByMonthAndCategory(authentication.getName());
+            Integer totalPoint = recordService.getTotalPointsByMonth(authentication.getName());
             
             model.addAttribute("points", points);
             model.addAttribute("totalPoint", totalPoint);

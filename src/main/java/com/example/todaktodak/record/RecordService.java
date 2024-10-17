@@ -129,25 +129,23 @@ public class RecordService {
     }
 
     // 기간별 전체 포인트 데이터 연산 메소드
-    public Map<String, Integer> getTotalPointsByMonth(String userid){
-
+    public Integer getTotalPointsByMonth(String userid) {
         int weeks = 5;
         List<Record> recordsByWeeks = getRecordNWeeks(userid, weeks);
-
-        Map<String, Integer> totalPointMap = new HashMap<>();
-        totalPointMap.put("전체", 0);
-
+    
+        int totalPoint = 0;
+    
         for (Record record : recordsByWeeks) {
-            totalPointMap.put("전체", totalPointMap.get("전체") + record.getPoint());
+            totalPoint += record.getPoint();
         }
-        if (recordsByWeeks.isEmpty() || totalPointMap.get("전체") == 0){
-            return null;
+    
+        if (recordsByWeeks.isEmpty() || totalPoint == 0) {
+            return null; // 또는 0을 반환할 수도 있음
         }
-
-        return totalPointMap;
+    
+        return totalPoint;
     }
 
-    
     // 오늘 기준 N주차 전까지 기록 찾는 메소드
     public List<Record> getRecordNWeeks(String userid, Integer N){
 
