@@ -16,7 +16,7 @@
 
     
 
-    // 체크박스 체크시 포인트 1 증가
+    // 체크박스 체크여부에 따라 포인트 증감
     checkbox.forEach(checkbox=>{
 
         // 포인트별 체크박스 활성화
@@ -29,7 +29,7 @@
 
             const categoryId = event.target.getAttribute('id');
             
-
+            // 체크했을 경우 -> 포인트 1 
             if(checkbox.checked){
 
                 fetch('/record/checkbox',{
@@ -51,7 +51,9 @@
                     alert(error.message);
                 });
 
-            } else {
+            }
+            // 체크 안했을 경우 -> 포인트 0
+            else {
 
                 fetch('/record/checkbox',{
                     method: "POST",
@@ -64,7 +66,7 @@
                                           point:0})
 
                 })
-                .then((message)=>{return message.text()})
+                .then((message)=>{return message.text();})
                 .then(() => {
                     content_visible();
                 })
@@ -77,7 +79,7 @@
     });
 
 
-    // 카테고리별 본문 내용 저장
+    // 완료 버튼 클릭 시 카테고리별 본문 내용 저장
     document.querySelectorAll('.submitButton').forEach(button => {
 
         button.addEventListener('click', (event) => {
@@ -88,12 +90,9 @@
             const $categoryId = checkbox.getAttribute('id');
             const $content = recordDiv.querySelector('textarea');
 
-            if ($content.value.length > 500){
-                alert("기록 내용은 500자를 넘을 수 없습니다.");
-                return
-            }
+            if ($content.value.length > 500){ alert("기록 내용은 500자를 넘을 수 없습니다."); return }
     
-            fetch('/record/content', {
+            fetch('/record/saveContent', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -118,12 +117,12 @@
         checkbox.forEach(checkbox=>{
 
             const recordDiv = checkbox.parentElement;
-            
+
             if (checkbox.checked){
-                recordDiv.querySelector('.body').style.display = 'block';
+                recordDiv.querySelector('.content').style.display = 'block';
             }
             else {
-                recordDiv.querySelector('.body').style.display = 'none';
+                recordDiv.querySelector('.content').style.display = 'none';
             }
         });   
     }

@@ -7,7 +7,6 @@
 
         button.addEventListener('click', (event)=>{
             event.preventDefault();
-            console.log("수정 버튼 누름");
 
             $categoryDiv.querySelector('.edit').style.display = 'block';
             $categoryDiv.querySelector('.edit').querySelector('.inputEditCategoryName').focus();
@@ -19,7 +18,6 @@
     // 추가 버튼 클릭 시 추가 창 등장
     document.querySelector('#add').addEventListener('click', (event)=>{
         event.preventDefault();
-        console.log("추가 버튼 누름");
 
         document.querySelector('.add').style.display = 'block';
         document.querySelector('#inputAddCategoryName').focus();
