@@ -105,7 +105,7 @@ public class RecordService {
     }
 
 
-    // 기간별 카테고리 당 포인트 데이터 연산 메소드
+    // 5주간 카테고리 당 포인트 데이터 연산 메소드
     public Map<String, Integer> getPointsByMonthAndCategory(String userid){
 
         int weeks = 5;

@@ -109,7 +109,7 @@ public class RecordController {
             model.addAttribute("totalPoint", totalPoint);
         }
 
-        return "/record/mypage2";
+        return "/record/mypage-kmg";
     }
     
 

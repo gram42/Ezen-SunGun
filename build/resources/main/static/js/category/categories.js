@@ -32,31 +32,35 @@
 
         if(inputAddCategoryName === null || inputAddCategoryName.trim() === ""){
             alert('내용을 입력해주세요.');
-            return
+            return;
         } else {
-            fetch('/category/overlapCheck', {
-                method: "POST",
-                headers: {"Content-Type":"application/json"},
-                body: JSON.stringify({name: inputAddCategoryName})
-            })
-            .then(response=>{return response.text()})
-            .then(message =>{
+            if(confirm("카테고리는 추가 후 삭제가 불가능합니다. 정말로 추가하시겠습니까?")){
 
-                if (message === "category exist"){
-                    throw new Error('이미 존재하는 카테고리입니다.');
-                }
-
-                return fetch('/category/add', {
+                fetch('/category/overlapCheck', {
                     method: "POST",
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({name : inputAddCategoryName})
-                });
-            })
-            .then(()=>{location.reload();})
-            .catch(error=>{
-                alert(error.message);
-            })
- 
+                    headers: {"Content-Type":"application/json"},
+                    body: JSON.stringify({name: inputAddCategoryName})
+                })
+                .then(response=>{return response.text()})
+                .then(message =>{
+    
+                    if (message === "category exist"){
+                        throw new Error('이미 존재하는 카테고리입니다.');
+                    }
+    
+                    return fetch('/category/add', {
+                        method: "POST",
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({name : inputAddCategoryName})
+                    });
+                })
+                .then(()=>{location.reload();})
+                .catch(error=>{
+                    alert(error.message);
+                })
+            } else {
+                return;
+            }
         }
     });
 
