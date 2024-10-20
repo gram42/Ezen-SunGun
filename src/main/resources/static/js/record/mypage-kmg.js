@@ -9,6 +9,7 @@
     let maxValue;
     let unit = 2;
 
+    // 가져온 포인트 정보를 이름과 값으로 분류
     $points.forEach(point => {
         const $Point = point.innerText;
         const [key, value] = $Point.split(' : ');
