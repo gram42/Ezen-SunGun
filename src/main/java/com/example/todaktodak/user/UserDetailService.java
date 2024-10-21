@@ -1,6 +1,8 @@
 package com.example.todaktodak.user;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,9 +32,9 @@ public class UserDetailService implements UserDetailsService{
         User user = result.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         if (user.getUserid().equals("admin")) {
-            authorities.add(new SimpleGrantedAuthority("ROLE-ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         } else {
-            authorities.add(new SimpleGrantedAuthority("ROLE-USER"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
         return new org.springframework.security.core.userdetails.User(user.getUserid(), user.getPassword(), authorities);
