@@ -4,6 +4,7 @@
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mypage2</title>
+    <link rel="stylesheet" href="/css/mypage-kmg.css">
 </head>
 <body>
     <!-- *주의* 추후 파일 위치 옮길 것 -> user, 이름 mypage로 바꿀 것 -->
@@ -24,17 +25,22 @@
 
         <div th:if="${totalPoint != null and totalPoint != 0}">
 
-            <div th:text="'전체 : ' + ${totalPoint}"></div>
+            <div th:text="'전체 활동 점수 : ' + ${totalPoint}"></div>
 
             <div th:each="point : ${points}">
-
-                <div th:text="${point.key} + ' : ' + ${point.value}"></div>
-
+                <div class="points" th:text="${point.key} + ' : ' + ${point.value}"></div>
             </div>
-            
+            <div id="chartContainer"><canvas id="myChart"></canvas></div>
+
         </div>
 
     </div>
+
+
+     
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     
+<script src="/js/record/mypage-kmg.js"></script>
     
 </body>
 </html>
