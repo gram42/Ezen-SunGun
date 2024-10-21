@@ -96,6 +96,7 @@ public class RecordController {
 
 
     // *주의* 추후 메소드 위치 옮길 것 -> user 폴더로, mypage2 -> mypage로 바꿀 것
+    // 메소드는 바꾸지 않아도 됨 - 기록관련 메소드 , 
     // 마이페이지 접속 - 포인트 값 리턴(주 단위, 약 5주), 기본 접속 - 카테고리별 포인트 전부 리턴
     @GetMapping("/mypage2")
     public String mypage2(Authentication authentication, Model model) {

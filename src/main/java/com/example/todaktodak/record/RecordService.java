@@ -109,7 +109,7 @@ public class RecordService {
     public Map<String, Integer> getPointsByMonthAndCategory(String userid){
 
         int weeks = 5;
-        List<Record> recordsByWeeks = getRecordNWeeks(userid, weeks);
+        List<Record> recordsByWeeks = getRecordByWeeks(userid, weeks);
 
         Map<String, Integer> categoryPoints = new HashMap<>();
 
@@ -131,7 +131,7 @@ public class RecordService {
     // 기간별 전체 포인트 데이터 연산 메소드
     public Integer getTotalPointsByMonth(String userid) {
         int weeks = 5;
-        List<Record> recordsByWeeks = getRecordNWeeks(userid, weeks);
+        List<Record> recordsByWeeks = getRecordByWeeks(userid, weeks);
     
         int totalPoint = 0;
     
@@ -147,7 +147,7 @@ public class RecordService {
     }
 
     // 오늘 기준 N주차 전까지 기록 찾는 메소드
-    public List<Record> getRecordNWeeks(String userid, Integer N){
+    public List<Record> getRecordByWeeks(String userid, Integer N){
 
         LocalDate startDate = RecordController.TODAY.minusWeeks(N);
         LocalDate endDate = RecordController.TODAY;
