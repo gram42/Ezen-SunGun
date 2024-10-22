@@ -1,7 +1,7 @@
 (()=>{
 
     const ctx = document.getElementById('myChart');
-    const $points = document.querySelectorAll('.points');
+    const $pointsByWeeks = document.querySelectorAll('.pointsByWeeks');
 
     const dataValues = [];
     const labels = [];
@@ -9,12 +9,14 @@
     let maxValue;
     let unit = 2;
 
-    $points.forEach(point => {
+    // 가져온 포인트 정보를 이름과 값으로 분류
+    $pointsByWeeks.forEach(point => {
         const $Point = point.innerText;
-        const [key, value] = $Point.split(' : ');
+        const categoryName = $Point.split(':')[0]; 
+        const categorypoint = $Point.split(':')[1];
         
-        labels.push(key.trim());
-        dataValues.push(parseInt(value.trim(), 10));
+        labels.push(categoryName.trim());
+        dataValues.push(parseInt(categorypoint.trim(), 10));
     });
 
     // 차트 사이즈
@@ -48,7 +50,7 @@
 
     // 차트 생성 Chart.js 차트 만들기 활용
     new Chart(ctx, {
-        type: 'radar',
+        type: 'line',
         data: {
             labels: labels,
             datasets: [{

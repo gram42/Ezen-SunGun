@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RecordController {
+
     @Autowired
     private final RecordService recordService;
     public static final LocalDate TODAY = LocalDate.now();
@@ -100,11 +101,13 @@ public class RecordController {
 
         if((authentication != null) && (authentication.isAuthenticated())){
 
-            Map<String, Integer> points = recordService.getPointsByMonthAndCategory(authentication.getName());
-            Integer totalPoint = recordService.getTotalPointsByMonth(authentication.getName());
+            Map<String, Integer> pointsByWeeks = recordService.getPointsByWeeksAndCategory(authentication.getName());
+            Integer totalPoint = recordService.getTotalPointsByWeeks(authentication.getName());
+            Map<String, List<Integer>> pointsByMonths = recordService.getPointsByMonthsAndCategory(authentication.getName());
             
-            model.addAttribute("points", points);
+            model.addAttribute("pointsByWeeks", pointsByWeeks);
             model.addAttribute("totalPoint", totalPoint);
+            model.addAttribute("pointsByMonths", pointsByMonths);
         }
 
         return "/record/mypage-kmg";

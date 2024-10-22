@@ -1,7 +1,7 @@
 (()=>{
 
     const ctx = document.getElementById('myChart');
-    const $points = document.querySelectorAll('.points');
+    const $pointsByWeeks = document.querySelectorAll('.pointsByWeeks');
 
     const dataValues = [];
     const labels = [];
@@ -10,7 +10,7 @@
     let unit = 2;
 
     // 가져온 포인트 정보를 이름과 값으로 분류
-    $points.forEach(point => {
+    $pointsByWeeks.forEach(point => {
         const $Point = point.innerText;
         const categoryName = $Point.split(':')[0]; 
         const categorypoint = $Point.split(':')[1];
