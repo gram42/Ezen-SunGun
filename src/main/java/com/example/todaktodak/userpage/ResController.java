@@ -26,4 +26,15 @@ public class ResController {
         return "redirect:/ui/all_res";
     }
 
+    @GetMapping("/community/community")
+    public String community() {
+        return "community/community";
+    }
+
+    @GetMapping("/community/writing")
+    public String writing() {
+        return "community/writing";
+    }
+
 }
+

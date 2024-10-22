@@ -1,23 +1,37 @@
 package com.example.todaktodak.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
+
     @Autowired
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+        // 현재 로그인한 사용자 정보를 가져오는 메서드
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return findByUsername(userDetails.getUsername());
+        }
+        return null; // 현재 사용자가 없을 경우 null 반환
     }
 
     public boolean isUseridAvailable(String userid) {
@@ -39,36 +53,27 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(encodedPassword);
 
-        User nuwUser = new User();
-        nuwUser.setUser(userDTO);
+        User newUser = new User();
+        newUser.setUser(userDTO);
 
-        userRepository.save(nuwUser);
+        userRepository.save(newUser);
     }
 
-    public User getUserByUserid(String userid){
-        // SELECT * FROM member WHERE username=~~; 의 역할을 하는 기능을 구현해야함
-        // Repository에 구현함
+    public User getUserByUserid(String userid) {
         Optional<User> result = userRepository.findByUserid(userid);
-        if (result.isPresent()){
-            return result.get();
-        } else {
-            return null;
-        }
+        return result.orElse(null);
     }
 
-    public void editUserInfo(UserDTO userDTO){
-
+    public void editUserInfo(UserDTO userDTO) {
         String password = getUserByUserid(userDTO.getUserid()).getPassword();
         String finalPassword;
 
-        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty() ){
-
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
             if (passwordEncoder.matches(userDTO.getPassword(), password)) {
                 finalPassword = password;
             } else {
                 finalPassword = passwordEncoder.encode(userDTO.getPassword());
             }
-
         } else {
             finalPassword = password;
         }
@@ -95,5 +100,8 @@ public class UserService {
         }
     }
 
+    public User findByUsername(String username) {
+        Optional<User> userOpt = userRepository.findByUserid(username);
+        return userOpt.orElse(null);
+    }
 }
-
