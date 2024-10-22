@@ -23,6 +23,7 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+    
 
         // 현재 로그인한 사용자 정보를 가져오는 메서드
     public User getCurrentUser() {

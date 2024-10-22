@@ -35,6 +35,12 @@ public class ResController {
     public String writing() {
         return "community/writing";
     }
-
+    
+    @GetMapping("/community/my-posts")
+    public String getMethodName() {
+        return "community/my-posts";
+    }
+    
+    
 }
 
