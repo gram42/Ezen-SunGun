@@ -50,7 +50,7 @@
 
     // 차트 생성 Chart.js 차트 만들기 활용
     new Chart(ctx, {
-        type: 'line',
+        type: 'radar',
         data: {
             labels: labels,
             datasets: [{
