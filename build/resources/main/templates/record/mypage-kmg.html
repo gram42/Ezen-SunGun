@@ -27,10 +27,14 @@
 
             <div th:text="'전체 활동 점수 : ' + ${totalPoint}"></div>
 
-            <div th:each="point : ${points}">
-                <div class="points" th:text="${point.key} + ' : ' + ${point.value}"></div>
+            <div th:each="pointW : ${pointsByWeeks}">
+                <div class="pointsByWeeks" th:text="${pointW.key} + ' : ' + ${pointW.value}"></div>
             </div>
             <div id="chartContainer"><canvas id="myChart"></canvas></div>
+
+            <div th:each="pointM : ${pointsByMonths}">
+                <div class="pointsByMonths" th:text="${pointM.key} + ' : ' + ${pointM.value}"></div>
+            </div>
 
         </div>
 
