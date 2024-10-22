@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 
+
 @Controller
 public class ResController {
     
@@ -38,6 +39,11 @@ public class ResController {
     @GetMapping("/community/writing")
     public String writing() {
         return "community/writing";
+    }
+    
+    @GetMapping("/community/my-posts")
+    public String getMethodName() {
+        return "community/my-posts";
     }
     
     

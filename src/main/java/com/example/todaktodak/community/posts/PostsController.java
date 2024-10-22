@@ -1,5 +1,8 @@
 package com.example.todaktodak.community.posts;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import com.example.todaktodak.community.comments.CommentsDTO;
 import com.example.todaktodak.community.comments.CommentsService;
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/posts")
 public class PostsController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PostsController.class);
     private final PostsService postsService;
     private final UserService userService;
     private final CommentsService commentsService;
@@ -30,6 +35,23 @@ public class PostsController {
         this.userService = userService;
         this.commentsService = commentsService;
     }
+
+     // 유저 ID로 게시글을 가져오는 API (페이지네이션 포함)
+     @GetMapping("/user/{userId}")
+     public ResponseEntity<Page<Posts>> getUserPosts(@PathVariable Long userId, Pageable pageable) {
+         try {
+             Page<Posts> posts = postsService.getPostsByUserId(userId, pageable);
+             if (posts.isEmpty()) {
+                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Page.empty()); // 404 Not Found
+             }
+             return ResponseEntity.ok(posts);
+         } catch (Exception e) {
+            logger.error("사용자 {}의 게시글을 가져오는 중 오류 발생: {}", userId, e.getMessage(), e); // 스택 트레이스 추가
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+         }
+     }
+     
+
 
     // 게시글 생성
     @PostMapping
@@ -78,32 +100,30 @@ public class PostsController {
         } catch (Exception e) {
             e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Error fetching posts: " + e.getMessage());
+            errorResponse.put("error", "게시글을 가져오는 중 오류 발생: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
 
-
-
     // 게시글 조회
     @GetMapping("/{postId}")
-public ResponseEntity<PostsDTO> getPostById(@PathVariable Long postId) {
-    Posts post = postsService.getPostById(postId);
-    if (post == null) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 게시글이 존재하지 않을 경우
-    }
-    
-    PostsDTO postDTO = new PostsDTO(
-        post.getPostId(),
-        post.getUser().getId(),
-        post.getTitle(),
-        post.getContent(),
-        post.getCreatedAt(),
-        postsService.getCommentCountByPost(post),
-        post.getUser().getUserName()
-    );
-    return ResponseEntity.ok(postDTO);
+    public ResponseEntity<PostsDTO> getPostById(@PathVariable Long postId) {
+        Posts post = postsService.getPostById(postId);
+        if (post == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 게시글이 존재하지 않을 경우
+        }
+        
+        PostsDTO postDTO = new PostsDTO(
+            post.getPostId(),
+            post.getUser().getId(),
+            post.getTitle(),
+            post.getContent(),
+            post.getCreatedAt(),
+            postsService.getCommentCountByPost(post),
+            post.getUser().getUserName()
+        );
+        return ResponseEntity.ok(postDTO);
 }
 
 

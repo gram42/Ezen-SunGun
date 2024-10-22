@@ -21,7 +21,7 @@ public class PostsService {
         return postsRepository.findAll(pageable);
     }
 
-    // ID로 게시글 조회
+    // 게시물 ID로 게시글 조회
     public Posts getPostById(Long postId) {
         return postsRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
@@ -32,6 +32,13 @@ public class PostsService {
         return postsRepository.findByUserId(userId);
     }
 
+    public Page<Posts> getPostsByUserId(Long userId, Pageable pageable) {
+        // 유저 ID로 게시물 조회 로직
+        // 예를 들어, DB에서 게시물을 찾지 못하는 경우 null을 반환하는지 확인
+        return postsRepository.findByUserId(userId, pageable);
+    }
+
+    
     // 게시글 생성
     public Posts createPost(PostsDTO postDTO, User user) {
         Posts post = new Posts();
