@@ -25,13 +25,13 @@ async function login(userId, password) {
     }
 }
 
-
 // 로그아웃 시 호출하는 함수
-function logout() {
+async function logout() {
     console.log('로그아웃 시도'); // 로그아웃 시도 로그
     // 세션 초기화
-    fetch('/user/logout', { method: 'POST' }); // 로그아웃 API 호출
+    await fetch('/user/logout', { method: 'POST' }); // 로그아웃 API 호출
     localStorage.removeItem('currentUserId'); // 사용자 ID 제거
+    alert('로그아웃되었습니다.'); // 사용자에게 로그아웃 알림
 }
 
 // 로그인 상태 확인 함수
@@ -71,7 +71,6 @@ async function fetchCurrentUser() {
     }
 }
 
-
 // 사용자가 작성한 게시물 목록 로드
 async function loadUserPosts() {
     const currentUser = await fetchCurrentUser(); // 현재 사용자 정보 로드
@@ -79,7 +78,6 @@ async function loadUserPosts() {
         const userId = currentUser.id; 
         console.log(`사용자 ${userId}의 게시물 로드 요청`);
 
-        // 올바른 URL로 수정
         const response = await fetch(`/posts/user/${userId}`, {
             method: 'GET',
             credentials: 'include' // 세션 쿠키 포함
@@ -88,6 +86,7 @@ async function loadUserPosts() {
         if (!response.ok) {
             const errorText = await response.text(); // 오류 메시지
             console.error(`Error response: ${errorText}`); // 오류 메시지 출력
+            alert(`게시물 로드 실패: ${errorText}`);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
@@ -104,11 +103,17 @@ async function loadUserPosts() {
             posts.forEach(post => {
                 const postDiv = document.createElement('div');
                 postDiv.className = 'post';
+                postDiv.style.border = '1px solid #ccc'; // 테두리 추가
+                postDiv.style.borderRadius = '5px'; // 모서리 둥글게
+                postDiv.style.padding = '10px'; // 패딩 추가
+                postDiv.style.margin = '10px 0'; // 마진 추가
                 postDiv.innerHTML = `
                     <h3>${post.title}</h3>
                     <p>${post.content.substring(0, 100)}...</p>
-                    <p>작성자: ${post.userName} | 작성 시간: ${new Date(post.createdAt).toLocaleString()}</p>
-                    <button onclick="loadPostDetail(${post.id})">상세보기</button>
+                    <p>작성자: ${post.userName || '정보 없음'} | 작성 시간: ${new Date(post.createdAt).toLocaleString()}</p>
+                    <button onclick="loadPostDetail(${post.postId})">상세보기</button>
+                    <button onclick="editPost(${post.postId})">수정</button>
+                    <button onclick="deletePost(${post.postId})">삭제</button>
                 `;
                 myPostsList.appendChild(postDiv);
             });
@@ -118,37 +123,151 @@ async function loadUserPosts() {
     }
 }
 
+let editingPostId = null; // 수정할 게시물 ID 저장 변수
+
+// 게시물 수정 함수
+function editPost(postId) {
+    // 수정할 게시글 데이터를 가져와서 수정 모달에 표시
+    fetch(`/posts/${postId}`)
+        .then(response => response.json())
+        .then(data => {
+            editingPostId = postId; // 수정할 게시글의 ID 저장
+            document.getElementById('newTitle').value = data.title;
+            document.getElementById('newContent').value = data.content;
+            document.getElementById('editModal').style.display = 'block'; // 수정 모달 열기
+        })
+        .catch(error => console.error('Error fetching post:', error));
+}
+
+// 수정 저장 함수
+function submitEdit() {
+    const title = document.getElementById('newTitle').value;
+    const content = document.getElementById('newContent').value;
+
+    if (!title || !content) {
+        alert("제목과 내용을 입력해주세요.");
+        return;
+    }
+
+  // 수정된 게시글 저장
+  fetch(`/posts/${editingPostId}`, {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ title, content })
+})
+.then(response => {
+    if (response.ok) {
+        alert('게시글 수정 성공');
+        document.getElementById('editModal').style.display = 'none'; // 수정 모달 닫기
+        loadUserPosts(); // 수정 후 게시글 목록 새로고침
+    } else {
+        throw new Error('수정 실패');
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+    alert('수정 실패');
+});
+}
+
+function closeModal() {
+    document.getElementById('editModal').style.display = 'none'; // 모달 닫기
+}
+
+// 수정 모달 닫기 기능
+document.getElementById('closeEditModal').addEventListener('click', function() {
+    document.getElementById('editModal').style.display = 'none'; // 수정 모달 닫기
+});
+
+// 저장 버튼 클릭 시 수정 내용 서버로 전송
+document.getElementById('saveChangesBtn').addEventListener('click', submitEdit);
+
+// 게시물 삭제 함수
+async function deletePost(postId) {
+    if (confirm('정말로 이 게시물을 삭제하시겠습니까?')) {
+        const response = await fetch(`/posts/${postId}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        });
+
+        if (response.ok) {
+            alert('게시물이 삭제되었습니다.');
+            loadUserPosts(); // 게시물 목록 새로 고침
+        } else {
+            const errorText = await response.text();
+            console.error(`게시물 삭제 실패: ${errorText}`);
+            alert(`게시물 삭제 실패: ${errorText}`);
+        }
+    }
+}
+
 // 게시물 상세보기 로드
 async function loadPostDetail(postId) {
-    console.log(`게시물 상세보기 요청: ${postId}`); // 게시물 상세보기 요청 로그
+    if (!postId) {
+        console.error('게시물 ID가 정의되지 않았습니다.');
+        alert('게시물 ID가 정의되지 않았습니다.');
+        return;
+    }
+    console.log(`게시물 상세보기 요청: ${postId}`);
     const response = await fetch(`/posts/${postId}`, {
         method: 'GET',
-        credentials: 'include' // 세션 쿠키 포함
+        credentials: 'include'
     });
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
+
     const data = await response.json();
 
-    document.getElementById('postTitle').textContent = `제목: ${data.title}`;
-    document.getElementById('postContent').textContent = `상세내용: ${data.content}`;
-    document.getElementById('userName').textContent = data.userName;
-    document.getElementById('createdAt').textContent = new Date(data.createdAt).toLocaleString();
+    // HTML 요소에 값을 설정
+    const postTitleElem = document.getElementById('postTitle');
+    const postContentElem = document.getElementById('postContent');
+    const userNameElem = document.getElementById('userName');
+    const createdAtElem = document.getElementById('createdAt');
 
-    const currentUserData = await fetchCurrentUser();
+    // 요소들이 null이 아닌지 확인
+    if (postTitleElem && postContentElem && userNameElem && createdAtElem) {
+        postTitleElem.textContent = `제목: ${data.title}`;
+        postContentElem.textContent = `상세내용: ${data.content}`;
+        userNameElem.textContent = data.userName || '작성자 정보 없음'; // 작성자 정보가 없을 경우 처리
+        createdAtElem.textContent = new Date(data.createdAt).toLocaleString();
 
-    if (!currentUserData) {
-        document.getElementById('submitComment').style.display = 'none';
-    } else {
-        // 현재 사용자와 게시물 작성자 비교
-        if (data.userId === currentUserData.id) {
-            document.getElementById('editPostButton').style.display = 'inline-block';
-            document.getElementById('deletePostButton').style.display = 'inline-block';
+        // 상세보기 모달 표시
+        const modal = document.getElementById('postModal');
+        modal.style.display = 'block'; // 모달 열기
+
+        // 모달 닫기 버튼 이벤트
+        document.getElementById('closeModal').onclick = function() {
+            modal.style.display = 'none';
+        };
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        const currentUserData = await fetchCurrentUser();
+
+        if (!currentUserData) {
+            document.getElementById('submitComment').style.display = 'none';
         } else {
-            document.getElementById('editPostButton').style.display = 'none';
-            document.getElementById('deletePostButton').style.display = 'none';
+            // 현재 사용자와 게시물 작성자 비교
+            if (data.userId === currentUserData.id) {
+                document.getElementById('editPostButton').style.display = 'inline-block';
+                document.getElementById('deletePostButton').style.display = 'inline-block';
+                document.getElementById('editPostButton').onclick = () => editPost(data.postId); // 수정 버튼 클릭 시 수정 함수 호출
+                document.getElementById('deletePostButton').onclick = () => deletePost(data.postId); // 삭제 버튼 클릭 시 삭제 함수 호출
+            } else {
+                document.getElementById('editPostButton').style.display = 'none';
+                document.getElementById('deletePostButton').style.display = 'none';
+            }
         }
+    } else {
+        console.error('상세보기 요소를 찾을 수 없습니다.');
     }
 }
 
