@@ -23,6 +23,7 @@ public class RecordController {
 
     @Autowired
     private final RecordService recordService;
+    
     public static final LocalDate TODAY = LocalDate.now();
 
     public RecordController(RecordService recordService){
@@ -101,11 +102,11 @@ public class RecordController {
 
         if((authentication != null) && (authentication.isAuthenticated())){
 
-            Map<String, Integer> pointsByWeeks = recordService.getPointsByWeeksAndCategory(authentication.getName());
-            Integer totalPoint = recordService.getTotalPointsByWeeks(authentication.getName());
+            Map<String, List<Integer>> pointsByWeeks = recordService.getPointsByDaysAndCategory(authentication.getName());
+            Integer totalPoint = recordService.getTotalPointsByDays(authentication.getName());
             Map<String, List<Integer>> pointsByMonths = recordService.getPointsByMonthsAndCategory(authentication.getName());
             
-            model.addAttribute("pointsByWeeks", pointsByWeeks);
+            model.addAttribute("pointsByDays", pointsByWeeks);
             model.addAttribute("totalPoint", totalPoint);
             model.addAttribute("pointsByMonths", pointsByMonths);
         }

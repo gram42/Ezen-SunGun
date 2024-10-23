@@ -1,6 +1,7 @@
 package com.example.todaktodak.record;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,8 +20,8 @@ import com.example.todaktodak.user.UserService;
 @Service
 public class RecordService {
 
-    public static final int WEEKS = 5;
-    public static final int MONTHS = 6;
+    public static final int DAYS = 7;
+    public static final int MONTHS = 12;
 
     @Autowired
     private final RecordRepository recordRepository;
@@ -109,80 +110,103 @@ public class RecordService {
 
     }
 
+    // 일주일간 카테고리 당 포인트 데이터 연산 메소드 - 이 메소드 모르는게 좀 있음 공부하기
+    public Map<String, List<Integer>> getPointsByDaysAndCategory(String userid) {
 
-    // 주간 카테고리 당 포인트 데이터 연산 메소드(주간 포인트 모두 합산)
-    public Map<String, Integer> getPointsByWeeksAndCategory(String userid){
-
-
-        List<Record> recordsByWeeks = getRecordByWeeks(userid, WEEKS);
-
-        Map<String, Integer> categoryPoints = new HashMap<>();
-
-        for (Record record : recordsByWeeks) {
-
-            String categoryName = record.getCategory().getName();
-            int point = record.getPoint();
-
-            if (categoryPoints.containsKey(categoryName)){
-                categoryPoints.put(categoryName, categoryPoints.get(categoryName) + point);
-            } else {
-                categoryPoints.put(categoryName, point);
-            }
-        }
-
-        return categoryPoints;
-    }
-
-    // 주차별 전체 포인트 데이터 연산 메소드
-    public Integer getTotalPointsByWeeks(String userid) {
-
-
-        List<Record> recordsByWeeks = getRecordByWeeks(userid, WEEKS);
+        List<Record> records = getRecordByDays(userid, DAYS);
     
-        int totalPoint = 0;
-    
-        for (Record record : recordsByWeeks) {
-            totalPoint += record.getPoint();
-        }
-    
-        if (recordsByWeeks.isEmpty() || totalPoint == 0) {
-            return null; // 또는 0을 반환할 수도 있음
-        }
-    
-        return totalPoint;
-    }
-
-    // 월간 카테고리 당 포인트 데이터 연산 메소드(월별 누적합산)
-    public Map<String, List<Integer>> getPointsByMonthsAndCategory(String userid){
-        
-        List<Record> records = getRecordByMonths(userid, MONTHS);
-
         Map<String, List<Integer>> categoryPoints = new HashMap<>();
-        
+    
         for (Record record : records) {
 
             String categoryName = record.getCategory().getName();
-            int monthIndex = LocalDate.now().getMonthValue() - record.getCompositeId().getRecordedDate().getMonthValue();
-
-            if (monthIndex >= 0 && monthIndex < MONTHS) {
+            LocalDate recordedDate = record.getCompositeId().getRecordedDate();
+    
+            long daysDiff = ChronoUnit.DAYS.between(recordedDate, RecordController.TODAY);
+            int dayIndex = (int) daysDiff;
+    
+            if (dayIndex >= 0 && dayIndex < DAYS) {
                 int point = record.getPoint();
+    
+                // 카테고리별 배열 초기화 (0으로 채운 배열) - 이부분 공부 필요
+                categoryPoints.putIfAbsent(categoryName, new ArrayList<>(Collections.nCopies(DAYS, 0)));
 
-                // 카테고리별 배열 초기화 (0으로 채운 배열) - 이 부분 다시 공부
-                categoryPoints.putIfAbsent(categoryName, new ArrayList<>(Collections.nCopies(MONTHS, 0)));
-
-                // 해당 월의 포인트를 누적
-                int currentValue = categoryPoints.get(categoryName).get(monthIndex);
-                categoryPoints.get(categoryName).set(monthIndex, currentValue + point);
+                categoryPoints.get(categoryName).set(dayIndex, point);
             }
+        }
+    
+        for (List<Integer> points : categoryPoints.values()) {
+            for (int i = 0; i < DAYS; i++) {
+                if (i > 0){
+                    points.set(i, points.get(i) + points.get(i - 1));
+                }
+            }
+        }
+    
+        return categoryPoints;
+    }
+    
+
+    // 월간 카테고리 당 포인트 데이터 연산 메소드 - 이 메소드 모르는게 좀 있음 공부하기
+    public Map<String, List<Integer>> getPointsByMonthsAndCategory(String userid){
+        
+        int currentMonth = LocalDate.now().getMonthValue();
+        List<Record> records = getRecordByMonths(userid, MONTHS);
+        Map<String, List<Integer>> categoryPoints = new HashMap<>();
+
+        if (records == null || records.isEmpty()) {
+            return categoryPoints;
+        }
+
+        for (Record record : records) {
+
+        String categoryName = record.getCategory().getName();
+        int recordedMonth = record.getCompositeId().getRecordedDate().getMonthValue();
+
+        
+        int monthIndex = (recordedMonth - currentMonth + MONTHS - 1) % MONTHS;
+        
+        if (monthIndex >= 0 && monthIndex < MONTHS) {
+            int point = record.getPoint();
+            
+            // 카테고리별 배열 초기화 (0으로 채운 배열) - 이 부분 다시 공부
+            categoryPoints.putIfAbsent(categoryName, new ArrayList<>(Collections.nCopies(MONTHS, 0)));
+            
+
+            // 월 포인트 누적 월마다 월 포인트만 전체 월 누적 아님
+            int currentValue = categoryPoints.get(categoryName).get(monthIndex);
+            categoryPoints.get(categoryName).set(monthIndex, currentValue + point);
+        }
         }
 
         return categoryPoints;
+
+
     }
 
-    // 오늘 기준 N주차 전까지 기록 찾는 메소드
-    public List<Record> getRecordByWeeks(String userid, int weeks){
+        // 주간 전체 포인트 데이터 연산 메소드
+        public Integer getTotalPointsByDays(String userid) {
 
-        LocalDate startDate = RecordController.TODAY.minusWeeks(weeks);
+
+            List<Record> recordsByDays = getRecordByDays(userid, DAYS - 1);
+        
+            int totalPoint = 0;
+        
+            for (Record record : recordsByDays) {
+                totalPoint += record.getPoint();
+            }
+        
+            if (recordsByDays.isEmpty() || totalPoint == 0) {
+                return null; // 또는 0을 반환할 수도 있음
+            }
+        
+            return totalPoint;
+        }
+
+    // 오늘 기준 N주차 전까지 기록 찾는 메소드
+    public List<Record> getRecordByDays(String userid, int days){
+
+        LocalDate startDate = RecordController.TODAY.minusDays(days);
         LocalDate endDate = RecordController.TODAY;
 
         return recordRepository.findByCompositeIdUseridAndCompositeIdRecordedDateBetween(userid, startDate, endDate);

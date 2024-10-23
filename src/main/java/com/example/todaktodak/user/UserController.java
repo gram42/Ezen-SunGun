@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-public ResponseEntity<String> login(@RequestBody UserDTO userDTO, HttpSession session) {
+    public ResponseEntity<String> login(@RequestBody UserDTO userDTO, HttpSession session) {
     User user = userService.getUserByUserid(userDTO.getUserid());
 
     // 사용자 인증 확인
@@ -130,8 +130,8 @@ public ResponseEntity<User> getCurrentUser(Principal principal) {
 
 
     @PostMapping("/logout")
-public ResponseEntity<String> logout(HttpSession session) {
-    session.invalidate(); // 세션 무효화
-    return ResponseEntity.ok("로그아웃 성공");
-}
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate(); // 세션 무효화
+        return ResponseEntity.ok("로그아웃 성공");
+    }
 }

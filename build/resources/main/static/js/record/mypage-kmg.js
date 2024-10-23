@@ -1,28 +1,73 @@
 (()=>{
 
-    const ctx = document.getElementById('myChart');
+    const ctxWeeks = document.querySelector('#weeksChart');
+    const ctxMonths = document.querySelector('#monthsChart');
     const $pointsByWeeks = document.querySelectorAll('.pointsByWeeks');
+    const $pointsByMonths =document.querySelectorAll('.pointsByMonths');
 
-    const dataValues = [];
-    const labels = [];
-    let chartMax = 10;
+    let weeksLabels = [];
+    let weeksDataValues = [];
+    const monthsDataMap = new Map();
     let maxValue;
     let unit = 2;
+    let chartMax = 10;
 
-    // 가져온 포인트 정보를 이름과 값으로 분류
-    $pointsByWeeks.forEach(point => {
-        const $Point = point.innerText;
-        const categoryName = $Point.split(':')[0]; 
-        const categorypoint = $Point.split(':')[1];
-        
-        labels.push(categoryName.trim());
-        dataValues.push(parseInt(categorypoint.trim(), 10));
+    // 가져온 주간 포인트 정보를 이름과 값으로 분류, 리스트
+    $pointsByWeeks.forEach(info => {
+
+        const categoryName = info.getAttribute('data-key'); 
+        const categoryPoint = info.getAttribute('data-value');
+
+        weeksLabels.push(categoryName.trim());
+        weeksDataValues.push(parseInt(categoryPoint.trim(), 10));
+
     });
+
+    // 가져온 월간 데이터 정보를 map 형태로 변환
+    $pointsByMonths.forEach(info => {
+
+        const categoryName = info.getAttribute('data-key'); 
+        const categoryPoint = info.getAttribute('data-value');
+
+        const pointsArray = JSON.parse(categoryPoint);
+
+        monthsDataMap.set(categoryName, pointsArray)
+
+    });
+
+    // 월간 데이터 map을 차트에 넣을 수 있게 형태 변환
+    const chartDataSets = Array.from(monthsDataMap.entries()).map(([categoryName, dataArr]) => ({
+
+        label: categoryName,
+        data: dataArr,
+        borderWidth: 1
+
+    }));
+
+    console.log(chartDataSets);
+
+    // x축 날짜 레이블
+    const getLastMonths = () => {
+
+        let monthNames = [];
+        const today = new Date();
+
+        for (let i = 0; i < 6; i++) {
+
+            const monthNumber = (today.getMonth() - i);
+            monthNames.push((monthNumber + 1) + "월");
+
+        }
+        monthNames.reverse();
+        return monthNames;
+    };
+    
+    
 
     // 차트 사이즈
     const maxChartSize = function() {
     
-        maxValue= Math.max(...dataValues);
+        maxValue= Math.max(...weeksDataValues);
 
         if (maxValue > 10){
             if (maxValue > 20) {
@@ -49,13 +94,13 @@
     }
 
     // 차트 생성 Chart.js 차트 만들기 활용
-    new Chart(ctx, {
+    new Chart(ctxWeeks, {
         type: 'radar',
         data: {
-            labels: labels,
+            labels: weeksLabels,
             datasets: [{
                 label: '5주간 활동내역',
-                data: dataValues,
+                data: weeksDataValues,
                 borderWidth: 1,
                 fill: true,
                 backgroundColor: 'rgba(255, 165, 0, 0.2)', // 채우기 색
@@ -77,5 +122,26 @@
             }
         }
     });
+
+
+  // 월간 데이터 차트
+    new Chart(ctxMonths, {
+      type: 'line',
+      data: {
+        labels: getLastMonths(),
+        datasets: chartDataSets
+
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+
+
 
 })();

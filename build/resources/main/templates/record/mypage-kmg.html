@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/mypage-kmg.css">
 </head>
 <body>
-    <!-- *주의* 추후 파일 위치 옮길 것 -> user, 이름 mypage로 바꿀 것 -->
+    <!-- *주의* 추후 파일 위치 옮길 것 -> user, 이름 mypage로 바꿀 것, 당연히 위치나 이름이 바뀌면 컨트롤러도 변경해줘야함 -->
 
     <h1>mypage2</h1>
     
@@ -28,22 +28,23 @@
             <div th:text="'전체 활동 점수 : ' + ${totalPoint}"></div>
 
             <div th:each="pointW : ${pointsByWeeks}">
-                <div class="pointsByWeeks" th:text="${pointW.key} + ' : ' + ${pointW.value}"></div>
+                <div class="pointsByWeeks" th:attr="data-key=${pointW.key}, data-value=${pointW.value}"></div>
             </div>
-            <div id="chartContainer"><canvas id="myChart"></canvas></div>
 
             <div th:each="pointM : ${pointsByMonths}">
-                <div class="pointsByMonths" th:text="${pointM.key} + ' : ' + ${pointM.value}"></div>
+                <div class="pointsByMonths" th:attr="data-key=${pointM.key}, data-value=${pointM.value}"></div>
             </div>
+
+            <div id="weeksChartContainer"><canvas id="weeksChart"></canvas></div>
+            <div id="monthsChartContainer"><canvas id="monthsChart"></canvas></div>
+
 
         </div>
 
+          
     </div>
 
-
-     
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-     
 <script src="/js/record/mypage-kmg.js"></script>
     
 </body>

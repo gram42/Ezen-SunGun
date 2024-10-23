@@ -1,103 +1,70 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community</title>
-    <style>
-        .post {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-        .pagination {
-            margin: 20px 0;
-        }
-        .pagination button {
-            margin: 0 5px;
-        }
-    </style>
+    <title>커뮤니티 게시판</title>
+    <link rel="stylesheet" href="/css/community.css"> <!-- CSS 파일 링크 -->
 </head>
 <body>
-
-    <h1>Community</h1>
-    <div sec:authorize="isAuthenticated()">
-        <button id="writeButton">글쓰기</button>
+    <div class="question-box">
+        <div class="community-text">커뮤니티</div>
     </div>
 
-    <h2>게시글 목록</h2>
-    <div id="postsList"></div> <!-- 게시글 목록을 표시할 영역 -->
-
-    <div class="pagination" id="pagination"></div> <!-- 페이지네이션 영역 -->
-
-    <script>
-        let currentPage = 1;
-        const postsPerPage = 4; // 페이지당 게시글 수
-
-        // 글쓰기 버튼 클릭 시 글쓰기 페이지로 이동
-        document.getElementById("writeButton").addEventListener("click", function() {
-            window.location.href = "/community/writing"; // 글쓰기 페이지로 리다이렉트
-        });
-
-      // 게시글 목록 가져오기
-      async function loadPosts(page = 1) {
-    try {
-        const response = await fetch(`/posts?page=${page}&size=${postsPerPage}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log(data); // 응답 데이터 확인
-        const posts = data.content || []; // undefined 방지
-
-        const postsList = document.getElementById('postsList');
-        postsList.innerHTML = ''; // 기존 목록 초기화
-        posts.forEach(post => {
-            const postDiv = document.createElement('div');
-            postDiv.className = 'post';
-
-            const title = document.createElement('h3');
-            title.textContent = post.title;
-            title.addEventListener('click', () => {
-                window.location.href = `/posts/${post.postId}`;
-            });
-
-            const preview = document.createElement('p');
-            preview.textContent = post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content;
-
-            postDiv.appendChild(title);
-            postDiv.appendChild(preview);
-            postsList.appendChild(postDiv);
-        });
-    } catch (error) {
-        console.error("게시글을 불러오는 데 실패했습니다.", error);
-    }
-}
-
+    <div class="write-box" id="writeBox">
+        <a href="/community/writing" id="writePostButton"><button>글쓰기</button></a>
+    </div>
     
+    <div id="postDetail" style="display: none;">
+        <h2 id="postTitle"></h2>
+        <p id="postContent"></p>
+        <p id="postAuthor">작성자: <span id="userName"></span> | 작성 시간: <span id="createdAt"></span></p>
+        <button id="editPostButton" style="display: none;">수정</button>
+        <button id="deletePostButton" style="display: none;">삭제</button>
+        <h3 id="commentSectionTitle">댓글 작성</h3>
+        <input type="text" id="commentText" placeholder="댓글을 입력하세요" />
+        <button id="submitComment">댓글 작성</button>
+        
+        <div id="commentsList">
+            <div class="comment">
+                <p id="commentAuthor">작성자: <span id="commentAuthorName"></span></p>
+                <p id="commentContent">댓글 내용</p>
+                <p id="commentCreatedAt">작성 시간: <span></span></p>
+            </div>
+        </div>
+        
+        <div class="backButton" id="backButton">목록으로 돌아가기</div>
+    </div>
+
+    <div id="postsList"></div>
+    <div id="pagination" class="pagination" style="display: none;">
+        <!-- 이전 섹션 버튼 -->
+        <a href="#" id="prevSectionButton" class="pagination-button" style="display: none;">«</a>
+        
+        <!-- 이전 페이지 버튼 -->
+        <a href="#" id="prevButton" class="pagination-button" style="display: none;">‹</a>
+        
+        <!-- 페이지 번호 버튼들 -->
+        <span id="pageNumbers"></span>
+        
+        <!-- 다음 페이지 버튼 -->
+        <a href="#" id="nextButton" class="pagination-button">›</a>
+        
+        <!-- 다음 섹션 버튼 -->
+        <a href="#" id="nextSectionButton" class="pagination-button">»</a>
+    </div>
+    
+    <div id="loadingMessage" style="display: none;">로딩 중...</div>
+    <div id="errorMessage" style="color: red; display: none;"></div>
+
+
+    <div id="userActions">
+        <button id="myPostsButton">내가 쓴 게시물 보기</button>
+        <button id="myCommentsButton">내가 쓴 댓글 보기</button>
+    </div>
 
 
 
-        // 페이지네이션 업데이트
-        function updatePagination(totalPages) {
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = ''; // 기존 페이지네이션 초기화
-
-            for (let i = 1; i <= totalPages; i++) {
-                const button = document.createElement('button');
-                button.textContent = i;
-                button.addEventListener('click', () => {
-                    currentPage = i; // 현재 페이지 업데이트
-                    loadPosts(currentPage); // 새로운 페이지의 게시글 로드
-                });
-                pagination.appendChild(button);
-            }
-        }
-
-        // 페이지 로드 시 게시글 목록을 불러옴
-        loadPosts(currentPage);
-    </script>
-
+    <script src="/js/community.js"></script>
 </body>
 </html>
