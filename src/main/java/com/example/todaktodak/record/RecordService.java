@@ -123,12 +123,15 @@ public class RecordService {
             LocalDate recordedDate = record.getCompositeId().getRecordedDate();
     
             long daysDiff = ChronoUnit.DAYS.between(recordedDate, RecordController.TODAY);
-            int dayIndex = (int) daysDiff;
+            int dayIndex = DAYS - (int)daysDiff - 1;
     
             if (dayIndex >= 0 && dayIndex < DAYS) {
                 int point = record.getPoint();
-    
-                // 카테고리별 배열 초기화 (0으로 채운 배열) - 이부분 공부 필요
+
+                // 카테고리별 배열 초기화 (0으로 채운 배열) - 이 부분 다시 공부
+                // putIfAbsent - 만약 categoryName이 없으면 다음 내용추가
+                // MONTHS 수만큼의 인덱스를 0으로 설정
+                // 즉, categoryName이 없다면 categoryName을 키로 잡고 값은 MONTH개의 인덱스를(0 ~ 11) 값 0으로 할당
                 categoryPoints.putIfAbsent(categoryName, new ArrayList<>(Collections.nCopies(DAYS, 0)));
 
                 categoryPoints.get(categoryName).set(dayIndex, point);
@@ -170,6 +173,9 @@ public class RecordService {
             int point = record.getPoint();
             
             // 카테고리별 배열 초기화 (0으로 채운 배열) - 이 부분 다시 공부
+            // putIfAbsent - 만약 categoryName이 없으면 다음 내용추가
+            // MONTHS 수만큼의 인덱스를 0으로 설정
+            // 즉, categoryName이 없다면 categoryName을 키로 잡고 값은 MONTH개의 인덱스를(0 ~ 11) 값 0으로 할당
             categoryPoints.putIfAbsent(categoryName, new ArrayList<>(Collections.nCopies(MONTHS, 0)));
             
 

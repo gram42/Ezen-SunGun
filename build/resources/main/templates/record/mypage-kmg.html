@@ -19,23 +19,25 @@
 
     <div sec:authorize="isAuthenticated">
 
-        <div th:if="${totalPoint == null or totalPoint == 0}">
+        <div th:if="${pointsByMonths == null or pointsByMonths.isEmpty()}">
             <div> 최근 기록이 없습니다. </div>
         </div>
 
-        <div th:if="${totalPoint != null and totalPoint != 0}">
+        <div th:if="${pointsByMonths != null and !pointsByMonths.isEmpty()}">
 
-            <div th:text="'전체 활동 점수 : ' + ${totalPoint}"></div>
+            <div th:text="'주간 활동 점수 : ' + ${totalPoint}"></div>
 
-            <div th:each="pointW : ${pointsByWeeks}">
-                <div class="pointsByWeeks" th:attr="data-key=${pointW.key}, data-value=${pointW.value}"></div>
+            <div th:each="pointD : ${pointsByDays}">
+                <div class="pointsByDays" th:attr="data-key=${pointD.key}, data-value=${pointD.value}"></div>
+                <div th:text=" '주간 키 : ' + ${pointD.key} + ' 주간 밸류 : ' + ${pointD.value}"></div>
             </div>
 
             <div th:each="pointM : ${pointsByMonths}">
                 <div class="pointsByMonths" th:attr="data-key=${pointM.key}, data-value=${pointM.value}"></div>
+                <div th:text=" '월간 키 : '+ ${pointM.key} + ' 월간 밸류 : ' + ${pointM.value}"></div>
             </div>
 
-            <div id="weeksChartContainer"><canvas id="weeksChart"></canvas></div>
+            <div id="daysChartContainer"><canvas id="daysChart"></canvas></div>
             <div id="monthsChartContainer"><canvas id="monthsChart"></canvas></div>
 
 
