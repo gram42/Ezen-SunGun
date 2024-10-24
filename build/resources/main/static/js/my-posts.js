@@ -259,13 +259,23 @@ async function loadPostDetail(postId) {
             if (data.userId === currentUserData.id) {
                 document.getElementById('editPostButton').style.display = 'inline-block';
                 document.getElementById('deletePostButton').style.display = 'inline-block';
+                document.getElementById('goToPostButton').style.display = 'inline-block';
+
+                 // 버튼 클릭 시 이벤트 핸들러 설정
                 document.getElementById('editPostButton').onclick = () => editPost(data.postId); // 수정 버튼 클릭 시 수정 함수 호출
                 document.getElementById('deletePostButton').onclick = () => deletePost(data.postId); // 삭제 버튼 클릭 시 삭제 함수 호출
+                document.getElementById('goToPostButton').onclick = () => window.location.href = `/community/postDetail/${postId}`; // 해당 게시물 페이지로 이동
             } else {
+                // 비작성자의 경우 버튼 숨김
                 document.getElementById('editPostButton').style.display = 'none';
                 document.getElementById('deletePostButton').style.display = 'none';
+                document.getElementById('goToPostButton').style.display = 'none';
             }
         }
+
+
+
+
     } else {
         console.error('상세보기 요소를 찾을 수 없습니다.');
     }

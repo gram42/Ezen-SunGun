@@ -301,6 +301,7 @@ const writePostButton = document.getElementById('writePostButton');
 const submitCommentButton = document.getElementById('submitComment');
 writePostButton.style.display = 'none'; // 글쓰기 버튼 숨기기
 submitCommentButton.style.display = 'none'; // 댓글 작성 버튼 숨기기
+commentText.style.display = 'none'; // 댓글 입력 필드 숨기기
 myPostsButton.style.display = 'none'; // 내가 쓴 게시물 보기 버튼 숨기기
 myCommentsButton.style.display = 'none'; // 댓글 보기 버튼 숨기기
 
@@ -466,5 +467,5 @@ document.getElementById('myPostsButton').addEventListener('click', () => {
 });
 
 document.getElementById('myCommentsButton').addEventListener('click', () => {
-    window.location.href = '/my-comments.html'; // 자신의 댓글 페이지로 이동
+    window.location.href = '/community/my-comments'; // 자신의 댓글 페이지로 이동
 });

@@ -211,4 +211,23 @@ public ResponseEntity<Map<String, Object>> getAllPosts(Pageable pageable, Princi
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    
+ // 게시글 디테일 조회
+ @GetMapping("/postDetail/{postId}")
+ public ResponseEntity<PostsDTO> viewPostDetail(@PathVariable Long postId) {
+     Posts post = postsService.getPostById(postId);
+     if (post == null) {
+         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 게시글이 존재하지 않을 경우
+     }
+     PostsDTO postDTO = new PostsDTO(
+             post.getPostId(),
+             post.getUser().getId(),
+             post.getTitle(),
+             post.getContent(),
+             post.getCreatedAt(),
+             postsService.getCommentCountByPost(post),
+             post.getUser().getUserName()
+     );
+     return ResponseEntity.ok(postDTO);
+ }
 }

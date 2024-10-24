@@ -1,6 +1,8 @@
 package com.example.todaktodak.community.comments;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,7 +123,7 @@ public class CommentsService {
 
 
     // 유저 ID로 댓글 조회
-    public List<Comments> getCommentsByUserId(Long userId) {
-        return commentsRepository.findByUser_Id(userId);
+    public Page<Comments> getCommentsByUserId(Long userId, Pageable pageable) {
+        return commentsRepository.findByUser_Id(userId, pageable);
     }
 }
