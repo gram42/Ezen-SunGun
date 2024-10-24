@@ -4,13 +4,49 @@
     const ctxDays = document.querySelector('#daysChart');
     const ctxMonths = document.querySelector('#monthsChart');
     const $pointsByDays = document.querySelectorAll('.pointsByDays');
-    const $pointsByMonths =document.querySelectorAll('.pointsByMonths');
+    const $pointsByMonths = document.querySelectorAll('.pointsByMonths');
+    const $viewDays = document.querySelector('#viewDays');
+    const $viewMonths = document.querySelector('#viewMonths');
+    const $daysChartContainer = document.querySelector('#daysChartContainer');
+    const $monthsChartContainer = document.querySelector('#monthsChartContainer');
+    const weeksInfo = document.querySelector('#weeks');
 
     const daysDataMap = new Map();
     const monthsDataMap = new Map();
     let maxValue;
     let unit = 2;
     let chartMax = 10;
+
+    // 클릭 여부에 따라 일간, 월간 차트 출력
+    // 일간 포인트 null 여부에 따라 다르게 출력
+    $viewDays.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        console.log("d");
+        console.log(weeksInfo.getAttribute('data-totalPoint'));
+
+        if (weeksInfo.getAttribute('data-totalPoint') === null){
+
+            weeksInfo.style.display = 'block';
+            $monthsChartContainer.style.display = 'none';
+            
+        } else {
+            
+            weeksInfo.style.display = 'block';
+            $daysChartContainer.style.display = 'block';
+            $monthsChartContainer.style.display = 'none';
+
+        }
+
+    });
+
+    $viewMonths.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        weeksInfo.style.display = 'none';
+        $monthsChartContainer.style.display = 'block';
+
+    });
 
     // 가져온 일주간 데이터 정보를 map 형태로 변환
     $pointsByDays.forEach(info => {
