@@ -203,7 +203,7 @@ public class RecordService {
             }
         
             if (recordsByDays.isEmpty() || totalPoint == 0) {
-                return null; // 또는 0을 반환할 수도 있음
+                return null;
             }
         
             return totalPoint;

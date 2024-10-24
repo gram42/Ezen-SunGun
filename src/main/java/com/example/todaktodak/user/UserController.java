@@ -5,6 +5,7 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,31 +44,17 @@ public class UserController {
     }
 
     @GetMapping("/mypage")
-    public String mypage(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
+    public String mypage(Authentication authentication, Model model) {
+        User user = null;
+        if((authentication != null) && (authentication.isAuthenticated())){
+            user = userService.getCurrentUser();
+        }
         if (user != null) {
             model.addAttribute("user", user);
             return "/user/mypage"; // 마이페이지 반환
         }
         return "redirect:/user/login"; // 로그인 필요 시 로그인 페이지로 리다이렉트
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO userDTO, HttpSession session) {
-    User user = userService.getUserByUserid(userDTO.getUserid());
-
-    // 사용자 인증 확인
-    if (user != null && passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
-        session.setAttribute("user", user); // 세션에 사용자 정보 설정
-        System.out.println("로그인한 사용자: " + user.getUserid()); // 디버그 로그
-        return ResponseEntity.ok("로그인 성공");
-    } else {
-        System.out.println("로그인 실패: 사용자 ID 또는 비밀번호가 잘못되었습니다."); // 디버그 로그
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
-    }
-}
-
-
 
 @GetMapping("/current")
 public ResponseEntity<User> getCurrentUser(Principal principal) {
@@ -101,9 +88,34 @@ public ResponseEntity<User> getCurrentUser(Principal principal) {
         }
     }
 
+    @PostMapping("/checkPassword")
+    public ResponseEntity<String> checkPassword(@RequestBody UserDTO userDTO, Model model) {
+
+        String password = userService.getUserByUserid(userDTO.getUserid()).getPassword();
+        String inputPassword = userDTO.getPassword();
+
+        if (passwordEncoder.matches(inputPassword, password)){
+
+            User user = userService.getUserByUserid(userDTO.getUserid());
+            model.addAttribute("user", user);
+
+            return ResponseEntity.status(200).body("비밀번호가 확인되었습니다.");
+
+        } else {
+
+            return ResponseEntity.status(200).body("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
     @GetMapping("/editInfo")
-    public String editInfo(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
+    public String editInfo(Authentication authentication, Model model) {
+
+        User user = null;
+
+        if((authentication != null) && (authentication.isAuthenticated())){
+            user = userService.getCurrentUser();
+        }
+
         if (user != null) {
             model.addAttribute("user", user);
         }
