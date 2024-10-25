@@ -2,6 +2,7 @@ package com.example.todaktodak.community.comments;
 
 import com.example.todaktodak.community.posts.Posts;
 import com.example.todaktodak.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Comments {
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false) // 외래 키는 필수 값이므로 nullable = false
+    @JsonBackReference
     private Posts post; // 댓글이 달린 게시글
 
     @ManyToOne // 여러 댓글은 하나의 유저와 연결

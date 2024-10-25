@@ -1,16 +1,27 @@
 package com.example.todaktodak.community.comments;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.todaktodak.community.posts.PostsController;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/comments")
 public class CommentsController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PostsController.class);
 
     @Autowired
     private CommentsService commentsService;
@@ -74,13 +85,39 @@ public class CommentsController {
 
     // 댓글 작성자가 자신의 댓글 조회
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<CommentsDTO>> getCommentsByUserId(@PathVariable Long userId) {
-        List<Comments> comments = commentsService.getCommentsByUserId(userId);
-        List<CommentsDTO> commentDTOs = comments.stream()
-                .map(this::convertToDTO)
+public ResponseEntity<Map<String, Object>> getCommentsByUserId(@PathVariable Long userId, Pageable pageable) {
+    logger.info("유저 ID: {}, 요청된 페이지: {}, 페이지 크기: {}", userId, pageable.getPageNumber(), pageable.getPageSize());
+    try {
+        Page<Comments> comments = commentsService.getCommentsByUserId(userId, pageable);
+        if (comments.isEmpty()) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "댓글이 없습니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse); // 404 Not Found
+        }
+
+        List<CommentsDTO> commentDTOs = comments.getContent().stream()
+                .map(comment -> new CommentsDTO(
+                        comment.getCommentsId(),
+                        comment.getPost().getPostId(),
+                        comment.getUser().getId(),
+                        comment.getCommentText(),
+                        comment.getCreatedAt()))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(commentDTOs);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", commentDTOs);
+        response.put("totalElements", comments.getTotalElements());
+        response.put("totalPages", comments.getTotalPages());
+        response.put("currentPage", comments.getNumber());
+
+        return ResponseEntity.ok(response);
+    } catch (Exception e) {
+        logger.error("사용자 {}의 댓글을 가져오는 중 오류 발생: {}", userId, e.getMessage(), e);
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("error", "댓글을 가져오는 중 오류 발생: " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
+}
 
     // DTO 변환 메서드
     private CommentsDTO convertToDTO(Comments comment) {

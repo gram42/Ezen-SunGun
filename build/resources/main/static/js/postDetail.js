@@ -2,7 +2,7 @@ let currentPage = 1;
         const postsPerPage = 4; // 페이지당 게시글 수
         let currentPostId = null; // 현재 보고 있는 게시물 ID
 
-        // 게시글 목록 가져오기
+       // 게시물 상세 정보 가져오기
         async function loadPosts(page = 1) {
             try {
                 const response = await fetch(`/posts?page=${page}&size=${postsPerPage}`);

@@ -2,6 +2,7 @@ package com.example.todaktodak.community.posts;
 
 import com.example.todaktodak.community.comments.Comments;
 import com.example.todaktodak.user.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class Posts {
     private LocalDateTime createdAt; // 작성 시간
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Comments> comments = new ArrayList<>(); // 기본값을 빈 리스트로 설정
 
     @Column(name = "user_name") // userName 컬럼 이름 설정

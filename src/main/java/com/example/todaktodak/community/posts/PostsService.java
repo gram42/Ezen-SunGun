@@ -2,8 +2,10 @@ package com.example.todaktodak.community.posts;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +20,8 @@ public class PostsService {
 
     // 모든 게시글을 페이지네이션과 함께 조회
     public Page<Posts> getAllPosts(Pageable pageable) {
-        return postsRepository.findAll(pageable);
+        Pageable sortedByDate = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "createdAt"));
+        return postsRepository.findAll(sortedByDate);
     }
 
     // 게시물 ID로 게시글 조회

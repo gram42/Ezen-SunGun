@@ -3,80 +3,84 @@ const postsPerPage = 4;
 const pagesPerSection = 5; // 한 섹션당 페이지 수
 let totalPosts = 0;
 let currentPostId = null;
+let loadedPosts = [];
 
 async function loadPosts(page = 1) {
-try {
-document.getElementById('loadingMessage').style.display = 'block'; // 로딩 메시지 표시
+    try {
+        document.getElementById('loadingMessage').style.display = 'block'; // 로딩 메시지 표시
 
-// 게시글 목록 API 호출 (로그인 여부와 관계없이 호출)
-const response = await fetch(`/posts?page=${page}&size=${postsPerPage}`);
-if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-}
+        // 게시글 목록 API 호출
+        const response = await fetch(`/posts?page=${page - 1}&size=${postsPerPage}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-const data = await response.json();
-const posts = data.content || [];
-totalPosts = data.totalElements;
+        const data = await response.json();
+        const posts = data.content || [];
+        totalPosts = data.totalElements;
 
-const postsList = document.getElementById('postsList');
-postsList.innerHTML = ''; // 기존 게시글 목록 초기화
+        // 로드된 게시물 업데이트
+        loadedPosts = posts;
+        console.log(data); // API 응답 확인
+        console.log(`현재 로드된 게시물: ${JSON.stringify(loadedPosts)}`);
+        console.log('현재 페이지:', page); // 현재 페이지
+        console.log('총 게시물 수:', totalPosts); // 총 게시물 수
+        console.log('현재 로드된 게시물 수:', loadedPosts.length); // 현재 로드된 게시물 수.
 
-// 게시글 목록 생성
-posts.forEach(post => {
-    const postDiv = document.createElement('div');
-    postDiv.className = 'post';
-    postDiv.style.cursor = 'pointer';   //커서 포인터로 설정
+        const postsList = document.getElementById('postsList');
+        postsList.innerHTML = ''; // 기존 게시글 목록 초기화
 
-    // 게시글 제목
-    const title = document.createElement('h3');
-    title.textContent = post.title;
+        // 게시글 목록 생성
+        posts.forEach(post => {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            postDiv.style.cursor = 'pointer';   // 커서 포인터로 설정
 
-    // 게시물 박스 클릭 시 상세보기로 이동
-    postDiv.addEventListener('click', () =>{
-        currentPostId = post.postId;
-        loadPostDetail(currentPostId);// 게시글 상세보기로 이동
-    });
+            // 게시글 제목
+            const title = document.createElement('h3');
+            title.textContent = post.title;
 
-    // 게시글 내용 미리보기 (100자 이상이면 '...' 표시)
-    const preview = document.createElement('p');
-    preview.textContent = post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content;
+            // 게시물 박스 클릭 시 상세보기로 이동
+            postDiv.addEventListener('click', () => {
+                currentPostId = post.postId;
+                loadPostDetail(currentPostId); // 게시글 상세보기로 이동
+            });
 
-    // 댓글 수 표시
-    const postInfo = document.createElement('div');
-    postInfo.className = 'post-info'; // 추가된 클래스
+            // 게시글 내용 미리보기
+            const preview = document.createElement('p');
+            preview.textContent = post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content;
 
-    const commentCount = document.createElement('span');
-    commentCount.textContent = `댓글 수: ${post.commentCount || 0}`;
-    postInfo.appendChild(commentCount); // 댓글 수 추가
+            // 댓글 수 표시
+            const postInfo = document.createElement('div');
+            postInfo.className = 'post-info';
 
-    // 작성자 표시
-    const userName = document.createElement('span');
-    userName.className = 'user-name';
-    userName.textContent = `작성자: ${post.userName}`; // 작성자 정보를 추가
-    postInfo.appendChild(userName); // 작성자 추가
-    
+            const commentCount = document.createElement('span');
+            commentCount.textContent = `댓글 수: ${post.commentCount || 0}`;
+            postInfo.appendChild(commentCount); // 댓글 수 추가
 
+            // 작성자 표시
+            const userName = document.createElement('span');
+            userName.className = 'user-name';
+            userName.textContent = `작성자: ${post.userName}`;
+            postInfo.appendChild(userName); // 작성자 추가
 
-    // 게시물 구성
-    postDiv.appendChild(title);
-    postDiv.appendChild(preview);
-    postDiv.appendChild(postInfo);
+            // 게시물 구성
+            postDiv.appendChild(title);
+            postDiv.appendChild(preview);
+            postDiv.appendChild(postInfo);
 
+            postsList.appendChild(postDiv); // 목록에 게시글 추가
+            postsList.style.display = 'flex'; 
+        });
 
-    postsList.appendChild(postDiv); // 목록에 게시글 추가
-    // CSS 스타일 다시 설정
-    postsList.style.display = 'flex'; 
-
-});
-
-updatePagination(); // 페이지네이션 업데이트
-} catch (error) {
-// 오류 발생 시 오류 메시지 표시
-document.getElementById('errorMessage').textContent = "게시글을 불러오는 데 실패했습니다.";
-console.error("게시글을 불러오는 데 실패했습니다.", error);
-} finally {
-document.getElementById('loadingMessage').style.display = 'none'; // 로딩 메시지 숨김
-}
+        updatePagination(); // 페이지네이션 업데이트
+    } catch (error) {
+        // 오류 발생 시 오류 메시지 표시
+        document.getElementById('errorMessage').textContent = "게시글을 불러오는 데 실패했습니다.";
+        console.error("게시글을 불러오는 데 실패했습니다.", error);
+    } finally {
+        document.getElementById('loadingMessage').style.display = 'none'; // 로딩 메시지 숨김
+    }
 }
 
 
@@ -109,6 +113,7 @@ function updatePagination() {
     prevButton.onclick = () => {
         if (currentPage > 1) {
             currentPage--;
+            console.log("Current Page:", currentPage);
             loadPosts(currentPage);
         }
     };
@@ -144,6 +149,7 @@ function updatePagination() {
     nextSectionButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
     nextSectionButton.onclick = () => {
         const nextSectionFirstPage = Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection + pagesPerSection + 1; // 현재 섹션의 마지막 페이지 +1
+        console.log("Next Section First Page:", nextSectionFirstPage);
 
         if (nextSectionFirstPage <= totalPages) {
             currentPage = nextSectionFirstPage; // 다음 섹션의 첫 페이지로 이동
@@ -262,6 +268,8 @@ const response = await fetch('http://localhost:9090/user/current', {
 const writePostButton = document.getElementById('writePostButton');
 const submitCommentButton = document.getElementById('submitComment');
 const commentText = document.getElementById('commentText');
+const myPostsButton = document.getElementById('myPostsButton'); // 내가 쓴 게시물 보기 버튼
+const myCommentsButton = document.getElementById('myCommentsButton'); // 댓글 보기 버튼
 
 if (!response.ok) {
     if (response.status === 401) {
@@ -270,6 +278,8 @@ if (!response.ok) {
         writePostButton.style.display = 'none'; // 글쓰기 버튼 숨기기
         submitCommentButton.style.display = 'none'; // 댓글 작성 버튼 숨기기
         commentText.style.display = 'none';
+        myPostsButton.style.display = 'none'; // 내가 쓴 게시물 보기 버튼 숨기기
+        myCommentsButton.style.display = 'none'; // 댓글 보기 버튼 숨기기
         return null; // 사용자에게 알림을 표시하거나 null 반환
     }
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -282,6 +292,8 @@ currentUserId = user.id; // 현재 사용자 ID 설정
 writePostButton.style.display = 'inline-block'; // 글쓰기 버튼 보이기
 submitCommentButton.style.display = 'inline-block'; // 댓글 작성 버튼 보이기
 commentText.style.display = 'block'; // 댓글 입력 필드 보이기
+myPostsButton.style.display = 'inline-block'; // 내가 쓴 게시물 보기 버튼 보이기
+myCommentsButton.style.display = 'inline-block'; // 댓글 보기 버튼 보이기
 return user; // 로그인한 사용자 정보 반환
 } catch (error) {
 console.error('사용자 정보를 불러오는 데 실패했습니다.', error);
@@ -289,6 +301,9 @@ const writePostButton = document.getElementById('writePostButton');
 const submitCommentButton = document.getElementById('submitComment');
 writePostButton.style.display = 'none'; // 글쓰기 버튼 숨기기
 submitCommentButton.style.display = 'none'; // 댓글 작성 버튼 숨기기
+commentText.style.display = 'none'; // 댓글 입력 필드 숨기기
+myPostsButton.style.display = 'none'; // 내가 쓴 게시물 보기 버튼 숨기기
+myCommentsButton.style.display = 'none'; // 댓글 보기 버튼 숨기기
 
 
 
@@ -452,5 +467,5 @@ document.getElementById('myPostsButton').addEventListener('click', () => {
 });
 
 document.getElementById('myCommentsButton').addEventListener('click', () => {
-    window.location.href = '/my-comments.html'; // 자신의 댓글 페이지로 이동
+    window.location.href = '/community/my-comments'; // 자신의 댓글 페이지로 이동
 });
