@@ -1,8 +1,10 @@
 (()=>{
 
-    const $inputDate = document.querySelector('#inputDate');
-    const userid = document.querySelectorAll('.record')[0].getAttribute('userid');
-    const checkbox = document.querySelectorAll('.checkbox')
+    const $inputDate = document.querySelector('#inputDate'); // 날짜 선택 달력
+    const userid = document.querySelectorAll('.record')[0].getAttribute('userid'); // 유저 아이디
+    const checkbox = document.querySelectorAll('.checkbox'); // 체크박스
+    const $editBtn = document.querySelectorAll('.editBtn'); // 수정 버튼
+    const $submitButton = document.querySelectorAll('.submitButton'); // 완료 버튼
 
     $inputDate.max = new Date().toISOString().split("T")[0];
 
@@ -46,6 +48,7 @@
                 .then((message)=>{return message.text()})
                 .then(() => {
                     content_visible();
+                    category_color();
                 })
                 .catch(error => {
                     alert(error.message);
@@ -69,6 +72,7 @@
                 .then((message)=>{return message.text();})
                 .then(() => {
                     content_visible();
+                    category_color();
                 })
                 .catch(error => {
                     alert(error.message);
@@ -80,7 +84,7 @@
 
 
     // 완료 버튼 클릭 시 카테고리별 본문 내용 저장
-    document.querySelectorAll('.submitButton').forEach(button => {
+    $submitButton.forEach(button => {
 
         button.addEventListener('click', (event) => {
             event.preventDefault();
@@ -111,6 +115,13 @@
         });
     });
 
+    // // 수정버튼 클릭 시 텍스트 창 수정 가능 + 완료버튼 등장
+    // $editBtn.forEach(button => {
+    //     button.addEventListener('click', ()=>{
+
+    //     });
+    // });
+
     // 체크된 부분만 본문 출력
     const content_visible = function(){
 
@@ -126,8 +137,26 @@
             }
         });   
     }
-    content_visible();
-
     
+    // 체크 여부에 따라 색상 변경
+    const category_color = function(){
+        
+        checkbox.forEach(checkbox=>{
+            
+            const recordDiv = checkbox.parentElement.parentElement;
+            
+            if (checkbox.checked){
+                recordDiv.querySelector('.checkboxLabel').style.backgroundColor = 'black';
+            }
+            else {
+                recordDiv.querySelector('.checkboxLabel').style.backgroundColor = '#ff9900';
+            }
+        });   
+    }
+    
+    
+    
+    content_visible();
+    category_color();
 
 })();
