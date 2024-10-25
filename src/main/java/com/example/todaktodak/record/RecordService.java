@@ -163,26 +163,26 @@ public class RecordService {
 
         for (Record record : records) {
 
-        String categoryName = record.getCategory().getName();
-        int recordedMonth = record.getCompositeId().getRecordedDate().getMonthValue();
+            String categoryName = record.getCategory().getName();
+            int recordedMonth = record.getCompositeId().getRecordedDate().getMonthValue();
 
-        
-        int monthIndex = (recordedMonth - currentMonth + MONTHS - 1) % MONTHS;
-        
-        if (monthIndex >= 0 && monthIndex < MONTHS) {
-            int point = record.getPoint();
             
-            // 카테고리별 배열 초기화 (0으로 채운 배열) - 이 부분 다시 공부
-            // putIfAbsent - 만약 categoryName이 없으면 다음 내용추가
-            // MONTHS 수만큼의 인덱스를 0으로 설정
-            // 즉, categoryName이 없다면 categoryName을 키로 잡고 값은 MONTH개의 인덱스를(0 ~ 11) 값 0으로 할당
-            categoryPoints.putIfAbsent(categoryName, new ArrayList<>(Collections.nCopies(MONTHS, 0)));
+            int monthIndex = (recordedMonth - currentMonth + MONTHS - 1) % MONTHS;
             
+            if (monthIndex >= 0 && monthIndex < MONTHS) {
+                int point = record.getPoint();
+                
+                // 카테고리별 배열 초기화 (0으로 채운 배열) - 이 부분 다시 공부
+                // putIfAbsent - 만약 categoryName이 없으면 다음 내용추가
+                // MONTHS 수만큼의 인덱스를 0으로 설정
+                // 즉, categoryName이 없다면 categoryName을 키로 잡고 값은 MONTH개의 인덱스를(0 ~ 11) 값 0으로 할당
+                categoryPoints.putIfAbsent(categoryName, new ArrayList<>(Collections.nCopies(MONTHS, 0)));
+                
 
-            // 월 포인트 누적 월마다 월 포인트만 전체 월 누적 아님
-            int currentValue = categoryPoints.get(categoryName).get(monthIndex);
-            categoryPoints.get(categoryName).set(monthIndex, currentValue + point);
-        }
+                // 월 포인트 누적 월마다 월 포인트만 전체 월 누적 아님
+                int currentValue = categoryPoints.get(categoryName).get(monthIndex);
+                categoryPoints.get(categoryName).set(monthIndex, currentValue + point);
+            }
         }
 
         return categoryPoints;

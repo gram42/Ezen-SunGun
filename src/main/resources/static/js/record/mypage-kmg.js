@@ -10,6 +10,7 @@
     const $daysChartContainer = document.querySelector('#daysChartContainer');
     const $monthsChartContainer = document.querySelector('#monthsChartContainer');
     const weeksInfo = document.querySelector('#weeks');
+    const today = new Date();
 
     const daysDataMap = new Map();
     const monthsDataMap = new Map();
@@ -93,7 +94,6 @@
 const getLastDays = () => {
 
     let daysNames = [];
-    const today = new Date();
 
     for (let i = 0; i < 7; i++) {
 
@@ -114,7 +114,6 @@ const getLastDays = () => {
 // x축 날짜 레이블 - month
 const getLastMonths = () => {
     let monthNames = [];
-    const today = new Date();
 
     for (let i = 0; i < 12; i++) {
         const monthIndex = (today.getMonth() - i + 12) % 12;
@@ -140,7 +139,7 @@ const getLastMonths = () => {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    stepSize: 1 // Y축 단위를 1로 설정
+                    stepSize: 1
                 }
               }
         }
@@ -162,7 +161,7 @@ const getLastMonths = () => {
           y: {
             beginAtZero: true,
             ticks: {
-                stepSize: 1 // Y축 단위를 1로 설정
+                stepSize: 1
             }
           }
         }
