@@ -28,7 +28,7 @@
             <div class="record" th:each="record : ${userRecords}" th:userid="${record.user.userid}">
 
                 <input th:id="${record.category.id}" class="checkbox" type="checkbox" th:point="${record.point}">
-                <label th:for="${record.category.id}" th:text="${record.category.name}"></label>
+                <label th:for="${record.category.id}" th:text="${record.category.name}">카테고리</label>
 
                 <div class="content">
                     <textarea th:text="${record.content}"></textarea>
