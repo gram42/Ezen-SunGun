@@ -22,9 +22,6 @@
     $viewDays.addEventListener('click', (event) => {
         event.preventDefault();
 
-        console.log("d");
-        console.log(weeksInfo.getAttribute('data-totalPoint'));
-
         if (weeksInfo.getAttribute('data-totalPoint') === null){
 
             weeksInfo.style.display = 'block';
