@@ -11,6 +11,7 @@
 
     <h1>mypage2</h1>
     
+    <!-- 로그인 유무 -->
     <div sec:authorize="isAnonymous">
         <h1>로그인 후 이용 가능합니다.</h1>
         <a href="/user/login">로그인</a>
@@ -25,20 +26,18 @@
 
         <div th:if="${pointsByMonths != null and !pointsByMonths.isEmpty()}">
 
+            <!-- 원하는 단위 통계 확인 버튼 -->
             <div>
-
                 <a id="viewDays" href="#">일 단위 통계</a> <a id="viewMonths" href="#">월 단위 통계</a>
-
             </div>
 
             <div id="weeks" th:attr="data-totalPoint = ${totalPoint}">
 
                 <div th:if="${totalPoint} == null">
-
                     <div> 최근 일주일간 데이터가 없습니다. </div>
-
                 </div>
-    
+
+                <!-- 주간 데이터 -->
                 <div th:if="${totalPoint} != null">
     
                     <div th:text="'주간 활동 점수 : ' + ${totalPoint}"></div>
@@ -51,6 +50,7 @@
 
             </div>
 
+            <!-- 월간 데이터 -->
             <div th:each="pointM : ${pointsByMonths}">
                 <div class="pointsByMonths" th:attr="data-key=${pointM.key}, data-value=${pointM.value}"></div>
             </div>
