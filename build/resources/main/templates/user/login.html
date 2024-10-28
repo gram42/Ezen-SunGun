@@ -13,11 +13,20 @@
         <h3>아이디나 비밀번호가 일치하지 않습니다.</h3>
     </div>
 
-    <form action="/user/login" method="POST">
-        <input type="text" name="userid"><br>
-        <input type="password" name="password"><br>
-        <button type="submit">전송</button>
-    </form>
+    <!-- 로그인 여부에 따라 다른 화면 -->
+    <div sec:authorize="isAnonymous">
+        <form action="/user/login" method="POST">
+            <input type="text" name="userid"><br>
+            <input type="password" name="password"><br>
+            <button type="submit">전송</button>
+        </form>
+    </div>
+
+    <div sec:authorize="isAuthenticated">
+        <div>이미 로그인 하셨습니다</div>
+        <a href="/ui/index">홈으로</a>
+    </div>
+        
 
     
 </body>

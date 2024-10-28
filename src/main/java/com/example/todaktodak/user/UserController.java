@@ -39,7 +39,11 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Authentication authentication) {
+
+        if ((authentication != null) && (authentication.isAuthenticated())) {
+            return "redirect:/ui/index";
+        }
         return "/user/login"; // 로그인 페이지 반환
     }
 
