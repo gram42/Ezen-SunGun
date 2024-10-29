@@ -254,7 +254,6 @@ try {
     loadPosts(currentPage); // 커뮤니티 게시물 로드
     document.querySelector('.question-box').style.display = 'block'; // 질문 박스 보여주기
     document.getElementById('writeBox').style.display = 'block'; // 글쓰기 박스 보여주기
-    // 검색 기능 보이기
     const searchContainer = document.getElementById('searchContainer');
     if (searchContainer) {
         searchContainer.style.display = 'block'; // 검색 컨테이너를 보이게 설정
