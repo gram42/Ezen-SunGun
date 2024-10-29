@@ -16,7 +16,17 @@ public class CategoriesService {
     
     // 모든 카테고리 찾기
     public List<Categories> getAllCategories(){
-        return categoriesRepository.findAll();
+
+        List<Categories> foundCategory = categoriesRepository.findAll();
+        if(foundCategory != null && !foundCategory.isEmpty()){
+
+            return foundCategory;
+
+        } else {
+
+            return null;
+
+        }
     }
 
     // 카테고리 이름 중복검사

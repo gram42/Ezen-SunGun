@@ -7,63 +7,12 @@
     <link rel="stylesheet" th:href="@{/css/response.css}">
 </head>
 <body>
-    <div class="rain"></div> 
-    <div class="clouds"></div>
 
-<h1>결과 페이지</h1>
-    
-<div class="question-box">
-    <h2>우울한 이유가 궁금합니다.(비웃을 준비 완료)</h2>
-</div>
+    <div th:each="category : ${categories}">
+        <input type="checkbox">
+        <label for="" th:text="${category.name}">zz</label>
+    </div>
 
-<div class="button-container">
-    <button onclick="location.href='/ui/rec'">1. 부모님한테 개 박살남</button>
-    <button onclick="location.href='/ui/rec'">2. 김부장 개새끼</button>
-    <button onclick="location.href='/ui/rec'">3. 길가다가 똥밟음</button>
-    <button onclick="location.href='/ui/rec'">기타 : 할말 있으면 여기다가 해</button>
-</div>
-
-
-<script>
- const rainContainer = document.querySelector('.rain');
-let dropCount = 0; // 현재 비 드롭 수
-const maxDrops = 100; // 최대 비 드롭 수
-
-function createDrop() {
-    if (dropCount < maxDrops) { // 현재 드롭 수가 최대 드롭 수보다 적을 경우에만 생성
-        const drop = document.createElement('div');
-        drop.className = 'drop';
-        drop.style.left = Math.random() * 100 + 'vw'; // 랜덤한 X 위치
-        drop.style.animationDuration = Math.random() * 0.5 + 0.5 + 's'; // 랜덤한 속도 설정
-        rainContainer.appendChild(drop);
-        
-        dropCount++; // 드롭 수 증가
-
-        // 비가 떨어진 후 제거
-        drop.addEventListener('animationend', () => {
-            drop.remove();
-            dropCount--; // 드롭 수 감소
-        });
-    }
-}
-
-// 비를 내리는 속도 조정
-setInterval(createDrop, 100); 
-
-
-function moveClouds() {
-        const clouds = document.querySelector('.clouds');
-        clouds.style.left = (parseFloat(getComputedStyle(clouds).left) + 1) + 'px'; // 구름을 오른쪽으로 이동
-        if (parseFloat(getComputedStyle(clouds).left) > window.innerWidth) {
-            clouds.style.left = '-200px'; // 화면을 벗어나면 왼쪽으로 다시 이동
-        }
-        requestAnimationFrame(moveClouds); // 애니메이션 루프
-    }
-
-    moveClouds(); // 구름 이동 함수 호출
-
-
-</script>
 
 </body>
 </html>

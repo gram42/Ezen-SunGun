@@ -1,13 +1,23 @@
-package com.example.todaktodak.userpage;
+package com.example.todaktodak.result;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ResController {
+
+    ResService resService;
+    
+    public ResController(ResService resService){
+        this.resService = resService;
+    }
     
     @GetMapping("/ui/res")
-    public String response() {
+    public String response(Model model) {
+
+        model.addAttribute("categories", resService.findAllCategories());
+        
         return "/ui/response";
     }
 
