@@ -13,6 +13,7 @@
         <h2>내 게시물 목록</h2>
         <!-- 사용자 게시물 목록 -->
         <div id="myPostsList"></div>
+        <button id="backButton">뒤로가기</button>
 
 
     <!-- 상세보기 모달 또는 섹션 -->
@@ -25,7 +26,11 @@
             <p id="createdAt"></p>
             <button id="editPostButton" style="display: none;">수정하기</button>
             <button id="deletePostButton" style="display: none;">삭제하기</button>
-            <button id="goToPostButton" style="display: none;">게시물로 이동</button>
+
+                    <!-- 댓글 섹션 -->
+            <h3>댓글</h3>
+            <div id="commentsContainer"></div>
+
         </div>
     </div>
 
@@ -51,6 +56,23 @@
         </div>
       </div>
       
+
+      <div id="pagination" class="pagination" style="display: none;">
+        <!-- 이전 섹션 버튼 -->
+        <a href="#" id="prevSectionButton" class="pagination-button" style="display: none;">«</a>
+        
+        <!-- 이전 페이지 버튼 -->
+        <a href="#" id="prevButton" class="pagination-button" style="display: none;">‹</a>
+        
+        <!-- 페이지 번호 버튼들 -->
+        <span id="pageNumbers"></span>
+        
+        <!-- 다음 페이지 버튼 -->
+        <a href="#" id="nextButton" class="pagination-button">›</a>
+        
+        <!-- 다음 섹션 버튼 -->
+        <a href="#" id="nextSectionButton" class="pagination-button">»</a>
+    </div>
 
     <script src="/js/my-posts.js"></script>
 </body>

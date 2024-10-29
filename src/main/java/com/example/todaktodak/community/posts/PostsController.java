@@ -1,5 +1,6 @@
 package com.example.todaktodak.community.posts;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.todaktodak.community.comments.CommentsDTO;
@@ -11,12 +12,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/posts")
@@ -33,7 +40,7 @@ public class PostsController {
         this.commentsService = commentsService;
     }
 
-    // 유저 ID로 게시글을 가져오는 API (페이지네이션 포함)
+    // 유저 ID로 게시글을 가져오는 API (페이지네이션 포함)  (내가 쓴 게시물 목록)
     @GetMapping("/user/{userId}")
     public ResponseEntity<Map<String, Object>> getUserPosts(@PathVariable Long userId, Pageable pageable) {
         logger.info("유저 ID: {}, 요청된 페이지: {}, 페이지 크기: {}", userId, pageable.getPageNumber(), pageable.getPageSize());
@@ -93,7 +100,7 @@ public class PostsController {
         }
     }
 
-    // 모든 게시글 조회 (페이지네이션 적용)
+    // 모든 게시글 조회 (페이지네이션 적용) (커뮤니티 게시글)
     @GetMapping
 public ResponseEntity<Map<String, Object>> getAllPosts(Pageable pageable, Principal principal) {
     logger.info("모든 게시글 요청, 페이지: {}, 페이지 크기: {}", pageable.getPageNumber(), pageable.getPageSize());
@@ -230,4 +237,85 @@ public ResponseEntity<Map<String, Object>> getAllPosts(Pageable pageable, Princi
      );
      return ResponseEntity.ok(postDTO);
  }
+
+
+
+ // 게시물 찾기
+ @GetMapping("/search")
+    public ResponseEntity<Map<String, Object>> searchPosts(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String comment,
+            Pageable pageable) {
+
+        // URL 디코딩
+        try {
+            if (title != null) {
+                title = URLDecoder.decode(title, StandardCharsets.UTF_8.name());
+            }
+            if (author != null) {
+                author = URLDecoder.decode(author, StandardCharsets.UTF_8.name());
+            }
+            if (comment != null) {
+                comment = URLDecoder.decode(comment, StandardCharsets.UTF_8.name());
+            }
+        } catch (Exception e) {
+         logger.error("URL 디코딩 중 오류 발생: {}", e.getMessage(), e);
+         return ResponseEntity.badRequest().body(Collections.singletonMap("error", "잘못된 검색 조건입니다."));
+     }
+ 
+     // 검색 조건 검증
+     if (StringUtils.isEmpty(title) && 
+         StringUtils.isEmpty(author) && 
+         StringUtils.isEmpty(comment)) {
+         logger.warn("검색 조건이 없습니다.");
+         return ResponseEntity.badRequest().body(Collections.singletonMap("error", "검색 조건이 필요합니다."));
+     }
+ 
+     logger.info("Received search request with title: '{}', author: '{}', comment: '{}'", title, author, comment);
+     
+     // 페이지 정보 로그
+     logger.info("Page number: {}, Size: {}", pageable.getPageNumber(), pageable.getPageSize());
+     
+     // 개별 검색 조건 로그
+     if (!StringUtils.isEmpty(title)) {
+         logger.info("Searching by title: '{}'", title);
+     }
+     if (!StringUtils.isEmpty(author)) {
+         logger.info("Searching by author: '{}'", author);
+     }
+     if (!StringUtils.isEmpty(comment)) {
+         logger.info("Searching by comment: '{}'", comment);
+     }
+ 
+     try {
+         Page<Posts> postsPage = postsService.searchPosts(title, author, comment, pageable);
+         logger.info("Search results: {} posts found", postsPage.getTotalElements()); // 결과 개수 로그
+         
+         List<PostsDTO> postsDTOs = postsPage.getContent().stream()
+                 .map(post -> new PostsDTO(
+                         post.getPostId(),
+                         post.getUser().getId(),
+                         post.getTitle(),
+                         post.getContent(),
+                         post.getCreatedAt(),
+                         postsService.getCommentCountByPost(post),
+                         post.getUser().getUserName()))
+                 .collect(Collectors.toList());
+ 
+         Map<String, Object> response = new HashMap<>();
+         response.put("content", postsDTOs);
+         response.put("totalElements", postsPage.getTotalElements());
+         response.put("totalPages", postsPage.getTotalPages());
+         response.put("currentPage", postsPage.getNumber());
+ 
+         return ResponseEntity.ok(response);
+     } catch (Exception e) {
+         logger.error("게시물 검색 중 오류 발생: {}", e.getMessage(), e);
+         Map<String, Object> errorResponse = new HashMap<>();
+         errorResponse.put("error", "게시물 검색 중 오류 발생: " + e.getMessage());
+         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+     }
+ }
+ 
 }

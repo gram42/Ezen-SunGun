@@ -259,26 +259,46 @@ async function loadPostDetail(postId) {
             if (data.userId === currentUserData.id) {
                 document.getElementById('editPostButton').style.display = 'inline-block';
                 document.getElementById('deletePostButton').style.display = 'inline-block';
-                document.getElementById('goToPostButton').style.display = 'inline-block';
 
                  // 버튼 클릭 시 이벤트 핸들러 설정
                 document.getElementById('editPostButton').onclick = () => editPost(data.postId); // 수정 버튼 클릭 시 수정 함수 호출
                 document.getElementById('deletePostButton').onclick = () => deletePost(data.postId); // 삭제 버튼 클릭 시 삭제 함수 호출
-                document.getElementById('goToPostButton').onclick = () => window.location.href = `/community/postDetail/${postId}`; // 해당 게시물 페이지로 이동
             } else {
                 // 비작성자의 경우 버튼 숨김
                 document.getElementById('editPostButton').style.display = 'none';
                 document.getElementById('deletePostButton').style.display = 'none';
-                document.getElementById('goToPostButton').style.display = 'none';
             }
         }
 
-
+        loadComments(postId); // 댓글 로드 함수 호출
 
 
     } else {
         console.error('상세보기 요소를 찾을 수 없습니다.');
     }
+}
+
+// 댓글을 로드하여 모달에 표시하는 함수
+async function loadComments(postId) {
+    const commentsContainer = document.getElementById('commentsContainer');
+    commentsContainer.innerHTML = ''; // 기존 댓글 초기화
+
+    console.log('Loading comments for post ID:', postId); // postId 로그 추가
+    const response = await fetch(`/comments/post/${postId}`);
+    if (!response.ok) {
+        console.error('댓글을 가져오는 데 오류가 발생했습니다:', response.status);
+        return;
+    }
+
+    const comments = await response.json();
+    comments.forEach(comment => {
+        const commentElement = document.createElement('div');
+        commentElement.innerHTML = `
+            <p><strong>${comment.userName}:</strong> ${comment.commentText}</p>
+            <p>작성일: ${new Date(comment.createdAt).toLocaleString()}</p>
+        `;
+        commentsContainer.appendChild(commentElement);
+    });
 }
 
 // DOMContentLoaded 이벤트를 통해 사용자 게시물 로드
@@ -290,6 +310,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         loadUserPosts(); // 사용자 게시물 로드
     }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (isUserLoggedIn()) {
+            await loadUserComments(); // 사용자 댓글 목록 로드
+        } else {
+            alert('로그인이 필요합니다.');
+        }
+    });
+
 
     // '뒤로가기' 버튼 클릭 이벤트
     document.getElementById('backButton').addEventListener('click', () => {

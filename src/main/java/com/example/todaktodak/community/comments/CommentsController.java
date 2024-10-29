@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.todaktodak.community.posts.Posts;
 import com.example.todaktodak.community.posts.PostsController;
+import com.example.todaktodak.community.posts.PostsDTO;
+
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +39,7 @@ public class CommentsController {
         return ResponseEntity.ok(commentDTOs);
     }
 
-    // ID로 댓글 조회
+    // 게시글 ID로 댓글 조회
     @GetMapping("/{id}")
     public ResponseEntity<CommentsDTO> getCommentById(@PathVariable Long id) {
         Comments comment = commentsService.getCommentById(id);
@@ -53,6 +56,7 @@ public class CommentsController {
             return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
         } catch (Exception e) {
             System.err.println("Error occurred while creating comment: " + e.getMessage()); // 에러 로그
+            logger.error("댓글 생성 중 오류 발생: {}", e.getMessage(), e); // 에러 로그
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -65,6 +69,7 @@ public class CommentsController {
             return ResponseEntity.ok(updatedComment);
         } catch (RuntimeException e) {
             System.err.println("Error occurred while updating comment: " + e.getMessage()); // 에러 로그
+            logger.error("댓글 수정 중 오류 발생: {}", e.getMessage(), e); // 에러 로그
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -78,48 +83,86 @@ public class CommentsController {
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             System.err.println("Error occurred while deleting comment: " + e.getMessage()); // 에러 로그
+            logger.error("댓글 삭제 중 오류 발생: {}", e.getMessage(), e); // 에러 로그
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
 
-    // 댓글 작성자가 자신의 댓글 조회
-    @GetMapping("/user/{userId}")
-public ResponseEntity<Map<String, Object>> getCommentsByUserId(@PathVariable Long userId, Pageable pageable) {
-    logger.info("유저 ID: {}, 요청된 페이지: {}, 페이지 크기: {}", userId, pageable.getPageNumber(), pageable.getPageSize());
+ // 댓글 작성자가 자신의 댓글 조회
+ @GetMapping("/user/{userId}")
+ public ResponseEntity<Map<String, Object>> getCommentsByUserId(@PathVariable Long userId, Pageable pageable) {
+     logger.info("유저 ID: {}, 요청된 페이지: {}, 페이지 크기: {}", userId, pageable.getPageNumber(), pageable.getPageSize());
+     try {
+         Page<Comments> comments = commentsService.getCommentsByUserId(userId, pageable);
+         if (comments.isEmpty()) {
+             Map<String, Object> errorResponse = new HashMap<>();
+             errorResponse.put("error", "댓글이 없습니다.");
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse); // 404 Not Found
+         }
+ 
+         List<CommentsDTO> commentDTOs = comments.getContent().stream()
+                 .map(comment -> new CommentsDTO(
+                         comment.getCommentsId(),
+                         comment.getPost().getPostId(),
+                         comment.getUser().getId(),
+                         comment.getCommentText(),
+                         comment.getCreatedAt()))
+                 .collect(Collectors.toList());
+ 
+         Map<String, Object> response = new HashMap<>();
+         response.put("content", commentDTOs);
+         response.put("totalElements", comments.getTotalElements());
+         response.put("totalPages", comments.getTotalPages());
+         response.put("currentPage", comments.getNumber());
+ 
+         return ResponseEntity.ok(response);
+     } catch (Exception e) {
+         logger.error("사용자 {}의 댓글을 가져오는 중 오류 발생: {}", userId, e.getMessage(), e);
+         Map<String, Object> errorResponse = new HashMap<>();
+         errorResponse.put("error", "댓글을 가져오는 중 오류 발생: " + e.getMessage());
+         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+     }
+ }
+
+    // 게시글에 대한 댓글 조회
+    @GetMapping("/post/{postId}")
+public ResponseEntity<List<CommentsDTO>> getCommentsByPostId(@PathVariable Long postId) {
+    System.out.println("Received request for comments of post ID: " + postId);
+    logger.info("Received request for comments of post ID: {}", postId);
     try {
-        Page<Comments> comments = commentsService.getCommentsByUserId(userId, pageable);
-        if (comments.isEmpty()) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "댓글이 없습니다.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse); // 404 Not Found
+        List<CommentsDTO> comments = commentsService.getCommentsByPostId(postId);
+        if (comments == null || comments.isEmpty()) {
+            logger.warn("No comments found for post ID: {}", postId);
+            System.out.println("No comments found for post ID: " + postId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(comments);
         }
-
-        List<CommentsDTO> commentDTOs = comments.getContent().stream()
-                .map(comment -> new CommentsDTO(
-                        comment.getCommentsId(),
-                        comment.getPost().getPostId(),
-                        comment.getUser().getId(),
-                        comment.getCommentText(),
-                        comment.getCreatedAt()))
-                .collect(Collectors.toList());
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("content", commentDTOs);
-        response.put("totalElements", comments.getTotalElements());
-        response.put("totalPages", comments.getTotalPages());
-        response.put("currentPage", comments.getNumber());
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(comments);
     } catch (Exception e) {
-        logger.error("사용자 {}의 댓글을 가져오는 중 오류 발생: {}", userId, e.getMessage(), e);
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("error", "댓글을 가져오는 중 오류 발생: " + e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        logger.error("Error occurred while fetching comments for post ID: {}, Error: {}", postId, e.getMessage(), e);
+        System.err.println("Error occurred while fetching comments for post ID: " + postId + ", Error: " + e.getMessage());
+        // 예외 처리
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 }
+    //댓글로 게시글 조회
+ @GetMapping("/{commentId}/post")
+    public ResponseEntity<PostsDTO> getPostByCommentId(@PathVariable Long commentId) {
+        try {
+            Posts post = commentsService.getPostByCommentId(commentId);
+            if (post == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            // 게시글을 DTO로 변환
+            PostsDTO postDTO = convertToDTO(post); // convertToDTO 메서드 필요
+            return ResponseEntity.ok(postDTO);
+        } catch (Exception e) {
+            logger.error("댓글 ID {}로 게시글을 가져오는 중 오류 발생: {}", commentId, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 
-    // DTO 변환 메서드
+   // 댓글 DTO 변환 메서드
     private CommentsDTO convertToDTO(Comments comment) {
         return new CommentsDTO(
                 comment.getCommentsId(),
@@ -129,4 +172,21 @@ public ResponseEntity<Map<String, Object>> getCommentsByUserId(@PathVariable Lon
                 comment.getCreatedAt()
         );
     }
+
+    // 게시글 DTO 변환 메서드
+private PostsDTO convertToDTO(Posts post) {
+    List<Long> commentId = post.getComments().stream()
+        .map(Comments::getCommentsId) // 댓글 ID를 리스트로 가져옴
+        .collect(Collectors.toList());
+
+    return new PostsDTO(
+        post.getPostId(),
+        commentId, // 댓글 ID 목록을 포함
+        post.getUser().getId(),
+        post.getContent(),
+        post.getCreatedAt(),
+        post.getUser().getUserName(),
+        post.getTitle()
+    );
+}
 }

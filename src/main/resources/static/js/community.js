@@ -201,6 +201,12 @@ document.querySelector('.question-box').style.display = 'none';
 document.getElementById('writeBox').style.display = 'none';
 loadComments(postId);
 document.getElementById('pagination').style.display = 'none';
+
+// 검색 기능 숨기기
+const searchContainer = document.getElementById('searchContainer'); 
+if (searchContainer) {
+    searchContainer.style.display = 'none'; // 상세보기에서 검색 컨테이너 숨기기
+}
 } catch (error) {
 document.getElementById('errorMessage').textContent = "게시글 상세 정보를 불러오는 데 실패했습니다.";
 console.error("게시글 상세 정보를 불러오는 데 실패했습니다.", error);
@@ -248,6 +254,11 @@ try {
     loadPosts(currentPage); // 커뮤니티 게시물 로드
     document.querySelector('.question-box').style.display = 'block'; // 질문 박스 보여주기
     document.getElementById('writeBox').style.display = 'block'; // 글쓰기 박스 보여주기
+    // 검색 기능 보이기
+    const searchContainer = document.getElementById('searchContainer');
+    if (searchContainer) {
+        searchContainer.style.display = 'block'; // 검색 컨테이너를 보이게 설정
+    }
 } catch (error) {
     document.getElementById('errorMessage').textContent = "게시물 삭제에 실패했습니다.";
     console.error("게시물 삭제에 실패했습니다.", error);
@@ -453,11 +464,173 @@ window.onload = () => {
     loadPosts(currentPage);
 };
 
+
+
+
+// 드롭다운 토글 함수
+function toggleDropdown(event) {
+    event.stopPropagation(); // 클릭 이벤트가 상위 요소로 전파되지 않도록 방지
+    const searchOptions = document.getElementById("searchOptions");
+    searchOptions.style.display = searchOptions.style.display === "block" ? "none" : "block"; // 드롭다운 메뉴 열기/닫기
+}
+
+// 드롭다운에서 검색 기준 선택
+function selectSearchCriteria(criteria) {
+    const dropdownButton = document.getElementById("dropdownButton");
+    const searchOptions = document.getElementById("searchOptions");
+
+    // 선택한 검색 기준에 따라 버튼 텍스트 변경
+    const criteriaText = {
+        title: "제목으로 검색 ▼",
+        author: "작성자로 검색 ▼",
+        comment: "댓글 내용으로 검색 ▼"
+    };
+
+    dropdownButton.textContent = criteriaText[criteria] || criteriaText.comment;
+
+    // 드롭다운 숨김
+    searchOptions.style.display = "none"; // 옵션 선택 후 드롭다운 닫음
+}
+
+// 검색 버튼 클릭 시 게시물 검색
+document.getElementById('searchButton').addEventListener('click', searchPosts);
+
+
+// 게시물 검색
+async function searchPosts() {
+    const searchInput = document.getElementById('searchInput').value.trim();
+    const dropdownButton = document.getElementById('dropdownButton');
+    
+    // 선택된 검색 기준에 따라 searchCriteria 설정
+    const criteriaMap = {
+        "제목으로 검색 ▼": 'title',
+        "작성자로 검색 ▼": 'author',
+        "댓글 내용으로 검색 ▼": 'comment'
+    };
+
+    const searchCriteria = criteriaMap[dropdownButton.textContent] || '';
+
+    // 입력값이 없으면 요청하지 않도록 처리
+    if (!searchInput) {
+        document.getElementById('postsList').innerHTML = ""; // 결과를 초기화
+        currentPage = 1; // 현재 페이지를 1로 설정
+        loadPosts(currentPage); // 첫 페이지 게시물 로드
+        return; // 입력값이 없으면 함수 종료
+    }
+
+    const queryParameters = new URLSearchParams();
+    queryParameters.append(searchCriteria, encodeURIComponent(searchInput));
+
+    try {
+        const requestURL = `/posts/search?${queryParameters.toString()}`;
+        const response = await fetch(requestURL);
+        
+        if (!response.ok) {
+            throw new Error("서버 오류 발생");
+        }
+
+        const data = await response.json();
+
+        // data.content가 배열인지 확인하고 displaySearchResults 호출
+        if (Array.isArray(data.content)) {
+            displaySearchResults(data.content); // 검색 결과 표시 함수 호출
+        } else {
+            console.error("검색 결과가 배열이 아닙니다:", data); // 오류 로그 추가
+            displaySearchResults([]); // 배열이 아닐 경우 빈 배열 전달
+        }
+
+    } catch (error) {
+        console.error("검색 중 오류 발생:", error);
+        document.getElementById('errorMessage').textContent = "검색 중 오류가 발생했습니다. 다시 시도해 주세요.";
+    }
+}
+
+// 검색 결과 게시물만 표시하는 함수
+function displaySearchResults(posts) {
+    const postsContainer = document.getElementById("postsList"); // 게시물 목록을 표시할 컨테이너 ID
+    postsContainer.innerHTML = ""; // 기존 게시물 목록 초기화
+
+    // 검색 결과가 없을 때 처리
+    if (!Array.isArray(posts) || posts.length === 0) {
+        const noResultsMessage = document.createElement("p");
+        noResultsMessage.textContent = "검색 결과가 없습니다."; // 결과가 없을 경우 메시지
+        postsContainer.appendChild(noResultsMessage);
+        return; // 결과가 없으면 함수 종료
+    }
+
+    // 검색 결과가 있을 때 게시물 생성
+    posts.forEach(post => {
+        // 게시물 ID가 정의되지 않았을 때
+        if (!post.postId) { // post.id 대신 post.postId 사용
+            console.error("게시물 ID가 정의되지 않았습니다:", post); // ID가 없을 경우 오류 로그
+            return; // ID가 없으면 해당 게시물 생성을 건너뜀
+        }
+
+        const postElement = document.createElement("div");
+        postElement.className = "post"; // 게시물 클래스 추가
+
+        // 게시물 제목
+        const postTitle = document.createElement("h3");
+        postTitle.textContent = post.title; // 제목 설정
+        postElement.appendChild(postTitle);
+
+        // 게시물 내용
+        const postContent = document.createElement("p");
+        postContent.textContent = post.content; // 내용 설정
+        postElement.appendChild(postContent);
+
+        // 댓글 수 표시
+        const commentCount = document.createElement("span");
+        commentCount.className = "comment-count"; // 댓글 수 클래스 추가
+        commentCount.textContent = `댓글 수: ${post.commentCount || 0}`; // post.commentCount에서 댓글 수 가져오기
+        postElement.appendChild(commentCount); // 댓글 수 추가
+
+        // 작성자 표시
+        const userName = document.createElement("span");
+        userName.className = "user-name"; // 작성자 클래스 추가
+        userName.textContent = `작성자: ${post.userName || "작성자 정보 없음"}`; // post.userName에서 작성자 정보 가져오기
+        postElement.appendChild(userName); // 작성자 추가
+
+        // 전체 게시물 영역 클릭 시 상세 페이지로 이동
+        postElement.style.cursor = "pointer"; // 커서 모양 변경
+        postElement.addEventListener("click", () => {
+            loadPostDetail(post.postId); // 상세 보기 로드
+        });
+
+        // 게시물 요소를 컨테이너에 추가
+        postsContainer.appendChild(postElement);
+    });
+}
+
+// 드롭다운 클릭 이벤트가 문서 상에서 다른 요소에 의해 닫히지 않도록
+document.addEventListener('click', function(event) {
+    const searchOptions = document.getElementById("searchOptions");
+    if (!searchOptions.contains(event.target) && event.target.id !== "dropdownButton") {
+        searchOptions.style.display = "none"; // 드롭다운 클릭이 아니면 숨김 처리
+    }
+});
+
+// 드롭다운 열림 상태를 항상 유지
+document.getElementById('dropdownButton').addEventListener('click', toggleDropdown);
+
+// 드롭다운 옵션 클릭 시 선택
+document.querySelectorAll('.dropdown-content div').forEach(option => {
+    option.addEventListener('click', function() {
+        selectSearchCriteria(this.getAttribute('data-criteria'));
+    });
+});
+
 // 뒤로가기 버튼 클릭 이벤트
 document.getElementById('backButton').addEventListener('click', () => {
 document.getElementById('postDetail').style.display = 'none'; // 게시글 상세 내용 숨김
 document.getElementById('postsList').style.display = 'block'; // 게시글 목록 표시
 loadPosts(currentPage); // 현재 페이지의 게시글 목록 다시 로드
+
+// 검색 기능 보이기
+    const searchContainer = document.getElementById('searchContainer');
+    if (searchContainer) {
+        searchContainer.style.display = 'block'; // 목록으로 돌아갈 때 검색 컨테이너 보이기
+    }
 });
 
 

@@ -24,6 +24,7 @@ public class SecurityConfig {
                 .requestMatchers("/user/**").authenticated() // /user/**는 인증 필요
                 .requestMatchers("/community/writing").authenticated() // /community/writing 경로는 인증 필요
                 .requestMatchers("/posts/**").permitAll() // /posts/**는 인증 없이 접근 가능
+                .requestMatchers("/comments/**").authenticated()
                 .anyRequest().permitAll() // 그 외 요청은 모두 허용
         );
 
@@ -33,7 +34,7 @@ public class SecurityConfig {
         );
 
         // 로그인 설정
-        httpSecurity.formLogin(formLogin -> 
+       httpSecurity.formLogin(formLogin -> 
             formLogin
                 .loginPage("/user/login")
                 .defaultSuccessUrl("/ui/main?login=true") // 로그인 성공 후 이동할 URL

@@ -107,6 +107,11 @@ public class CommentsService {
             .collect(Collectors.toList()); // Collectors.toList() 사용
     }
 
+    // 댓글 ID로 게시글 조회
+    public Posts getPostByCommentId(Long commentId) {
+        return commentsRepository.findPostByCommentId(commentId);
+    }
+
 
     // 댓글 DTO 변환
     private CommentsDTO convertToDTO(Comments comment) {
@@ -123,6 +128,10 @@ public class CommentsService {
 
 
     // 유저 ID로 댓글 조회
+    public List<Comments> getCommentsByUserId(Long userId) {
+        return commentsRepository.findByUser_Id(userId);
+    }
+
     public Page<Comments> getCommentsByUserId(Long userId, Pageable pageable) {
         return commentsRepository.findByUser_Id(userId, pageable);
     }
