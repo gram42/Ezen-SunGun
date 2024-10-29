@@ -1,5 +1,3 @@
-<nav th:replace="~{nav.html::top-nav}"></nav>
-<nav th:replace="~{nav.html::side-nav}"></nav>
 
 <nav class="global-nav" th:fragment="top-nav">
 
@@ -16,12 +14,13 @@
             <a href="/user/logout">로그아웃</a>
         </span>
         
-        <span class="personalMenu">
+        <a id="personalMenuBtn" href="#">개인메뉴</a>
+        <div class="personalMenu">
             
-            <a href="/user/mypage">개인 정보 수정</a>
             <a href="/mypage2">마이페이지</a>
+            <a href="/user/mypage">개인 정보 수정</a>
             
-        </span>
+        </div>
 
     </div>
     

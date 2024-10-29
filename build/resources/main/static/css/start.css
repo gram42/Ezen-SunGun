@@ -9,12 +9,12 @@ body{
     justify-content: center;
     align-items: center;
     position: relative;
-    background-image: url('/img/1727241857894_6090.jpg');
+    background-image: url('/img/1727768908340_7130.jpg');
     background-size: cover;
     background-position: center;
 }
 
-#toMain {
+#text {
     text-align: center;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
@@ -31,4 +31,8 @@ body{
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 1;
+}
+
+#title {
+    display: flex;
 }
