@@ -8,10 +8,14 @@
 </head>
 <body>
 
-    <div th:each="category : ${categories}">
-        <input type="checkbox">
-        <label for="" th:text="${category.name}">zz</label>
-    </div>
+    <form action="" method="post">
+
+        <div th:each="category : ${categories}">
+            <input type="checkbox" th:value="category.id">
+            <label for="" name="categoryName" th:text="${category.name}">zz</label>
+        </div>
+        <button type="submit">제출</button>
+    </form>
 
 
 </body>
