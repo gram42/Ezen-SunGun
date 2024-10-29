@@ -89,12 +89,16 @@
         button.addEventListener('click', (event) => {
             event.preventDefault();
     
-            const recordDiv = button.closest('.record'); // 붙어있는 부모요소 찾기
-            const checkbox = recordDiv.querySelector('.checkbox'); // 붙어있는 체크박스 가져오기
+            const parent = button.closest('.record'); // 붙어있는 부모요소 찾기
+            const checkbox = parent.querySelector('.checkbox'); // 붙어있는 체크박스 가져오기
             const $categoryId = checkbox.getAttribute('id');
-            const $content = recordDiv.querySelector('textarea');
+            const $content = parent.querySelector('textarea');
 
-            if ($content.value.length > 500){ alert("기록 내용은 500자를 넘을 수 없습니다."); return }
+            if ($content.value.length > 500){
+                alert("기록 내용은 500자를 넘을 수 없습니다.");
+                $content.focus();
+                return
+            }
     
             fetch('/record/saveContent', {
                 method: "POST",
@@ -109,18 +113,37 @@
                 })
             })
             .then((message)=>{return message.text()})
+            .then(() => {
+                // 저장 후 수정버튼 누르기 이전 상태로 복구
+
+                button.style.display = 'none';
+                
+                parent.querySelector('.editBtn').style.display = 'block';
+                $content.setAttribute('readonly', true);
+            })
             .catch(error => {
                 alert(error.message);
             });
         });
     });
 
-    // // 수정버튼 클릭 시 텍스트 창 수정 가능 + 완료버튼 등장
-    // $editBtn.forEach(button => {
-    //     button.addEventListener('click', ()=>{
+    // 수정버튼 클릭 시 텍스트 창 수정 가능 + 완료버튼 등장
+    $editBtn.forEach(button => {
+        button.addEventListener('click', (event)=>{
+            event.preventDefault();
 
-    //     });
-    // });
+            const parent = button.parentElement;
+
+            parent.parentElement.querySelector('textarea').removeAttribute('readonly');
+            parent.parentElement.querySelector('textarea').focus();
+
+            parent.querySelector('.editBtn').style.display = 'none';
+
+            const siblingBtn = parent.querySelector('.submitButton');
+            siblingBtn.style.display = 'block';
+
+        });
+    });
 
     // 체크된 부분만 본문 출력
     const content_visible = function(){
@@ -130,10 +153,10 @@
             const recordDiv = checkbox.parentElement;
 
             if (checkbox.checked){
-                recordDiv.querySelector('.content').style.display = 'block';
+                recordDiv.querySelector('.record-content').style.display = 'block';
             }
             else {
-                recordDiv.querySelector('.content').style.display = 'none';
+                recordDiv.querySelector('.record-content').style.display = 'none';
             }
         });   
     }

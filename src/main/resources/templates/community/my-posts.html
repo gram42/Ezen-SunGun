@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my-posts</title>
     <link rel="stylesheet" href="/css/my-posts.css">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+    <nav th:replace="~{nav.html::side-nav}"></nav>
     <h1>내가 쓴 게시물</h1>
 
     <div id="myPostsContainer">

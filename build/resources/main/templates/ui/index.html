@@ -6,23 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>main</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
     <link rel="icon" href="data:;base64,=" />
+    <nav th:replace="~{nav.html::top-nav}"></nav>
 </head>
 <body>
-
-<h1>메인 페이지</h1>
-
-<div sec:authorize="isAnonymous">
-
-    <a href="/user/login">로그인</a>
-    <a href="/user/register">회원가입</a>
-</div>
-
-<div sec:authorize="isAuthenticated">
-    <a href="/user/mypage">마이페이지</a>
-    <a href="/user/logout">로그아웃</a>
-</div>
-    
+    <nav th:replace="~{nav.html::side-nav}"></nav>
+<h1>메인 페이지</h1>    
 
 <div class="question-box">
     <h2>오늘 기분은 어떠세요?</h2>

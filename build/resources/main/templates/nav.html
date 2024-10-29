@@ -1,0 +1,36 @@
+<nav th:replace="~{nav.html::top-nav}"></nav>
+<nav th:replace="~{nav.html::side-nav}"></nav>
+
+<nav class="global-nav" th:fragment="top-nav">
+
+    <a class="logo" href="/ui/index">SUN</a>
+
+    <div class="menu">
+
+        <span sec:authorize="isAnonymous">
+            <a href="/user/login">로그인</a>
+            <a href="/user/register">회원가입</a>
+        </span>
+        
+        <span sec:authorize="isAuthenticated">
+            <a href="/user/logout">로그아웃</a>
+        </span>
+        
+        <span class="personalMenu">
+            
+            <a href="/user/mypage">개인 정보 수정</a>
+            <a href="/mypage2">마이페이지</a>
+            
+        </span>
+
+    </div>
+    
+</nav>
+
+<nav class="side-nav" th:fragment="side-nav">
+    
+    <a href="#">이용 안내</a>
+    <a href="/record">일일 활동 기록</a>
+    <a href="/community/community">게시판</a>
+
+</nav>

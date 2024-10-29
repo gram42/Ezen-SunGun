@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my page</title>
     <link rel="stylesheet" th:href="@{/css/mypage.css}">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
     <style>
         #checkPassword{
             display: none;
@@ -12,7 +13,8 @@
     </style>
 </head>
 <body>
-
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+    <nav th:replace="~{nav.html::side-nav}"></nav>
     <h1>mypage test</h1>
 
     <div sec:authorize="isAnonymous">

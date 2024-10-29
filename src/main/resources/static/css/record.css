@@ -1,0 +1,84 @@
+#totalRecord .record-content, .checkbox{
+    display: none;
+}
+
+.record-container {
+    display: flex;
+}
+
+#inputDate {
+    margin-bottom: 20px;
+}
+
+.record {
+    display: flex;             
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    width: 100%;            
+}
+
+.categoryRecord {
+    display: flex;           
+    align-items: flex-start;  
+    margin-right: 20px;     
+}
+
+.checkboxLabel {
+    padding: 10px;
+    background-color: #ff9900;
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer; 
+    transition: background-color 0.2s, opacity 0.2s;
+    line-height: 1.5;
+    height: 150px;
+    width: 70px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.checkboxLabel:active {
+    opacity: 0.7;
+}
+
+.record-content {
+    display: flex;
+    width: 800px;
+    margin-left: 10px;
+    flex-direction: row;
+    align-items: flex-start;
+    position: relative;
+}
+
+.record-content textarea {
+    height: 170px;
+    resize: none;
+    box-sizing: border-box; 
+    padding: 10px; 
+    border: 2px solid #ccc; 
+    border-radius: 5px;  
+    background-color: #f9f9f9;
+    color: #333;       
+    font-size: 16px;  
+    transition: border-color 0.3s; 
+    margin-left: 5px;
+    width: 750px;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.submitButton {
+    display: none;
+}
+
+.button-container {
+    display: flex;
+    align-items: flex-start;
+    position: absolute;
+    justify-content: flex-start;
+    flex-direction: column;
+    bottom: 10px;
+    right: 5px;
+}

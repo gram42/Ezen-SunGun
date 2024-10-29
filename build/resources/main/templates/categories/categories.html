@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>categories</title>
     <link rel="stylesheet" th:href="@{/css/categories.css}">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-
+    <nav th:replace="~{nav.html::top-nav}"></nav>
     <!-- *주의*
     지금은 만드는 단계라 로그인 안해도 되지만 
     나중에 /categories로 접근하면 관리자 계정만 접근하게 스프링 시큐리티 수정해야함.

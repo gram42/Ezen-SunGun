@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mypage2</title>
     <link rel="stylesheet" href="/css/mypage-kmg.css">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 
 <body>
     <!-- *주의* 추후 파일 위치 옮길 것 -> user, 이름 mypage로 바꿀 것, 당연히 위치나 이름이 바뀌면 컨트롤러도 변경해줘야함 -->
-
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+    <nav th:replace="~{nav.html::side-nav}"></nav>
     <h1>mypage2</h1>
     
     <!-- 로그인 유무 -->
