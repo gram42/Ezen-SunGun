@@ -5,6 +5,8 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -128,6 +130,27 @@ public ResponseEntity<User> getCurrentUser(Principal principal) {
         }
     }
 
+
+ // 현재 인증된 사용자 정보를 가져오는 메소드
+    private User getCurrentAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            // 사용자 세부정보를 반환 (User 클래스에 사용자 이름을 받아들이는 생성자가 있어야 함)
+            return (User) authentication.getPrincipal(); // User 클래스로 캐스팅
+        }
+        return null; // 인증된 사용자가 없음
+    }
+
+    @GetMapping("/user/current")
+    public ResponseEntity<?> getCurrentUser() {
+        User currentUser = getCurrentAuthenticatedUser();
+        if (currentUser != null) {
+            return ResponseEntity.ok("사용자가 로그인 상태입니다."); // 필요한 경우 사용자 객체를 반환
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인하지 않았습니다.");
+        }
+    }
+    
 
     @PostMapping("/logout")
 public ResponseEntity<String> logout(HttpSession session) {
