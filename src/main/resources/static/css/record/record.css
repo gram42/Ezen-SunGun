@@ -33,10 +33,11 @@
     transition: background-color 0.2s, opacity 0.2s;
     line-height: 1.5;
     height: 150px;
-    width: 70px;
+    width: 80px;
     display: flex;
     justify-content: center; 
     align-items: center; 
+    text-align: center;
 }
 
 .checkboxLabel:active {

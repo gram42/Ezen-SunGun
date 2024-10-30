@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>커뮤니티 게시판</title>
-    <link rel="stylesheet" href="/css/community.css"> <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="/css/community/community.css"> <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+    <nav th:replace="~{nav.html::side-nav}"></nav>
     <div class="question-box">
         <div class="community-text">커뮤니티</div>
     </div>
@@ -66,5 +69,6 @@
 
 
     <script src="/js/community.js"></script>
+    <script src="/js/nav.js"></script>
 </body>
 </html>

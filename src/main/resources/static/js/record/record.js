@@ -29,11 +29,11 @@
         checkbox.addEventListener('change', (event)=>{
             event.preventDefault();
 
-            const categoryId = event.target.getAttribute('id');
+            const categoryId = checkbox.getAttribute('id').split('-')[1].trim();
             
             // 체크했을 경우 -> 포인트 1 
             if(checkbox.checked){
-
+                
                 fetch('/record/checkbox',{
                     method: "POST",
                     headers: {'Content-Type': 'application/json'},
@@ -91,7 +91,7 @@
     
             const parent = button.closest('.record'); // 붙어있는 부모요소 찾기
             const checkbox = parent.querySelector('.checkbox'); // 붙어있는 체크박스 가져오기
-            const $categoryId = checkbox.getAttribute('id');
+            const $categoryId = checkbox.getAttribute('id').split('-')[1].trim();
             const $content = parent.querySelector('textarea');
 
             if ($content.value.length > 500){

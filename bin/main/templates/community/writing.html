@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>글쓰기</title>
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-    
+    <nav th:replace="~{nav.html::top-nav}"></nav>
     <h1>글쓰기</h1>
     <form id="postForm">
         <div>
@@ -20,6 +21,7 @@
         <button type="submit">제출</button>
     </form>
 
+    <script src="/js/nav.js"></script>
     <script>
         document.getElementById("postForm").onsubmit = async function(event) {
             event.preventDefault(); // 기본 폼 제출 방지
