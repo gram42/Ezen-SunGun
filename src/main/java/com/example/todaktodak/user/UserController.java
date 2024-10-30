@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/user")
@@ -133,22 +135,25 @@ public ResponseEntity<User> getCurrentUser(Principal principal) {
         return "redirect:/user/mypage"; // 수정 후 마이페이지로 리다이렉트
     }
 
+    // 탈퇴 후 세션, 쿠키 정리
     @DeleteMapping("/deleteAccount")
-    public ResponseEntity<String> deleteAccount(@RequestBody UserDTO userDTO, HttpSession session) {
+    public ResponseEntity<String> deleteAccount(@RequestBody UserDTO userDTO, HttpServletRequest request, HttpServletResponse response) {
+
         boolean result = userService.deleteAccount(userDTO);
 
         if (result) {
-            session.invalidate(); // 세션 무효화
+
+            request.getSession().invalidate();
+
+            Cookie cookie = new Cookie("JSESSIONID", null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
             return ResponseEntity.ok("탈퇴가 완료되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
         }
     }
 
-
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession session) {
-        session.invalidate(); // 세션 무효화
-        return ResponseEntity.ok("로그아웃 성공");
-    }
 }

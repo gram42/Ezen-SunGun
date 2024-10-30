@@ -38,7 +38,7 @@ public class CommentsController {
 
     // ID로 댓글 조회
     @GetMapping("/{id}")
-    public ResponseEntity<CommentsDTO> getCommentById(@PathVariable Long id) {
+    public ResponseEntity<CommentsDTO> getCommentById(@PathVariable(name = "id") Long id) {
         Comments comment = commentsService.getCommentById(id);
         CommentsDTO commentDTO = convertToDTO(comment);
         return ResponseEntity.ok(commentDTO);
@@ -46,7 +46,7 @@ public class CommentsController {
 
     // 댓글 생성
     @PostMapping("/{postId}")
-    public ResponseEntity<CommentsDTO> createComment(@PathVariable Long postId, @RequestBody CommentsDTO commentDTO) {
+    public ResponseEntity<CommentsDTO> createComment(@PathVariable(name = "postId") Long postId, @RequestBody CommentsDTO commentDTO) {
         try {
             // 댓글 생성
             CommentsDTO createdComment = commentsService.createComment(postId, commentDTO);
@@ -59,7 +59,7 @@ public class CommentsController {
 
     // 댓글 수정
     @PutMapping("/{id}")
-    public ResponseEntity<CommentsDTO> updateComment(@PathVariable Long id, @RequestBody CommentsDTO commentDTO) {
+    public ResponseEntity<CommentsDTO> updateComment(@PathVariable(name = "id") Long id, @RequestBody CommentsDTO commentDTO) {
         try {
             CommentsDTO updatedComment = commentsService.updateComment(id, commentDTO);
             return ResponseEntity.ok(updatedComment);
@@ -72,7 +72,7 @@ public class CommentsController {
 
     // 댓글 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteComment(@PathVariable(name = "id") Long id) {
         try {
             commentsService.deleteComment(id);
             return ResponseEntity.noContent().build();
@@ -85,7 +85,7 @@ public class CommentsController {
 
     // 댓글 작성자가 자신의 댓글 조회
     @GetMapping("/user/{userId}")
-public ResponseEntity<Map<String, Object>> getCommentsByUserId(@PathVariable Long userId, Pageable pageable) {
+public ResponseEntity<Map<String, Object>> getCommentsByUserId(@PathVariable(name = "userId") Long userId, Pageable pageable) {
     logger.info("유저 ID: {}, 요청된 페이지: {}, 페이지 크기: {}", userId, pageable.getPageNumber(), pageable.getPageSize());
     try {
         Page<Comments> comments = commentsService.getCommentsByUserId(userId, pageable);

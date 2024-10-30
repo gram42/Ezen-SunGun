@@ -22,12 +22,12 @@ public class Comments {
     private Long commentsId; // 댓글 ID
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false) // 외래 키는 필수 값이므로 nullable = false
+    @JoinColumn(name = "post_id", nullable = true) // 외래 키는 필수 값이므로 nullable = false, 계정 탈퇴시 게시글에 댓글만 남도록 null 가능으로 수정
     @JsonBackReference
     private Posts post; // 댓글이 달린 게시글
 
     @ManyToOne // 여러 댓글은 하나의 유저와 연결
-    @JoinColumn(name = "user_id", nullable = false) // 외래 키는 필수 값이므로 nullable = false
+    @JoinColumn(name = "user_id", nullable = true) // 외래 키는 필수 값이므로 nullable = false, 계정 탈퇴시 게시글에 댓글만 남도록 null 가능으로 수정
     private User user; // 유저와의 관계
 
     @Column(nullable = false, length = 500)

@@ -18,5 +18,8 @@ public interface RecordRepository extends JpaRepository<Record, RecordCompositeI
     // 입력한 기간동안의 유저 기록 데이터 찾기
     List<Record> findByCompositeIdUseridAndCompositeIdRecordedDateBetween(String userId, LocalDate startDate, LocalDate endDate);
 
+    // userid의 모든 기록 찾기
+    List<Record> findByCompositeIdUserid(String userid);
+
 
 }

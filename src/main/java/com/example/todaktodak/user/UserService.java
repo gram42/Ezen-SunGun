@@ -1,5 +1,6 @@
 package com.example.todaktodak.user;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -10,18 +11,36 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.todaktodak.community.comments.Comments;
+import com.example.todaktodak.community.comments.CommentsRepository;
+import com.example.todaktodak.community.posts.Posts;
+import com.example.todaktodak.record.Record;
+import com.example.todaktodak.community.posts.PostsRepository;
+import com.example.todaktodak.record.RecordRepository;
+
 @Service
 public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
-
     @Autowired
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    // 회원 탈퇴를 위해 연관 기록 찾는 기능 필요
+    private final RecordRepository recordRepository;
+    private final PostsRepository postsRepository;
+    private final CommentsRepository commentsRepository;
+
+    public UserService(UserRepository userRepository, 
+                        PasswordEncoder passwordEncoder, 
+                        RecordRepository recordRepository, 
+                        PostsRepository postsRepository,
+                        CommentsRepository commentsRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.recordRepository = recordRepository;
+        this.postsRepository = postsRepository;
+        this.commentsRepository = commentsRepository;
     }
     
 
@@ -94,6 +113,18 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByUserid(userDTO.getUserid());
 
         if (optionalUser.isPresent()) {
+
+
+            // 회원탈퇴를 위해 유저 관련 정보 삭제
+            // 유저 게시물&게시물에 딸린 댓글 삭제
+            deleteAllPosts(userDTO);
+            
+            // 유저와 댓글 관계 제거
+            setCommentsIsNull(userDTO);
+
+            // 유저 기록 삭제
+            deleteAllRecord(userDTO);
+
             userRepository.delete(optionalUser.get());
             return true;
         } else {
@@ -105,4 +136,29 @@ public class UserService {
         Optional<User> userOpt = userRepository.findByUserid(username);
         return userOpt.orElse(null);
     }
+
+    // 유저의 모든 게시글 삭제
+    public void deleteAllPosts(UserDTO userDTO){
+        List<Posts> posts = postsRepository.findByUserId(userDTO.getId());
+        postsRepository.deleteAll(posts);
+    }
+
+    // 유저의 모든 댓글 관계 제거
+    public void setCommentsIsNull(UserDTO userDTO){
+        List<Comments> comments = commentsRepository.findByUser_Id(userDTO.getId());
+        for (Comments comment : comments) {
+            comment.setUser(null);
+        }
+        commentsRepository.saveAll(comments);
+    }
+    
+    // 유저의 모든 기록 삭제
+    public void deleteAllRecord(UserDTO userDTO){
+        List<Record> records = recordRepository.findByCompositeIdUserid(userDTO.getUserid());
+        recordRepository.deleteAll(records);
+    }
+
 }
+
+
+

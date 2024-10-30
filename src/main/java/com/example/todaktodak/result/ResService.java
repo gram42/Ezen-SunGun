@@ -10,7 +10,7 @@ import com.example.todaktodak.category.CategoriesService;
 @Service
 public class ResService {
 
-    CategoriesService categoriesService;
+    private final CategoriesService categoriesService;
 
     public ResService(CategoriesService categoriesService){
         this.categoriesService = categoriesService;

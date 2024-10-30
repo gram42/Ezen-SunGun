@@ -35,7 +35,7 @@ public class PostsController {
 
     // 유저 ID로 게시글을 가져오는 API (페이지네이션 포함)
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Map<String, Object>> getUserPosts(@PathVariable Long userId, Pageable pageable) {
+    public ResponseEntity<Map<String, Object>> getUserPosts(@PathVariable(name = "userId") Long userId, Pageable pageable) {
         logger.info("유저 ID: {}, 요청된 페이지: {}, 페이지 크기: {}", userId, pageable.getPageNumber(), pageable.getPageSize());
         try {
             Page<Posts> posts = postsService.getPostsByUserId(userId, pageable);
@@ -136,7 +136,7 @@ public ResponseEntity<Map<String, Object>> getAllPosts(Pageable pageable, Princi
 
     // 게시글 조회
     @GetMapping("/{postId}")
-    public ResponseEntity<PostsDTO> getPostById(@PathVariable Long postId) {
+    public ResponseEntity<PostsDTO> getPostById(@PathVariable(name = "postId") Long postId) {
         Posts post = postsService.getPostById(postId);
         if (post == null) {
             Map<String, Object> errorResponse = new HashMap<>();
@@ -158,7 +158,7 @@ public ResponseEntity<Map<String, Object>> getAllPosts(Pageable pageable, Princi
 
     // 게시글 수정
     @PutMapping("/{postId}")
-    public ResponseEntity<PostsDTO> updatePost(@PathVariable Long postId, @RequestBody PostsDTO postDTO) {
+    public ResponseEntity<PostsDTO> updatePost(@PathVariable(name = "postId") Long postId, @RequestBody PostsDTO postDTO) {
         Posts updatedPost = postsService.updatePost(postId, postDTO);
         if (updatedPost == null) {
             Map<String, Object> errorResponse = new HashMap<>();
@@ -177,21 +177,21 @@ public ResponseEntity<Map<String, Object>> getAllPosts(Pageable pageable, Princi
 
     // 게시글 삭제
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+    public ResponseEntity<Void> deletePost(@PathVariable(name = "postId") Long postId) {
         postsService.deletePost(postId);
         return ResponseEntity.noContent().build();
     }
 
     // 게시글에 대한 댓글 조회
     @GetMapping("/{postId}/comments")
-    public ResponseEntity<List<CommentsDTO>> getCommentsByPostId(@PathVariable Long postId) {
+    public ResponseEntity<List<CommentsDTO>> getCommentsByPostId(@PathVariable(name = "postId") Long postId) {
         List<CommentsDTO> commentDTOs = commentsService.getCommentsByPostId(postId);
         return ResponseEntity.ok(commentDTOs);
     }
 
     // 댓글 추가
     @PostMapping("/{postId}/comments")
-    public ResponseEntity<CommentsDTO> addComment(@PathVariable Long postId, @RequestBody CommentsDTO commentDTO, Principal principal) {
+    public ResponseEntity<CommentsDTO> addComment(@PathVariable(name = "postId") Long postId, @RequestBody CommentsDTO commentDTO, Principal principal) {
         if (principal == null) {
             // 로그인하지 않은 사용자
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
