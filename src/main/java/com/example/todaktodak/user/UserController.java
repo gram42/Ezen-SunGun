@@ -72,7 +72,8 @@ public ResponseEntity<User> getCurrentUser(Principal principal) {
 
 
     @GetMapping("/check-userid")
-    public ResponseEntity<Boolean> checkUserid(@RequestParam String userid) {
+    public ResponseEntity<Boolean> checkUserid(@RequestParam(name = "userid") String userid) {
+        System.out.println(userid);
         boolean isAvailable = userService.isUseridAvailable(userid);
         return ResponseEntity.ok(isAvailable); // 사용자 ID 가용성 체크
     }
