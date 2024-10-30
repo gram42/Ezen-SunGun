@@ -46,10 +46,8 @@ public class RecordService {
             return userRecords;
         } 
         else{
-
             createNewRecord(userid, recordedDate);
             return recordRepository.findByCompositeIdUseridAndCompositeIdRecordedDate(userid, recordedDate);
-            
         }
 
     }
@@ -130,8 +128,8 @@ public class RecordService {
 
                 // 카테고리별 배열 초기화 (0으로 채운 배열) - 이 부분 다시 공부
                 // putIfAbsent - 만약 categoryName이 없으면 다음 내용추가
-                // MONTHS 수만큼의 인덱스를 0으로 설정
-                // 즉, categoryName이 없다면 categoryName을 키로 잡고 값은 MONTH개의 인덱스를(0 ~ 11) 값 0으로 할당
+                // DAYS 수만큼의 인덱스를 0으로 설정
+                // 즉, categoryName이 없다면 categoryName을 키로 잡고 값은 DAYS개의 인덱스를(0 ~ 7) 값 0으로 할당
                 categoryPoints.putIfAbsent(categoryName, new ArrayList<>(Collections.nCopies(DAYS, 0)));
 
                 categoryPoints.get(categoryName).set(dayIndex, point);
@@ -190,24 +188,24 @@ public class RecordService {
 
     }
 
-        // 주간 전체 포인트 데이터 연산 메소드
-        public Integer getTotalPointsByDays(String userid) {
+    // 주간 전체 포인트 데이터 연산 메소드
+    public Integer getTotalPointsByDays(String userid) {
 
 
-            List<Record> recordsByDays = getRecordByDays(userid, DAYS - 1);
-        
-            int totalPoint = 0;
-        
-            for (Record record : recordsByDays) {
-                totalPoint += record.getPoint();
-            }
-        
-            if (recordsByDays.isEmpty() || totalPoint == 0) {
-                return null;
-            }
-        
-            return totalPoint;
+        List<Record> recordsByDays = getRecordByDays(userid, DAYS - 1);
+    
+        int totalPoint = 0;
+    
+        for (Record record : recordsByDays) {
+            totalPoint += record.getPoint();
         }
+    
+        if (recordsByDays.isEmpty() || totalPoint == 0) {
+            return null;
+        }
+    
+        return totalPoint;
+    }
 
     // 오늘 기준 N주차 전까지 기록 찾는 메소드
     public List<Record> getRecordByDays(String userid, int days){
