@@ -84,6 +84,16 @@ public class UserService {
         return result.orElse(null);
     }
 
+    // 닉네임으로 유저 찾기
+    public boolean getUserByUserName(String userName){
+
+        User user = userRepository.findByUserName(userName);
+        if (user == null) {
+            return false;
+        }
+        return true;
+    }
+
     public void editUserInfo(UserDTO userDTO) {
         String password = getUserByUserid(userDTO.getUserid()).getPassword();
         String finalPassword;

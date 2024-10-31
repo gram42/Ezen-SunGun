@@ -34,11 +34,13 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // 회원가입 페이지
     @GetMapping("/register")
     public String user() {
-        return "/user/register"; // 사용자 등록 페이지 반환
+        return "/user/register";
     }
 
+    // 로그인 페이지
     @GetMapping("/login")
     public String login(Authentication authentication) {
 
@@ -62,6 +64,7 @@ public class UserController {
         return "redirect:/user/login"; // 로그인 필요 시 로그인 페이지로 리다이렉트
     }
 
+    // 현재 이용중인 사용자 정보 불러오기
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser(Principal principal) {
         if (principal == null) {
@@ -71,15 +74,27 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-
-
+    // 유저 아이디 중복 체크
     @PostMapping("/check-userid")
     public ResponseEntity<Boolean> checkUserid(@RequestBody UserDTO userDTO) {
-        System.out.println(userDTO.getUserid());
         boolean isAvailable = userService.isUseridAvailable(userDTO.getUserid());
         return ResponseEntity.ok(isAvailable); // 사용자 ID 가용성 체크
     }
 
+    // 유저 닉네임 중복 체크
+    @PostMapping("/chkNicknm")
+    public ResponseEntity<Boolean> chkUserName(@RequestBody UserDTO userDTO) {
+
+        boolean userExist = userService.getUserByUserName(userDTO.getUserName());
+        if(userExist){
+            return ResponseEntity.status(200).body(userExist);
+        }
+        
+        return ResponseEntity.status(200).body(userExist);
+    }
+    
+
+    // 회원가입
     @PostMapping("/join")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
         try {
@@ -95,6 +110,7 @@ public class UserController {
         }
     }
 
+    // 비밀번호 확인
     @PostMapping("/checkPassword")
     public ResponseEntity<String> checkPassword(@RequestBody UserDTO userDTO, Model model) {
 
@@ -130,6 +146,7 @@ public class UserController {
         return "/user/editInfo"; // 사용자 정보 수정 페이지 반환
     }
 
+    // 개인정보 수정
     @PostMapping("/retouch")
     public String retouch(@ModelAttribute UserDTO userDTO) {
         userService.editUserInfo(userDTO); // 사용자 정보 수정
