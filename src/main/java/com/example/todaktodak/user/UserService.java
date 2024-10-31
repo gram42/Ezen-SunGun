@@ -120,7 +120,7 @@ public class UserService {
             deleteAllPosts(userDTO);
             
             // 유저와 댓글 관계 제거
-            setCommentsIsNull(userDTO);
+            setCmtsRelationshipIsNull(userDTO);
 
             // 유저 기록 삭제
             deleteAllRecord(userDTO);
@@ -144,7 +144,7 @@ public class UserService {
     }
 
     // 유저의 모든 댓글 관계 제거
-    public void setCommentsIsNull(UserDTO userDTO){
+    public void setCmtsRelationshipIsNull(UserDTO userDTO){
         List<Comments> comments = commentsRepository.findByUser_Id(userDTO.getId());
         for (Comments comment : comments) {
             comment.setUser(null);

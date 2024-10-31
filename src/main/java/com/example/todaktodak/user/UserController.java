@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,39 +43,40 @@ public class UserController {
     public String login(Authentication authentication) {
 
         if ((authentication != null) && (authentication.isAuthenticated())) {
-            return "redirect:/ui/index";
+            return "redirect:/ui/index"; // 로그인 후 다시 로그인 요청하면 메인페이지 리다이렉트
         }
         return "/user/login"; // 로그인 페이지 반환
     }
 
-    @GetMapping("/mypage")
-    public String mypage(Authentication authentication, Model model) {
+    // 개인정보 페이지
+    @GetMapping("/userInfo")
+    public String userInfo(Authentication authentication, Model model) {
         User user = null;
         if((authentication != null) && (authentication.isAuthenticated())){
             user = userService.getCurrentUser();
         }
         if (user != null) {
             model.addAttribute("user", user);
-            return "/user/mypage"; // 마이페이지 반환
+            return "/user/userInfo"; // 개인정보 페이지 반환
         }
         return "redirect:/user/login"; // 로그인 필요 시 로그인 페이지로 리다이렉트
     }
 
-@GetMapping("/current")
-public ResponseEntity<User> getCurrentUser(Principal principal) {
-    if (principal == null) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        User user = userService.findByUsername(principal.getName());
+        return ResponseEntity.ok(user);
     }
-    User user = userService.findByUsername(principal.getName());
-    return ResponseEntity.ok(user);
-}
 
 
 
-    @GetMapping("/check-userid")
-    public ResponseEntity<Boolean> checkUserid(@RequestParam(name = "userid") String userid) {
-        System.out.println(userid);
-        boolean isAvailable = userService.isUseridAvailable(userid);
+    @PostMapping("/check-userid")
+    public ResponseEntity<Boolean> checkUserid(@RequestBody UserDTO userDTO) {
+        System.out.println(userDTO.getUserid());
+        boolean isAvailable = userService.isUseridAvailable(userDTO.getUserid());
         return ResponseEntity.ok(isAvailable); // 사용자 ID 가용성 체크
     }
 
@@ -114,6 +114,7 @@ public ResponseEntity<User> getCurrentUser(Principal principal) {
         }
     }
 
+    // 개인정보 수정 페이지
     @GetMapping("/editInfo")
     public String editInfo(Authentication authentication, Model model) {
 
@@ -132,7 +133,7 @@ public ResponseEntity<User> getCurrentUser(Principal principal) {
     @PostMapping("/retouch")
     public String retouch(@ModelAttribute UserDTO userDTO) {
         userService.editUserInfo(userDTO); // 사용자 정보 수정
-        return "redirect:/user/mypage"; // 수정 후 마이페이지로 리다이렉트
+        return "redirect:/user/userInfo"; // 수정 후 개인 정보 페이지로 리다이렉트
     }
 
     // 탈퇴 후 세션, 쿠키 정리

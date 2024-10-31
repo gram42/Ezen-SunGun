@@ -3,9 +3,23 @@
     position: relative;
     display: flex;
     width: calc(100% - 40px);
-    padding: 10px 20px;
+    padding: 0px 20px;
+    padding-left: 0;
+    margin-bottom: 0;
     justify-content: space-between;
     margin-bottom: 80px;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    left: 0;
+    margin-right: auto;
+}
+
+#logo-img {
+    height: 50px;
+    width: 200px;
 }
 
 .global-nav .menu {
@@ -14,14 +28,14 @@
     margin-left: auto;
 }
 
-.global-nav a {
+.global-nav .link {
     color: #333;
     text-decoration: none;
     margin: 0 10px;
-    padding: 5px 10px;
+    padding: 15px 20px;
 }
 
-.global-nav a:hover {
+.global-nav .link:hover {
     background-color: #0000001f;
 }
 
@@ -51,7 +65,7 @@
     left: 20px;
 }
 
-.side-nav a {
+.side-nav .link {
     display: block;
     color: #333;
     padding: 10px 20px;
@@ -59,6 +73,25 @@
     white-space: nowrap;
 }
 
-.side-nav a:hover {
+.side-nav .link:hover {
     background-color: #ddd;
+}
+
+
+.logout-form {
+    display: inline;
+}
+
+.logout-form .link {
+    background: none;
+    border: none;
+    color: #333;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+.logout-form button.link:hover {
+    background-color: #0000001f;
 }

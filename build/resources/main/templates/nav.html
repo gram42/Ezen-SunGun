@@ -1,24 +1,28 @@
 
 <nav class="global-nav" th:fragment="top-nav">
 
-    <a class="logo" href="/ui/index">SUN</a>
+    <a id="logo" href="/ui/index">
+        <img id="logo-img" src="/img/1727768908340_7130.jpg" alt="Logo">
+    </a>
 
     <div class="menu">
 
         <span sec:authorize="isAnonymous">
-            <a href="/user/login">로그인</a>
-            <a href="/user/register">회원가입</a>
+            <a class="link" href="/user/login">로그인</a>
+            <a class="link" href="/user/register">회원가입</a>
         </span>
         
         <span sec:authorize="isAuthenticated">
-            <a href="/user/logout">로그아웃</a>
+            <form action="/user/logout" method="post" class="logout-form">
+                <button id="logout" type="submit" class="link">로그아웃</button>
+            </form>
         </span>
         
-        <a id="personalMenuBtn" href="#">개인메뉴</a>
+        <a class="link" id="personalMenuBtn" href="#">개인메뉴</a>
         <div class="personalMenu">
             
-            <a href="/mypage2">마이페이지</a>
-            <a href="/user/mypage">개인 정보 수정</a>
+            <a class="link" href="/mypage">마이페이지</a>
+            <a class="link" href="/user/userInfo">개인 정보 수정</a>
             
         </div>
 
@@ -28,8 +32,8 @@
 
 <nav class="side-nav" th:fragment="side-nav">
     
-    <a href="#">이용 안내</a>
-    <a href="/record">일일 활동 기록</a>
-    <a href="/community/community">게시판</a>
+    <a class="link" href="#">이용 안내</a>
+    <a class="link" href="/record">일일 활동 기록</a>
+    <a class="link" href="/community/community">게시판</a>
 
 </nav>

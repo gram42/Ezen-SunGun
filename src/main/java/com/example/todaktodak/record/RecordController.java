@@ -97,8 +97,8 @@ public class RecordController {
     }
 
     // 마이페이지 접속 - 포인트 값 리턴, 기본 접속 - 카테고리별 포인트 전부 리턴
-    @GetMapping("/mypage2")
-    public String mypage2(Authentication authentication, Model model) {
+    @GetMapping("/mypage")
+    public String mypage(Authentication authentication, Model model) {
 
         if((authentication != null) && (authentication.isAuthenticated())){
 
