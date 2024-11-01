@@ -141,10 +141,10 @@
 
     // 제출 할 json 목록(아이디, 비번, 이메일, 닉네임, 선택(성별, 생년월일))
     let regSubJson = {
-        userid: $userid.value,
-        password: $pw.value,
-        // email: $email.value,
-        userName: $nicknm.value
+        userid: '',
+        password: '',
+        // email: '',
+        userName: ''
     }
 
     // 최종 확인
@@ -186,6 +186,7 @@
                     $useridChkRes.textContent = "사용 중인 아이디입니다."
                     $useridChkRes.style.color = "red";
                     $useridChkRes.style.display = "block";
+                    $userid.focus();
                     useridDuplChk = false;
                 }
             })
@@ -274,7 +275,12 @@
             .then(response=>{return response.text()})
             .then(message =>{
                 if (message === "register Success"){
-                    location.href = "/ui/main";
+                    if(confirm("회원가입 성공 관심 분야를 선택해보세요")){
+                        location.href = "/ui/main";
+                    }
+                    else{
+                        location.href = "/ui/main";
+                    }
                 } else {
                     alert("회원가입 중 오류가 발생했습니다.\n 다시 시도해주십시오.")
                 }

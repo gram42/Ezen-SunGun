@@ -110,6 +110,7 @@
     // 현재 값과 중복 확인 값 비교용
     let lastChkUserid = "";
     let lastChkNicknm = "";
+    let lastChkEmail = "";
 
     // 아이디 중복, 공백, 형식 확인, 변경 확인
     let useridDuplChk = false;
@@ -122,14 +123,15 @@
     let pwFormChk = false;
     let pwSpaceChk = false
 
-    // 닉네임 길이, 공백, 중복 확인
+    // 닉네임 길이, 공백, 중복 확인, 변경 확인
     let nicknmLenChk = false;
     let nicknmSpaceChk = false;
     let nicknmDuplChk = false;
     let nicknmChngChk = false;
     
-    // 이메일    
+    // 이메일 인증 확인, 변경 확인
     let emailAuthChk = false;
+    let emailChngChk = false
 
     // 성별 유무
     let genderExist = false;
@@ -418,7 +420,7 @@
 
         if (lastChkUserid === userid){return true;}
 
-        $useridChkRes.textContent = "아이디를 다시 확인해주세요";
+        $useridChkRes.textContent = "아이디를 다시 중복 확인해주세요";
         $useridChkRes.style.color = "red";
         $useridChkRes.style.display = "block";
         $userid.focus()
@@ -432,7 +434,7 @@
 
         if(lastChkNicknm === nicknm){return true}
 
-        $nicknmChkRes.textContent = "닉네임을 다시 확인해주세요"
+        $nicknmChkRes.textContent = "닉네임을 다시 중복 확인해주세요"
         $nicknmChkRes.style.color = "red";
         $nicknmChkRes.style.display = "block";
         $nicknm.focus()
