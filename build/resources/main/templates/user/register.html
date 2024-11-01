@@ -26,16 +26,13 @@
 </head>
 <body>
     <!-- 
+    이메일 - 형식검사, 인증번호 메일로 보내기(인증번호 or 인증 링크 - 인증링크는 인증 후 이메일 변경 못하게 해야함)(-)
 
-    아이디 중복확인 후 내용 변동이 있을 시 재 중복확인하도록 변경해야함(-)
-    
-    이메일 - 형식검사, 인증번호 메일로 보내기(-)
-    
     이메일 인증번호 확인(-)
-    
+
     성별 - null 가능(-)
-    
-    생년월일 - 데이터타입 date, null 가능(-) 
+
+    생년월일 - 데이터타입 date, null 가능(-)
     -->
 
     <nav th:replace="~{nav.html::top-nav}"></nav>
@@ -78,15 +75,24 @@
             <button id="nicknmDuplChkBtn" type="button">닉네임 중복확인</button>
         </div>
         
-        <!-- <div class="inputShape">
-            <label for="inputGender">성별</label>
-            <input id="inputGender" type="text">
-        </div> -->
+        <div class="inputShape">
+
+            <label>성별</label>
+            <label for="genderMale">남</label>
+            <input id="genderMale" type="radio" name="gender" value="male">
+
+            <label for="genderFemale">여</label>
+            <input id="genderFemale" type="radio" name="gender" value="female">
+
+            <label for="genderOther">선택안함</label>
+            <input id="genderOther" type="radio" name="gender" value="other">
+
+        </div>
         
-        <!-- <div class="inputShape">
+        <div class="inputShape">
             <label for="inputBirthDate">생년월일</label>
             <input id="inputBirthDate" type="date">
-        </div> -->
+        </div>
 
         <span id="guide">표시는 필수 입력 사항입니다</span>
         <button id="registerBtn" type="button">회원가입</button>
