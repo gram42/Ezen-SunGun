@@ -49,7 +49,10 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return findByUsername(userDetails.getUsername());
+            User user = findByUsername(userDetails.getUsername());
+            user.setPassword("");
+            return user;
+            
         }
         return null; // 현재 사용자가 없을 경우 null 반환
     }
@@ -59,12 +62,6 @@ public class UserService {
     }
 
     public void registerUser(UserDTO userDTO) {
-
-        // 이메일 형식 검사
-        // String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        // if (!Pattern.matches(emailRegex, userDTO.getEmail())) {
-        //     throw new IllegalArgumentException("유효하지 않은 이메일 형식입니다.");
-        // }
 
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(encodedPassword);

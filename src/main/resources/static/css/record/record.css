@@ -2,10 +2,6 @@
     display: none;
 }
 
-.record-container {
-    display: flex;
-}
-
 #inputDate {
     margin-bottom: 20px;
 }

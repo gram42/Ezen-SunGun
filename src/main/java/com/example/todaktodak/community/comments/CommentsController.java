@@ -127,18 +127,22 @@ public class CommentsController {
 
 // 게시글 ID로 댓글 조회
 @GetMapping("/post/{postId}")
-public ResponseEntity<List<CommentsDTO>> getCommentsByPostId(@PathVariable Long postId, Pageable pageable) {
+public ResponseEntity<Map<String, Object>> getCommentsByPostId(@PathVariable Long postId, Pageable pageable) {
     System.out.println("Received request for comments of post ID: " + postId);
     logger.info("Received request for comments of post ID: {}", postId);
     try {
         // 페이지네이션된 댓글 조회
         Page<CommentsDTO> commentsPage = commentsService.getCommentsByPostId(postId, pageable);
+        Map<String, Object> response = new HashMap<>();
+        response.put("comments", commentsPage.getContent()); // 댓글 목록
+        response.put("total", commentsPage.getTotalElements()); // 총 댓글 수
+        
         if (commentsPage.isEmpty()) {
             logger.warn("No comments found for post ID: {}", postId);
             System.out.println("No comments found for post ID: " + postId);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of()); // 빈 리스트 반환
         }
-        return ResponseEntity.ok(commentsPage.getContent()); // 댓글 목록 반환
+        
+        return ResponseEntity.ok(response); // 댓글 목록과 총 수를 포함하여 반환
     } catch (Exception e) {
         logger.error("Error occurred while fetching comments for post ID: {}, Error: {}", postId, e.getMessage(), e);
         System.err.println("Error occurred while fetching comments for post ID: " + postId + ", Error: " + e.getMessage());

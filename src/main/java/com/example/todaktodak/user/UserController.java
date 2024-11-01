@@ -103,7 +103,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 사용 중인 ID입니다.");
             }
             userService.registerUser(userDTO); // 사용자 등록
-            return ResponseEntity.ok("회원가입에 성공하였습니다.");
+            return ResponseEntity.status(200).body("register Success");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
