@@ -18,6 +18,7 @@ async function loadPosts(page = 1) {
         const data = await response.json();
         const posts = data.content || [];
         totalPosts = data.totalElements;
+        
 
         // 로드된 게시물 업데이트
         loadedPosts = posts;
@@ -38,7 +39,7 @@ async function loadPosts(page = 1) {
 
             // 게시글 제목
             const title = document.createElement('h3');
-            title.textContent = post.title;
+            title.textContent = post.title.length > 10 ? post.title.substring(0, 10) + '...' : post.title;
 
             // 게시물 박스 클릭 시 상세보기로 이동
             postDiv.addEventListener('click', () => {
@@ -48,7 +49,7 @@ async function loadPosts(page = 1) {
 
             // 게시글 내용 미리보기
             const preview = document.createElement('p');
-            preview.textContent = post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content;
+            preview.textContent = post.content.length > 20 ? post.content.substring(0, 20) + '...' : post.content;
 
             // 댓글 수 표시
             const postInfo = document.createElement('div');
@@ -98,7 +99,8 @@ function updatePagination() {
     // 첫 번째 섹션일 경우 이전 섹션 버튼을 보이게 하되, 첫 페이지일 경우에는 숨기기
     prevSectionButton.style.display = (isFirstSection && currentPage === 1) ? 'none' : 'inline-block';
 
-    prevSectionButton.onclick = () => {
+    prevSectionButton.onclick = (event) => {
+        event.preventDefault();
         const prevSectionLastPage = Math.max(1, Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection); // 이전 섹션의 마지막 페이지
         currentPage = prevSectionLastPage; // 이전 섹션의 마지막 페이지로 이동
         loadPosts(currentPage);
@@ -110,7 +112,8 @@ function updatePagination() {
     // 이전 페이지 버튼
     const prevButton = document.getElementById('prevButton');
     prevButton.style.display = currentPage > 1 ? 'inline-block' : 'none';
-    prevButton.onclick = () => {
+    prevButton.onclick = (event) => {
+        event.preventDefault();
         if (currentPage > 1) {
             currentPage--;
             console.log("Current Page:", currentPage);
@@ -138,7 +141,8 @@ function updatePagination() {
     // 다음 페이지 버튼
     const nextButton = document.getElementById('nextButton');
     nextButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
-    nextButton.onclick = () => {
+    nextButton.onclick = (event) => {
+        event.preventDefault();
         if (currentPage < totalPages) {
             currentPage++;
             loadPosts(currentPage);
@@ -147,7 +151,8 @@ function updatePagination() {
     // 다음 섹션 버튼
     const nextSectionButton = document.getElementById('nextSectionButton');
     nextSectionButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
-    nextSectionButton.onclick = () => {
+    nextSectionButton.onclick = (event) => {
+        event.preventDefault();
         const nextSectionFirstPage = Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection + pagesPerSection + 1; // 현재 섹션의 마지막 페이지 +1
         console.log("Next Section First Page:", nextSectionFirstPage);
 
@@ -173,6 +178,7 @@ if (!response.ok) {
 }
 const data = await response.json();
 
+// 상세 화면 데이터 업데이트
 document.getElementById('postTitle').textContent = `제목: ${data.title}`;
 document.getElementById('postContent').textContent = `상세내용: ${data.content}`;
 document.getElementById('userName').textContent = data.userName; // 작성자 이름 업데이트
@@ -195,15 +201,24 @@ if (!currentUserData) {
     }
 }
 
-document.getElementById('postDetail').style.display = 'block';
-document.getElementById('postsList').style.display = 'none';
-document.querySelector('.question-box').style.display = 'none';
-document.getElementById('writeBox').style.display = 'none';
-loadComments(postId);
-document.getElementById('pagination').style.display = 'none';
+ // 상세 화면을 표시하고 목록 화면을 숨기기
+ document.getElementById('postDetail').style.display = 'block';
+ document.getElementById('postsList').style.display = 'none';
+
+ // question-box, 검색창, 페이지네이션 등 숨기기
+ document.querySelector('.question-box').style.display = 'none';
+ document.getElementById('writeBox').style.display = 'none';
+ document.getElementById('pagination').style.display = 'none';
+ const searchContainer = document.getElementById('searchContainer'); 
+ if (searchContainer) {
+     searchContainer.style.display = 'none';
+ }
+
+ // 댓글 로드
+ loadComments(postId);
 } catch (error) {
-document.getElementById('errorMessage').textContent = "게시글 상세 정보를 불러오는 데 실패했습니다.";
-console.error("게시글 상세 정보를 불러오는 데 실패했습니다.", error);
+ document.getElementById('errorMessage').textContent = "게시글 상세 정보를 불러오는 데 실패했습니다.";
+ console.error("게시글 상세 정보를 불러오는 데 실패했습니다.", error);
 }
 }
 
@@ -248,6 +263,11 @@ try {
     loadPosts(currentPage); // 커뮤니티 게시물 로드
     document.querySelector('.question-box').style.display = 'block'; // 질문 박스 보여주기
     document.getElementById('writeBox').style.display = 'block'; // 글쓰기 박스 보여주기
+     // 검색 기능 보이기
+     const searchContainer = document.getElementById('searchContainer');
+     if (searchContainer) {
+         searchContainer.style.display = 'block'; // 삭제 후 검색 컨테이너를 보이게 설정
+     }
 } catch (error) {
     document.getElementById('errorMessage').textContent = "게시물 삭제에 실패했습니다.";
     console.error("게시물 삭제에 실패했습니다.", error);
@@ -453,12 +473,320 @@ window.onload = () => {
     loadPosts(currentPage);
 };
 
+
+
+
+// 페이지 로드 시 URL 쿼리 파라미터 확인
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const search = urlParams.get('search');
+    const criteria = urlParams.get('criteria');
+    const page = urlParams.get('page') || 1;
+
+    if (search && criteria) {
+        document.getElementById('searchInput').value = search;
+        document.getElementById('dropdownButton').textContent = criteria === 'title' ? '제목으로 검색 ▼' : criteria === 'author' ? '작성자로 검색 ▼' : '댓글 내용으로 검색 ▼';
+        searchPosts(page); // 수정된 부분: 검색 상태 유지
+    } else {
+        loadPosts(page); // 검색어가 없으면 기본 게시물 로드
+    }
+};
+
+// 커뮤니티 페이지로 이동하는 함수
+function goToCommunityPage() {
+    window.history.pushState(null, '', '/community/community'); // 커뮤니티 페이지 URL로 이동
+    loadPosts(1); // 첫 페이지의 게시물 로드
+}
+
+// '뒤로가기' 버튼 이벤트 처리
+document.getElementById('backButton').addEventListener('click', goToCommunityPage);
+
+// popstate 이벤트 처리
+window.onpopstate = function(event) {
+    loadPosts(1); // 이전 상태가 활성화되었을 때 첫 페이지 로드
+};
+
+// 드롭다운 토글 함수
+function toggleDropdown(event) {
+    event.stopPropagation();
+    const searchOptions = document.getElementById("searchOptions");
+    searchOptions.style.display = searchOptions.style.display === "block" ? "none" : "block";
+}
+
+// 드롭다운에서 검색 기준 선택
+function selectSearchCriteria(criteria) {
+    const dropdownButton = document.getElementById("dropdownButton");
+    const searchOptions = document.getElementById("searchOptions");
+
+    const criteriaText = {
+        title: "제목으로 검색 ▼",
+        author: "작성자로 검색 ▼",
+        comment: "댓글 내용으로 검색 ▼"
+    };
+
+    dropdownButton.textContent = criteriaText[criteria] || criteriaText.comment;
+    searchOptions.style.display = "none";
+}
+
+// 검색 버튼 클릭 시 게시물 검색
+document.getElementById('searchButton').addEventListener('click', () => searchPosts(1)); // 첫 페이지부터 검색 시작
+// 검색창에서 Enter 키를 눌렀을 때 검색 버튼 클릭 동작 실행
+document.getElementById('searchInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // 기본 Enter 동작 방지
+        document.getElementById('searchButton').click(); // 검색 버튼 클릭 동작 실행
+    }
+});
+
+// 게시물 검색
+async function searchPosts(page) {
+    const searchInput = document.getElementById('searchInput').value.trim();
+    const dropdownButton = document.getElementById('dropdownButton');
+    
+    const criteriaMap = {
+        "제목으로 검색 ▼": 'title',
+        "작성자로 검색 ▼": 'author',
+        "댓글 내용으로 검색 ▼": 'comment'
+    };
+
+    const searchCriteria = criteriaMap[dropdownButton.textContent] || '';
+
+    if (!searchInput) {
+        document.getElementById('postsList').innerHTML = "";
+        currentPage = 1;
+        loadPosts(currentPage);
+        return;
+    }
+
+    const queryParameters = new URLSearchParams({
+        [searchCriteria]: searchInput,
+        page: page - 1,
+        size: 4
+    });
+
+    // URL 업데이트
+    window.history.pushState(null, '', `/community/community?${queryParameters.toString()}`);
+
+    try {
+        const requestURL = `/posts/search?${queryParameters.toString()}`;
+        const response = await fetch(requestURL);
+        
+        if (!response.ok) {
+            throw new Error("서버 오류 발생");
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data.content)) {
+            displaySearchResults(data.content, data.totalElements, page);
+        } else {
+            console.error("검색 결과가 배열이 아닙니다:", data);
+            displaySearchResults([], 0, page);
+        }
+
+    } catch (error) {
+        console.error("검색 중 오류 발생:", error);
+        document.getElementById('errorMessage').textContent = "검색 중 오류가 발생했습니다. 다시 시도해 주세요.";
+    }
+}
+
+// 검색 결과 게시물 표시 및 페이지네이션 생성
+function displaySearchResults(posts, totalPosts, currentPage) {
+    const postsContainer = document.getElementById("postsList");
+    postsContainer.innerHTML = "";
+
+    if (!Array.isArray(posts) || posts.length === 0) {
+        const noResultsMessage = document.createElement("p");
+        noResultsMessage.textContent = "검색 결과가 없습니다.";
+        postsContainer.appendChild(noResultsMessage);
+        return;
+    }
+
+    posts.forEach(post => {
+        if (!post.postId) {
+            console.error("게시물 ID가 정의되지 않았습니다:", post);
+            return;
+        }
+
+        const postElement = document.createElement("div");
+        postElement.className = "post";
+
+        const postTitle = document.createElement("h3");
+        postTitle.textContent = post.title;
+        postElement.appendChild(postTitle);
+
+        const postContent = document.createElement("p");
+        postContent.textContent = post.content;
+        postElement.appendChild(postContent);
+
+        const commentCount = document.createElement("span");
+        commentCount.className = "comment-count";
+        commentCount.textContent = `댓글 수: ${post.commentCount || 0}`;
+        postElement.appendChild(commentCount);
+
+        const userName = document.createElement("span");
+        userName.className = "user-name";
+        userName.textContent = `작성자: ${post.userName || "작성자 정보 없음"}`;
+        postElement.appendChild(userName);
+
+        postElement.style.cursor = "pointer";
+        postElement.addEventListener("click", () => {
+            loadPostDetail(post.postId);
+        });
+
+        postsContainer.appendChild(postElement);
+    });
+
+    // 페이지네이션 생성
+    displaySearchPagination(totalPosts, currentPage);
+}
+
+// 페이지네이션 요소 생성
+function displaySearchPagination(totalPosts, currentPage) {
+    const pagination = document.getElementById('pagination');
+    const pageNumbers = document.getElementById('pageNumbers');
+    pageNumbers.innerHTML = '';
+    const totalPages = Math.ceil(totalPosts / 4);
+    const pagesPerSection = 5;
+
+    // 이전 섹션 버튼
+    const prevSectionButton = document.getElementById('prevSectionButton');
+    const isFirstSection = Math.floor((currentPage - 1) / pagesPerSection) === 0;
+    prevSectionButton.style.display = (isFirstSection && currentPage === 1) ? 'none' : 'inline-block';
+    prevSectionButton.onclick = (event) => {
+        event.preventDefault();
+        const prevSectionLastPage = Math.max(1, Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection);
+        searchPosts(prevSectionLastPage);
+    };
+
+    // 이전 페이지 버튼
+    const prevButton = document.getElementById('prevButton');
+    prevButton.style.display = currentPage > 1 ? 'inline-block' : 'none';
+    prevButton.onclick = (event) => {
+        event.preventDefault();
+        if (currentPage > 1) {
+            searchPosts(currentPage - 1);
+        }
+    };
+
+    // 페이지 번호 버튼들
+    const startPage = Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection + 1;
+    const endPage = Math.min(startPage + pagesPerSection - 1, totalPages);
+    for (let i = startPage; i <= endPage; i++) {
+        const pageSpan = document.createElement('a');
+        pageSpan.textContent = i;
+        pageSpan.className = 'pagination-button';
+        if (i === currentPage) {
+            pageSpan.classList.add('active');
+        }
+        pageSpan.onclick = () => {
+            searchPosts(i);
+        };
+        pageNumbers.appendChild(pageSpan);
+    }
+
+    // 다음 페이지 버튼
+    const nextButton = document.getElementById('nextButton');
+    nextButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
+    nextButton.onclick = (event) => {
+        event.preventDefault();
+        if (currentPage < totalPages) {
+            searchPosts(currentPage + 1);
+        }
+    };
+
+    // 다음 섹션 버튼
+    const nextSectionButton = document.getElementById('nextSectionButton');
+    nextSectionButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
+    nextSectionButton.onclick = (event) => {
+        event.preventDefault();
+        const nextSectionFirstPage = Math.min(Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection + pagesPerSection + 1, totalPages);
+        searchPosts(nextSectionFirstPage);
+    };
+
+    pagination.style.display = totalPages > 1 ? 'flex' : 'none';
+}
+
+// 드롭다운 클릭 이벤트가 문서 상에서 다른 요소에 의해 닫히지 않도록
+document.addEventListener('click', function(event) {
+    const searchOptions = document.getElementById("searchOptions");
+    if (!searchOptions.contains(event.target) && event.target.id !== "dropdownButton") {
+        searchOptions.style.display = "none";
+    }
+});
+
+document.getElementById('dropdownButton').addEventListener('click', toggleDropdown);
+
+document.querySelectorAll('.dropdown-content div').forEach(option => {
+    option.addEventListener('click', function() {
+        selectSearchCriteria(this.getAttribute('data-criteria'));
+    });
+});
+
+
+
+
 // 뒤로가기 버튼 클릭 이벤트
 document.getElementById('backButton').addEventListener('click', () => {
-document.getElementById('postDetail').style.display = 'none'; // 게시글 상세 내용 숨김
-document.getElementById('postsList').style.display = 'block'; // 게시글 목록 표시
-loadPosts(currentPage); // 현재 페이지의 게시글 목록 다시 로드
+    document.getElementById('postDetail').style.display = 'none';
+    document.getElementById('postsList').style.display = 'block';
+    loadPosts(currentPage);
+
+    const searchContainer = document.getElementById('searchContainer');
+    if (searchContainer) {
+        searchContainer.style.display = 'block';
+    }
 });
+// 브라우저의 뒤로가기 버튼 클릭 이벤트
+window.addEventListener('popstate', (event) => {
+    const postDetail = document.getElementById('postDetail');
+    const postsList = document.getElementById('postsList');
+    const searchContainer = document.getElementById('searchContainer');
+    const questionBox = document.querySelector('.question-box');
+    const communityText = document.querySelector('.community-text'); 
+
+    if (event.state && event.state.page) {
+        currentPage = event.state.page; // 상태에서 페이지 번호 가져오기
+        loadPosts(currentPage); // 해당 페이지의 게시물 로드
+    } else {
+
+    if (postDetail && postsList) {
+        postDetail.style.display = 'none'; // 상세 화면 숨기기
+        postsList.style.display = 'block'; // 게시글 목록 화면 표시
+        loadPosts(currentPage); // 현재 페이지의 게시글 목록 다시 로드
+    }
+    
+    // 숨긴 요소들 표시
+    if (searchContainer) {
+        searchContainer.style.display = 'block'; // 검색창 표시
+    }
+    if (questionBox) {
+        questionBox.style.display = 'block';
+    }
+    if (communityText) {
+        communityText.style.display = 'block';
+    }}
+});
+// 로그인 상태 확인하는 함수
+async function checkLoginStatus() {
+    try {
+        const response = await fetch('/user/current');
+        if (response.ok) {
+            // 로그인 상태 확인 (예: 화면에 메시지 표시 또는 사용자 정보 숨기기)
+            console.log("User is logged in"); // 필요시 메시지 로깅
+        } else {
+            console.log("User is not logged in");
+        }
+    } catch (error) {
+        console.error("Error checking login status:", error);
+    }
+}
+
+// 페이지가 로드될 때 로그인 상태 확인
+document.addEventListener('DOMContentLoaded', () => {
+    checkLoginStatus();
+});
+
 
 
 // 내가 쓴 게시물, 댓글 보러가는 버튼

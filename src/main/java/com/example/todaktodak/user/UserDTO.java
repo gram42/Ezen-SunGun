@@ -28,7 +28,7 @@ public class UserDTO {
         this.userid = user.getUserid();
         this.password = ""; // 보안상의 이유로 비밀번호를 비워둘 수 있음
         this.userName = user.getUserName();
-        this.email = user.getEmail();
+        // this.email = user.getEmail();
         this.gender = user.getGender();
         this.birthDate = user.getBirthDate();
     }
@@ -53,5 +53,10 @@ public class UserDTO {
         this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
+    }
+    public UserDTO(String userid, String password, String userName){
+        this.userid = userid;
+        this.password = password;
+        this.userName = userName;
     }
 }

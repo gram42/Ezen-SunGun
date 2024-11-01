@@ -48,6 +48,8 @@ public class PostsService {
         post.setUser(user);
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
+        post.setUserName(user.getUserName()); // userName 설정
+        post.setAuthor(user.getUserName());
         post.setCreatedAt(LocalDateTime.now());
         return postsRepository.save(post);
     }
@@ -70,4 +72,21 @@ public class PostsService {
     public int getCommentCountByPost(Posts post) {
         return post.getComments().size();  // 댓글 리스트 크기로 댓글 수 반환
     }
+
+    // 게시물 검색
+    public Page<Posts> searchPosts(String title, String author, String comment, Pageable pageable) {
+        if (title != null && !title.isEmpty()) {
+            return postsRepository.findByTitleContainingIgnoreCase(title, pageable);
+        } 
+        if (author != null && !author.isEmpty()) {
+            return postsRepository.findByAuthorContainingIgnoreCase(author, pageable);
+        } 
+        if (comment != null && !comment.isEmpty()) {
+            return postsRepository.findByCommentsContentContainingIgnoreCase(comment, pageable);
+        }
+        return postsRepository.findAll(pageable); // 조건이 없을 경우 모든 게시물 반환
+    }
+    
 }
+    
+

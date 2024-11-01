@@ -1,3 +1,10 @@
+let currentPage = 1; // 현재 페이지
+const postsPerPage = 6; // 한 페이지에 게시물 수
+const pagesPerSection = 5;
+let totalPosts = 0; // 전체 게시물 수
+
+
+
 // 로그인 함수
 async function login(userId, password) {
     const response = await fetch('/user/login', {
@@ -72,13 +79,13 @@ async function fetchCurrentUser() {
 }
 
 // 사용자가 작성한 게시물 목록 로드
-async function loadUserPosts() {
+async function loadUserPosts(page = 1) {
     const currentUser = await fetchCurrentUser(); // 현재 사용자 정보 로드
     if (currentUser) {
         const userId = currentUser.id; 
         console.log(`사용자 ${userId}의 게시물 로드 요청`);
 
-        const response = await fetch(`/posts/user/${userId}`, {
+        const response = await fetch(`/posts/user/${userId}?page=${page - 1}&size=${postsPerPage}`, {
             method: 'GET',
             credentials: 'include' // 세션 쿠키 포함
         });
@@ -91,36 +98,127 @@ async function loadUserPosts() {
         }
 
         const data = await response.json();
-        const posts = data.content;
+        const posts = data.content || [];
+        totalPosts = data.totalElements; // 전체 게시물 수 저장
         console.log('사용자 게시물:', posts);
 
         const myPostsList = document.getElementById('myPostsList');
         myPostsList.innerHTML = '';
-
+        
         if (posts.length === 0) {
             myPostsList.innerHTML = '<p>작성한 게시물이 없습니다.</p>';
         } else {
             posts.forEach(post => {
                 const postDiv = document.createElement('div');
                 postDiv.className = 'post';
-                postDiv.style.border = '1px solid #ccc'; // 테두리 추가
-                postDiv.style.borderRadius = '5px'; // 모서리 둥글게
-                postDiv.style.padding = '10px'; // 패딩 추가
-                postDiv.style.margin = '10px 0'; // 마진 추가
+                
                 postDiv.innerHTML = `
-                    <h3>${post.title}</h3>
-                    <p>${post.content.substring(0, 100)}...</p>
-                    <p>작성자: ${post.userName || '정보 없음'} | 작성 시간: ${new Date(post.createdAt).toLocaleString()}</p>
-                    <button onclick="loadPostDetail(${post.postId})">상세보기</button>
-                    <button onclick="editPost(${post.postId})">수정</button>
-                    <button onclick="deletePost(${post.postId})">삭제</button>
+                    <h3 class="post-title">${post.title.length > 10 ? post.title.substring(0, 10) + '...' : post.title}</h3>
+                    <p class="post-preview">${post.content.length > 20 ? post.content.substring(0, 20) + '...' : post.content}</p>
+                    <div class="post-info">
+                        <p class="comment-count">댓글 수: ${post.commentCount || 0}</p>
+                        <p class="post-time">작성 시간: ${new Date(post.createdAt).toLocaleString()}</p>
+                    
+                    <div class="post-buttons-container">
+                        <div class="post-buttons">
+                            <button onclick="loadPostDetail(${post.postId})">상세보기</button>
+                            <button onclick="editPost(${post.postId})">수정</button>
+                            <button onclick="deletePost(${post.postId})">삭제</button>
+                        </div>
+                    </div>
+                     </div>
                 `;
+                
                 myPostsList.appendChild(postDiv);
             });
+            updatePagination(); // 페이지네이션 업데이트
         }
     } else {
         console.log('로그인되지 않은 상태입니다.');
     }
+}
+// 페이지네이션 업데이트 함수
+function updatePagination() {
+    const pagination = document.getElementById('pagination');
+    const pageNumbers = document.getElementById('pageNumbers');
+    pageNumbers.innerHTML = '';
+    const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+   // 이전 섹션 버튼
+    const prevSectionButton = document.getElementById('prevSectionButton');
+    const isFirstSection = Math.floor((currentPage - 1) / pagesPerSection) === 0;
+
+    // 첫 번째 섹션일 경우 이전 섹션 버튼을 보이게 하되, 첫 페이지일 경우에는 숨기기
+    prevSectionButton.style.display = (isFirstSection && currentPage === 1) ? 'none' : 'inline-block';
+
+    prevSectionButton.onclick = (event) => {
+        event.preventDefault();
+        const prevSectionLastPage = Math.max(1, Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection); // 이전 섹션의 마지막 페이지
+        currentPage = prevSectionLastPage; // 이전 섹션의 마지막 페이지로 이동
+        loadUserPosts(currentPage);
+    };
+
+
+
+
+    // 이전 페이지 버튼
+    const prevButton = document.getElementById('prevButton');
+    prevButton.style.display = currentPage > 1 ? 'inline-block' : 'none';
+    prevButton.onclick = (event) => {
+        event.preventDefault();
+        if (currentPage > 1) {
+            currentPage--;
+            console.log("Current Page:", currentPage);
+            loadUserPosts(currentPage);
+        }
+    };
+
+    // 페이지 번호 버튼들
+    for (let i = 1; i <= totalPages; i++) {
+        if (i > (Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection) && i <= (Math.floor((currentPage - 1) / pagesPerSection) + 1) * pagesPerSection) {
+            const pageSpan = document.createElement('a');
+            pageSpan.textContent = i;
+            pageSpan.className = 'pagination-button';
+            if (i === currentPage) {
+                pageSpan.classList.add('active');
+            }
+            pageSpan.onclick = () => {
+                currentPage = i;
+                loadUserPosts(currentPage);
+            };
+            pageNumbers.appendChild(pageSpan);
+        }
+    }
+
+    // 다음 페이지 버튼
+    const nextButton = document.getElementById('nextButton');
+    nextButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
+    nextButton.onclick = (event) => {
+        event.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadUserPosts(currentPage);
+        }
+    };
+    // 다음 섹션 버튼
+    const nextSectionButton = document.getElementById('nextSectionButton');
+    nextSectionButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
+    nextSectionButton.onclick = (event) => {
+        event.preventDefault();
+        const nextSectionFirstPage = Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection + pagesPerSection + 1; // 현재 섹션의 마지막 페이지 +1
+        console.log("Next Section First Page:", nextSectionFirstPage);
+
+        if (nextSectionFirstPage <= totalPages) {
+            currentPage = nextSectionFirstPage; // 다음 섹션의 첫 페이지로 이동
+            loadUserPosts(currentPage);
+        } else {
+            currentPage = totalPages; // 다음 섹션이 없으면 마지막 페이지로 이동
+            loadUserPosts(currentPage);
+        }
+    };
+
+
+    pagination.style.display = totalPages > 1 ? 'flex' : 'none';
 }
 
 let editingPostId = null; // 수정할 게시물 ID 저장 변수
@@ -232,7 +330,7 @@ async function loadPostDetail(postId) {
     if (postTitleElem && postContentElem && userNameElem && createdAtElem) {
         postTitleElem.textContent = `제목: ${data.title}`;
         postContentElem.textContent = `상세내용: ${data.content}`;
-        userNameElem.textContent = data.userName || '작성자 정보 없음'; // 작성자 정보가 없을 경우 처리
+        userNameElem.textContent = `작성자: ${data.userName}` || '작성자 정보 없음'; // 작성자 정보가 없을 경우 처리
         createdAtElem.textContent = new Date(data.createdAt).toLocaleString();
 
         // 상세보기 모달 표시
@@ -259,26 +357,46 @@ async function loadPostDetail(postId) {
             if (data.userId === currentUserData.id) {
                 document.getElementById('editPostButton').style.display = 'inline-block';
                 document.getElementById('deletePostButton').style.display = 'inline-block';
-                document.getElementById('goToPostButton').style.display = 'inline-block';
 
                  // 버튼 클릭 시 이벤트 핸들러 설정
                 document.getElementById('editPostButton').onclick = () => editPost(data.postId); // 수정 버튼 클릭 시 수정 함수 호출
                 document.getElementById('deletePostButton').onclick = () => deletePost(data.postId); // 삭제 버튼 클릭 시 삭제 함수 호출
-                document.getElementById('goToPostButton').onclick = () => window.location.href = `/community/postDetail/${postId}`; // 해당 게시물 페이지로 이동
             } else {
                 // 비작성자의 경우 버튼 숨김
                 document.getElementById('editPostButton').style.display = 'none';
                 document.getElementById('deletePostButton').style.display = 'none';
-                document.getElementById('goToPostButton').style.display = 'none';
             }
         }
 
-
+        loadComments(postId); // 댓글 로드 함수 호출
 
 
     } else {
         console.error('상세보기 요소를 찾을 수 없습니다.');
     }
+}
+
+// 댓글을 로드하여 모달에 표시하는 함수
+async function loadComments(postId) {
+    const commentsContainer = document.getElementById('commentsContainer');
+    commentsContainer.innerHTML = ''; // 기존 댓글 초기화
+
+    console.log('Loading comments for post ID:', postId); // postId 로그 추가
+    const response = await fetch(`/comments/post/${postId}`);
+    if (!response.ok) {
+        console.error('댓글을 가져오는 데 오류가 발생했습니다:', response.status);
+        return;
+    }
+
+    const comments = await response.json();
+    comments.forEach(comment => {
+        const commentElement = document.createElement('div');
+        commentElement.innerHTML = `
+            <p><strong>${comment.userName}:</strong> ${comment.commentText}</p>
+            <p>작성일: ${new Date(comment.createdAt).toLocaleString()}</p>
+        `;
+        commentsContainer.appendChild(commentElement);
+    });
 }
 
 // DOMContentLoaded 이벤트를 통해 사용자 게시물 로드
@@ -291,8 +409,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadUserPosts(); // 사용자 게시물 로드
     }
 
-    // '뒤로가기' 버튼 클릭 이벤트
-    document.getElementById('backButton').addEventListener('click', () => {
-        window.history.back(); // 이전 페이지로 돌아가기
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (isUserLoggedIn()) {
+            await loadUserComments(); // 사용자 댓글 목록 로드
+        } else {
+            alert('로그인이 필요합니다.');
+        }
     });
+
+
+
 });

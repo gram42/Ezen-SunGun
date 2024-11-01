@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>response</title>
+</head>
+<body>
+
+
+    <div class="question-box">
+        <h2>관심이 있는 분야를 눌러주세요</h2>
+    </div>
+    
+    <div>
+        <form action="/ui/result" method="post">
+            <!-- 카테고리 목록을 체크박스로 표시 -->
+            <div th:each="category : ${categories}">
+                <label>
+                    <input type="checkbox" name="interest" th:value="${category.name}"> 
+                    <span th:text="${category.name}"></span>
+                </label>
+                <br>
+            </div>
+            <button type="submit">제출</button>
+        </form>      
+    </div>
+
+    <script>
+        async function submitInterests() {
+            const checkedCategories = Array.from(document.querySelectorAll('input[name="interest"]:checked'))
+                .map(input => input.value);
+            
+            // ChatGPT에 선택된 카테고리를 전송
+            const response = await fetch('/chatgpt-api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ categories: checkedCategories })
+            });
+            
+            const data = await response.json();
+            
+            // 선택한 관심 분야 페이지로 이동하며 API 응답 데이터를 전달
+            window.location.href = `/ui/selected_interests?response=${encodeURIComponent(data.answer)}`;
+        }
+    </script>
+
+</body>
+</html>

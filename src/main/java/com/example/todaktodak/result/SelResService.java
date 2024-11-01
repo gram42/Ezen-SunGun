@@ -8,17 +8,15 @@ import com.example.todaktodak.category.Categories;
 import com.example.todaktodak.category.CategoriesService;
 
 @Service
-public class ResService {
+public class SelResService {
 
     private final CategoriesService categoriesService;
 
-    public ResService(CategoriesService categoriesService){
+    public SelResService(CategoriesService categoriesService){
         this.categoriesService = categoriesService;
     }
 
     public List<Categories> findAllCategories(){
         return categoriesService.getAllCategories();
     }
-
-
 }

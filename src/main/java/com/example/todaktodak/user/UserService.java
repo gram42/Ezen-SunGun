@@ -59,16 +59,12 @@ public class UserService {
     }
 
     public void registerUser(UserDTO userDTO) {
-        // 비밀번호 확인 추가
-        if (!userDTO.getPassword().equals(userDTO.getPasswordCheck())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
 
         // 이메일 형식 검사
-        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        if (!Pattern.matches(emailRegex, userDTO.getEmail())) {
-            throw new IllegalArgumentException("유효하지 않은 이메일 형식입니다.");
-        }
+        // String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        // if (!Pattern.matches(emailRegex, userDTO.getEmail())) {
+        //     throw new IllegalArgumentException("유효하지 않은 이메일 형식입니다.");
+        // }
 
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(encodedPassword);
@@ -94,6 +90,7 @@ public class UserService {
         return true;
     }
 
+    // 유저 정보 수정
     public void editUserInfo(UserDTO userDTO) {
         String password = getUserByUserid(userDTO.getUserid()).getPassword();
         String finalPassword;
@@ -112,9 +109,10 @@ public class UserService {
                             userDTO.getUserid(),
                             finalPassword,
                             userDTO.getUserName(),
-                            userDTO.getEmail(),
+                            // userDTO.getEmail(),
                             userDTO.getGender(),
-                            userDTO.getBirthDate());
+                            userDTO.getBirthDate()
+                            );
 
         userRepository.save(setUser);
     }

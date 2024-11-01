@@ -4,22 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my-posts</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="/css/community/my-posts.css">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+=======
+    <link rel="stylesheet" href="/css/community.css"> <!-- 커뮤니티 CSS -->
+    <link rel="stylesheet" href="/css/my-posts.css">
+>>>>>>> 55a1829f8ef85691c91bb12edb43a1b8eb173100
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <nav th:replace="~{nav.html::side-nav}"></nav>
     <h1>내가 쓴 게시물</h1>
 
-    <div id="myPostsContainer">
-        <h2>내 게시물 목록</h2>
         <!-- 사용자 게시물 목록 -->
-        <div id="myPostsList"></div>
+        <div id="myPostsList">
+            <div class="post">
+                <h3>게시물 제목</h3>
+                <p>게시물 내용 미리보기...</p>
+                <p>작성자: 정보 | 작성 시간</p>
+                <div class="post-buttons">
+                    <button onclick="loadPostDetail(postId)">상세보기</button>
+                    <button onclick="editPost(postId)">수정</button>
+                    <button onclick="deletePost(postId)">삭제</button>
+                </div>
+            </div>
+        </div>
+        <div id="pagination" class="pagination" style="display: none;">
+            <!-- 이전 섹션 버튼 -->
+            <a href="#" id="prevSectionButton" class="pagination-button" style="display: none;">«</a>
+            
+            <!-- 이전 페이지 버튼 -->
+            <a href="#" id="prevButton" class="pagination-button" style="display: none;">‹</a>
+            
+            <!-- 페이지 번호 버튼들 -->
+            <span id="pageNumbers"></span>
+            
+            <!-- 다음 페이지 버튼 -->
+            <a href="#" id="nextButton" class="pagination-button">›</a>
+            
+            <!-- 다음 섹션 버튼 -->
+            <a href="#" id="nextSectionButton" class="pagination-button">»</a>
+        </div>
 
 
-    <!-- 상세보기 모달 또는 섹션 -->
-    <div id="postModal" class="modal">
+        <!-- 상세보기 모달 또는 섹션 -->
+        <div id="postModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2 id="postTitle"></h2>
@@ -28,7 +58,11 @@
             <p id="createdAt"></p>
             <button id="editPostButton" style="display: none;">수정하기</button>
             <button id="deletePostButton" style="display: none;">삭제하기</button>
-            <button id="goToPostButton" style="display: none;">게시물로 이동</button>
+
+                    <!-- 댓글 섹션 -->
+            <h3>댓글</h3>
+            <div id="commentsContainer"></div>
+
         </div>
     </div>
 

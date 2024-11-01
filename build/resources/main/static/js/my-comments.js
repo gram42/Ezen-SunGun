@@ -91,7 +91,9 @@ async function loadUserComments() {
         }
 
         const data = await response.json();
-        const comments = data.content;
+        console.log('댓글 데이터:', data); // 댓글 데이터 구조 확인
+
+        const comments = data.content || [];
         console.log('사용자 댓글:', comments);
 
         const myCommentsList = document.getElementById('myCommentsList');
@@ -101,15 +103,19 @@ async function loadUserComments() {
             myCommentsList.innerHTML = '<p>작성한 댓글이 없습니다.</p>';
         } else {
             comments.forEach(comment => {
+                console.log('댓글 내용:', comment);
                 const commentDiv = document.createElement('div');
                 commentDiv.className = 'comment';
                 commentDiv.style.border = '1px solid #ccc'; // 테두리 추가
                 commentDiv.style.borderRadius = '5px'; // 모서리 둥글게
                 commentDiv.style.padding = '10px'; // 패딩 추가
                 commentDiv.style.margin = '10px 0'; // 마진 추가
+
+                
+
                 commentDiv.innerHTML = `
-                    <p>${comment.commentText}</p>
-                    <p>작성자: ${comment.userName || '정보 없음'} | 작성 시간: ${new Date(comment.createdAt).toLocaleString()}</p>
+                    <p>${comment.commentText || '댓글 내용이 없습니다.'}</p>
+                    <p>작성 시간: ${new Date(comment.createdAt).toLocaleString()}</p>
                     <button onclick="loadCommentDetail(${comment.commentsId})">상세보기</button>
                     <button onclick="editComment(${comment.commentsId})">수정</button>
                     <button onclick="deleteComment(${comment.commentsId})">삭제</button>
@@ -234,6 +240,8 @@ async function loadCommentDetail(commentId) {
     }
 
     const data = await response.json();
+    console.log('댓글 데이터:', data); // API 응답 데이터 구조 확인
+    const comments = data.content || []; // content가 없을 경우 빈 배열 처리
 
     // HTML 요소에 값을 설정
     const commentTextElem = document.getElementById('commentText');
@@ -243,8 +251,8 @@ async function loadCommentDetail(commentId) {
     // 요소들이 null이 아닌지 확인
     if (commentTextElem && userNameElem && createdAtElem) {
         commentTextElem.textContent = `댓글: ${data.commentText}`;
-        userNameElem.textContent = data.userName || '작성자 정보 없음'; // 작성자 정보가 없을 경우 처리
         createdAtElem.textContent = new Date(data.createdAt).toLocaleString();
+        
 
         // 상세보기 모달 표시
         const modal = document.getElementById('commentModal');
@@ -260,14 +268,58 @@ async function loadCommentDetail(commentId) {
                 modal.style.display = 'none'; // 외부 클릭 시 모달 닫기
             }
         };
+
+        loadposts(commentId); // 댓글로 게시글 로드 함수 호출
+
     } else {
         console.error('상세보기 요소를 찾을 수 없습니다.');
     }
 }
 
-// 페이지 로드 시 사용자 댓글 로드
-document.addEventListener('DOMContentLoaded', loadUserComments);
 
-document.getElementById('backButton').addEventListener('click', function() {
-    window.history.back(); // 이전 페이지로 돌아가기
+// 댓글에 대한 게시물 로드
+async function loadposts(commentId) {
+    const postContainer = document.getElementById('postContainer');
+    postContainer.innerHTML = ''; // 기존 게시물 초기화
+
+    console.log('Loading post for comment ID:', commentId);
+    const response = await fetch(`/comments/${commentId}/post`);
+    if (!response.ok) {
+        console.error('게시글을 가져오는 데 오류가 발생했습니다:', response.status);
+        return;
+    }
+
+    const post = await response.json();
+    
+    // 게시물 내용 표시
+    const postElement = document.createElement('div');
+    postElement.innerHTML = `
+        <p><strong>제목: ${post.title}</strong></p>
+        <p><strong>작성자: ${post.userName}</strong></p>
+        <p>${post.content}</p>
+        <p>작성일: ${new Date(post.createdAt).toLocaleString()}</p>
+    `;
+    postContainer.appendChild(postElement);
+    }
+
+
+    //  DOMContentLoaded 이벤트를 통해 페이지 로드 시 사용자 댓글 로드
+    document.addEventListener('DOMContentLoaded', async () => {
+        const currentUser = await fetchCurrentUser();
+        if (!currentUser) {
+            alert('로그인이 필요합니다.');
+            window.location.href = '/user/login';
+        } else {
+            loadUserComments(); // 사용자 게시물 로드
+        }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (isUserLoggedIn()) {
+            await loadUserComments(); // 사용자 댓글 목록 로드
+        } else {
+            alert('로그인이 필요합니다.');
+        }
+    });
+
+
 });

@@ -42,6 +42,14 @@ public class Posts {
     @Column(name = "user_name") // userName 컬럼 이름 설정
     private String userName; // 작성자의 사용자 이름 추가
 
+    @Column(name = "author")
+    private String author;
+    
+    public String getUserName() {
+        return user != null ? user.getUserName() : null;
+    }
+
+
     public Posts() {}
 
     public Posts(User user, String title, String content) {

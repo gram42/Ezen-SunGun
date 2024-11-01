@@ -20,9 +20,11 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests((authorize) -> 
     authorize
         // .requestMatchers("/user/login", "/user/register").permitAll() // 로그인, 회원가입은 인증 필요 없음
+        // .requestMatchers("/user/current").authenticated() // /user/current는 인증 필요
         // .requestMatchers("/user/**").authenticated() // 그 외 /user/**는 인증 필요
         // .requestMatchers("/community/writing").authenticated() // /community/writing 경로는 인증 필요
         // .requestMatchers("/posts/**").permitAll() // /posts/**는 인증 없이 접근 가능
+        // .requestMatchers("/comments/**").authenticated()
         .anyRequest().permitAll() // 그 외 요청은 모두 허용
         // .requestMatchers("/category").hasRole("ADMIN") // 카테고리 수정 관리자만 접근 가능하게 하려면 이 코드 추가
 );
@@ -33,7 +35,7 @@ public class SecurityConfig {
         );
 
         // 로그인 설정
-        httpSecurity.formLogin(formLogin -> 
+       httpSecurity.formLogin(formLogin -> 
             formLogin
                 .loginPage("/user/login")
                 .defaultSuccessUrl("/ui/main?login=true") // 로그인 성공 후 이동할 URL

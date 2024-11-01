@@ -14,12 +14,14 @@
 
     <!-- 사용자 댓글 목록 -->
     <div id="myCommentsList"></div>
-    <button id="backButton">뒤로가기</button>
 
     <!-- 댓글 상세보기 모달 -->
     <div id="commentModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeCommentModal">&times;</span>
+            <h3>댓글을 남긴 게시물 정보</h3>
+            <div id="postContainer"></div>
+
             <h2>댓글 상세보기</h2>
             <p id="commentText"></p>
             <p id="commentUserName"></p>
@@ -56,7 +58,6 @@
                 commentDiv.className = 'comment';
                 commentDiv.innerHTML = `
                     <p>${comment.text}</p>
-                    <p>작성자: ${comment.userName}</p>
                     <p>작성일: ${comment.createdAt}</p>
                     <button onclick="loadCommentDetail(${comment.commentId})">상세보기</button>
                     <button onclick="editComment(${comment.commentId})">수정</button>

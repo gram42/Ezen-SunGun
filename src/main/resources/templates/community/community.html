@@ -36,7 +36,7 @@
             </div>
         </div>
         
-        <div class="backButton" id="backButton">목록으로 돌아가기</div>
+        <div class="backButton" id="backButton">게시판으로 이동</div>
     </div>
 
     <div id="postsList"></div>
@@ -57,9 +57,28 @@
         <a href="#" id="nextSectionButton" class="pagination-button">»</a>
     </div>
     
+
+    <div id="searchContainer">
+    <div class="dropdown">
+        <button id="dropdownButton">제목으로 검색 ▼</button>
+        <div id="searchOptions" class="dropdown-content">
+            <div data-criteria="title">제목으로 검색</div>
+            <div data-criteria="author">작성자로 검색</div>
+            <div data-criteria="comment">댓글 내용으로 검색</div>
+        </div>
+    </div>
+    <input type="text" id="searchInput" placeholder="검색어 입력...">
+    <button id="searchButton">검색</button>
+    <div id="postsContainer"></div>
+    <div id="errorMessage" style="color:red;"></div>
+</div>
+    
+
+
     <div id="loadingMessage" style="display: none;">로딩 중...</div>
     <div id="errorMessage" style="color: red; display: none;"></div>
 
+    <div id="postsContainer"></div> <!-- 검색 결과 게시물 표시 공간 -->
 
     <div id="userActions">
         <button id="myPostsButton">내가 쓴 게시물 보기</button>
