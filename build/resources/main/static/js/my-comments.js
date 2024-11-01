@@ -322,7 +322,4 @@ async function loadposts(commentId) {
     });
 
 
-document.getElementById('backButton').addEventListener('click', function() {
-    window.history.back(); // 이전 페이지로 돌아가기
-});
 });

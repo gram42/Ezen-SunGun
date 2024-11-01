@@ -18,6 +18,7 @@ async function loadPosts(page = 1) {
         const data = await response.json();
         const posts = data.content || [];
         totalPosts = data.totalElements;
+        
 
         // 로드된 게시물 업데이트
         loadedPosts = posts;
@@ -38,7 +39,7 @@ async function loadPosts(page = 1) {
 
             // 게시글 제목
             const title = document.createElement('h3');
-            title.textContent = post.title;
+            title.textContent = post.title.length > 10 ? post.title.substring(0, 10) + '...' : post.title;
 
             // 게시물 박스 클릭 시 상세보기로 이동
             postDiv.addEventListener('click', () => {
@@ -48,7 +49,7 @@ async function loadPosts(page = 1) {
 
             // 게시글 내용 미리보기
             const preview = document.createElement('p');
-            preview.textContent = post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content;
+            preview.textContent = post.content.length > 20 ? post.content.substring(0, 20) + '...' : post.content;
 
             // 댓글 수 표시
             const postInfo = document.createElement('div');
