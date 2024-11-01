@@ -3,6 +3,9 @@ const postsPerPage = 6; // 한 페이지에 게시물 수
 const pagesPerSection = 5;
 let totalPosts = 0; // 전체 게시물 수
 
+const commentsPerPage = 5;
+let totalComments = 0; 
+
 
 
 // 로그인 함수
@@ -377,18 +380,29 @@ async function loadPostDetail(postId) {
 }
 
 // 댓글을 로드하여 모달에 표시하는 함수
-async function loadComments(postId) {
+async function loadComments(postId, page = 1) {
     const commentsContainer = document.getElementById('commentsContainer');
     commentsContainer.innerHTML = ''; // 기존 댓글 초기화
+    currentPage = page;
 
     console.log('Loading comments for post ID:', postId); // postId 로그 추가
-    const response = await fetch(`/comments/post/${postId}`);
+    const response = await fetch(`/comments/post/${postId}?page=${page - 1}&size=${commentsPerPage}`);
     if (!response.ok) {
         console.error('댓글을 가져오는 데 오류가 발생했습니다:', response.status);
         return;
     }
+    
+    const data = await response.json(); // 응답을 JSON으로 파싱
+    console.log('API 응답:', data); // 응답 로그 추가
 
-    const comments = await response.json();
+    const { comments, total } = data; // comments와 total 속성 추출
+    totalComments = total; // 총 댓글 수 할당
+
+    if (!Array.isArray(comments)) {
+        console.error('댓글 배열이 유효하지 않습니다:', comments);
+        return;
+    }
+    
     comments.forEach(comment => {
         const commentElement = document.createElement('div');
         commentElement.innerHTML = `
@@ -397,6 +411,66 @@ async function loadComments(postId) {
         `;
         commentsContainer.appendChild(commentElement);
     });
+    updateCommentsPagination(postId);
+}
+
+function updateCommentsPagination(postId) {
+    const commentsPagination = document.getElementById('commentsPagination');
+    const commentPageNumbers = document.getElementById('commentPageNumbers');
+    commentPageNumbers.innerHTML = '';
+    const totalCommentPages = Math.ceil(totalComments / commentsPerPage); // 총 페이지 수 계산
+
+    commentsPagination.style.display = 'flex'; // 항상 페이지네이션 표시
+
+    // 이전 섹션 버튼
+    const prevCommentSectionButton = document.getElementById('prevCommentSectionButton');
+    const isFirstSection = Math.floor((currentPage - 1) / pagesPerSection) === 0;
+    prevCommentSectionButton.style.display = (isFirstSection && currentPage === 1) ? 'none' : 'inline-block';
+
+    prevCommentSectionButton.onclick = (event) => {
+        event.preventDefault();
+        const prevSectionLastPage = Math.max(1, Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection);
+        loadComments(postId, prevSectionLastPage);
+    };
+
+    // 이전 페이지 버튼
+    const prevCommentButton = document.getElementById('prevCommentButton');
+    prevCommentButton.style.display = currentPage > 1 ? 'inline-block' : 'none';
+    prevCommentButton.onclick = (event) => {
+        event.preventDefault();
+        if (currentPage > 1) loadComments(postId, currentPage - 1);
+    };
+
+    // 페이지 번호 버튼들
+    for (let i = 1; i <= totalCommentPages; i++) {
+        if (i > Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection && 
+            i <= (Math.floor((currentPage - 1) / pagesPerSection) + 1) * pagesPerSection) {
+            const pageSpan = document.createElement('a');
+            pageSpan.textContent = i;
+            pageSpan.className = 'pagination';
+            if (i === currentPage) pageSpan.classList.add('active');
+            pageSpan.onclick = () => loadComments(postId, i);
+            commentPageNumbers.appendChild(pageSpan);
+        }
+    }
+
+    // 다음 페이지 버튼
+    const nextCommentButton = document.getElementById('nextCommentButton');
+    nextCommentButton.style.display = currentPage < totalCommentPages ? 'inline-block' : 'none';
+    nextCommentButton.onclick = (event) => {
+        event.preventDefault();
+        if (currentPage < totalCommentPages) loadComments(postId, currentPage + 1);
+    };
+
+    // 다음 섹션 버튼
+    const nextCommentSectionButton = document.getElementById('nextCommentSectionButton');
+    nextCommentSectionButton.style.display = currentPage < totalCommentPages ? 'inline-block' : 'none';
+    nextCommentSectionButton.onclick = (event) => {
+        event.preventDefault();
+        const nextSectionFirstPage = Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection + pagesPerSection + 1;
+        loadComments(postId, Math.min(nextSectionFirstPage, totalCommentPages));
+    };
+
 }
 
 // DOMContentLoaded 이벤트를 통해 사용자 게시물 로드
