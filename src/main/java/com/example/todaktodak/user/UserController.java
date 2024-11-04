@@ -71,7 +71,7 @@ public class UserController {
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        User user = userService.findByUsername(principal.getName());
+        User user = userService.getUserByUserid(principal.getName());
         return ResponseEntity.ok(user);
     }
 
@@ -86,26 +86,36 @@ public class UserController {
     @PostMapping("/chkNicknm")
     public ResponseEntity<Boolean> chkUserName(@RequestBody UserDTO userDTO) {
 
-        boolean userExist = userService.getUserByUserName(userDTO.getUserName());
-        if(userExist){
-            return ResponseEntity.status(200).body(userExist);
+        User user = userService.getUserByUserName(userDTO.getUserName());
+        if(user != null){
+            return ResponseEntity.status(200).body(true);
         }
         
-        return ResponseEntity.status(200).body(userExist);
+        return ResponseEntity.status(200).body(false);
     }
     
 
     // 회원가입
     @PostMapping("/join")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
+
+        User user = userService.getUserByUserName(userDTO.getUserName());
+
         try {
+
             if (!userService.isUseridAvailable(userDTO.getUserid())) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 사용 중인 ID입니다.");
+            } else if(user != null){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 사용 중인 닉네임입니다.");
             }
+
             userService.registerUser(userDTO); // 사용자 등록
+
             return ResponseEntity.status(200).body("register Success");
+
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 중 오류가 발생했습니다: " + e.getMessage());
         }

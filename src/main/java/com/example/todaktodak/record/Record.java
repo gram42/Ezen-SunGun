@@ -16,8 +16,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter // setter 오류 직접 구현
-@Setter
+@Getter @Setter
 @ToString
 public class Record {
 

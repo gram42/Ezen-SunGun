@@ -11,8 +11,7 @@ import lombok.ToString;
 
 // 복합키 (날짜별 카테고리당 1개만 기록 가능)
 @Embeddable
-@Getter // setter 오류 직접 구현
-@Setter
+@Getter @Setter
 @ToString
 public class RecordCompositeId implements Serializable {
 
@@ -25,10 +24,6 @@ public class RecordCompositeId implements Serializable {
 
         this.userid = userid;
         this.categoryId = categoryId;
-    
-        // if (recordedDate == null) {
-        //     throw new IllegalArgumentException("recordedDate cannot be null");
-        // }
         this.recordedDate = recordedDate;
 
     }

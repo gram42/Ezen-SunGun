@@ -11,17 +11,20 @@
             flex-direction: column;
             align-items: center;
         }
-        #inputContainer{
-            display: block;
-            align-items: center;
-            padding: 20px;
-            border-radius: 8px;
+        .registerContainer{
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 16px;
+            background-color: #FFCC80;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin-top: 20px;
         }
         .inputShape{
             display: flex;
             flex-direction: column;
-            width: 300px;
+            width: 100%;
+            gap: 5px;
         }
         .required::after{
             content: "*";
@@ -35,22 +38,50 @@
             display: none;
         }
 
+        /*  */
+        /*  */
+        /*  */
+
+        input[type="text"],
+        input[type="password"],
+        input[type="date"],
+        input[type="email"] {
+            padding: 12px; /* 여백 추가 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            border: 1px solid #ccc; /* 테두리 색상 */
+            font-size: 16px; /* 글자 크기 */
+            transition: border 0.3s; /* 부드러운 전환 효과 */
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="date"]:focus,
+        input[type="email"]:focus {
+            border-color: #fd9800; /* 포커스 시 테두리 색상 변경 */
+            outline: none; /* 기본 포커스 아웃라인 제거 */
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #fd9800; /* 주황색 배경 */
+            color: white; /* 흰색 글자 */
+            font-size: 16px;
+            cursor: pointer; /* 포인터 커서 */
+            transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
+        }
+
+
     </style>
 </head>
 <body>
-    <!-- 
-    이메일 - 형식검사, 인증번호 메일로 보내기(인증번호 or 인증 링크 - 인증링크는 인증 후 이메일 변경 못하게 해야함)(-)
-
-    이메일 인증번호 확인(-)
-
-    성별 - null 가능(-)
-
-    생년월일 - 데이터타입 date, null 가능(-)
-    -->
 
     <nav th:replace="~{nav.html::top-nav}"></nav>
+    <div class="registerContainer">
+
     <h1>회원가입</h1>
-    <div class="inputContainer">
+    
         <div class="inputShape">
             <label class="required" for="inputUserid">아이디</label>
             <span id="useridChkRes"></span>
@@ -70,47 +101,86 @@
 
 
         
-        <!-- <div class="inputShape">
+        <div class="inputShape">
             <label class="required" for="inputEmail">이메일</label>
+            <span id="emailChkRes"></span>
             <div>
-                <form action="#" method="post">
-                    <input id="inputEmail" type="email" placeholder="SUN123@example.com" required>
-                    <button id="emailAuthentication" type="submit">인증하기</button>
+                <form action="/codePlz" method="post" target="blankifr">
+                    <input id="inputEmail" name="email" type="email" placeholder="SUN123@example.com" required>
+                    <button id="emailAuthBtn" type="submit">인증요청</button>
                 </form>
             </div>
         </div>
-        <input id="emailAuthenticationNum" type="text" placeholder="인증번호를 입력해주세요" required> -->
+        <input id="inputEmailAuthNum" type="text" placeholder="인증번호를 입력해주세요" required>
+        <div id="timer" style="display:none;"></div>
         
         <div class="inputShape">
             <label class="required" for="inputNicknm">닉네임</label>
             <span id="nicknmChkRes"></span>
-            <input id="inputNicknm" type="text" required>
-            <button id="nicknmDuplChkBtn" type="button">닉네임 중복확인</button>
+            <div>
+                <input id="inputNicknm" type="text" required>
+                <button id="nicknmDuplChkBtn" type="button">닉네임 중복확인</button>
+            </div>
         </div>
         
         <div class="inputShape">
             <label>성별</label>
-            <label for="genderMale">남</label>
-            <input id="genderMale" type="radio" name="gender" value="male" checked>
-
-            <label for="genderFemale">여</label>
-            <input id="genderFemale" type="radio" name="gender" value="female">
-
-            <label for="genderOther">선택안함</label>
-            <input type="radio" name="gender" value="null">
+            <div>
+                <label for="genderMale">남</label>
+                <input id="genderMale" type="radio" name="gender" value="male" checked>
+    
+                <label for="genderFemale">여</label>
+                <input id="genderFemale" type="radio" name="gender" value="female">
+    
+                <label for="genderOther">선택안함</label>
+                <input id="genderOther" type="radio" name="gender" value="null">
+            </div>
         </div>
         
         <div class="inputShape">
             <label for="inputBirthDate">생년월일</label>
-            <input id="inputBirthDate" type="date">
+            <input id="inputBirthDate" type="date" name="birthDate">
         </div>
 
-        <span id="guide">표시는 필수 입력 사항입니다</span>
+        <div id="guide">표시는 필수 입력 사항입니다</div>
         <button id="registerBtn" type="button">회원가입</button>
     </div>
 
-    <script src="/js/user/register.js"></script>
+    <script type="module" src="/js/user/Register.js"></script>
     <script src="/js/nav.js"></script>
+    <script>
+
+        document.getElementById('emailForm').addEventListener('submit', function(event) {
+
+            // 타이머 시작
+            startTimer(5 * 60); // 5분
+
+        });
+
+        function startTimer(duration) {
+            let timer = duration, minutes, seconds;
+            const display = document.getElementById('timer');
+            display.style.display = 'block'; // 타이머 표시
+    
+            const interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+    
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+    
+                display.textContent = minutes + ":" + seconds;
+    
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    display.textContent = "시간이 초과되었습니다.";
+                    // 추가적인 동작 (예: 인증 번호 입력 필드 비활성화)
+                    document.getElementById('inputEmailAuthNum').disabled = true;
+                }
+            }, 1000);
+        }
+    </script>
 
 </body>
+<iframe name="blankifr" style="display: none;"></iframe>
 </html>

@@ -27,13 +27,13 @@ public class User {
     @Column(nullable = false)
     private String password;      // 비밀번호
 
-    // @Column(nullable = false, length = 100)
-    // private String email;         // 이메일
+    @Column(nullable = false, length = 100)
+    private String email;         // 이메일
 
-    @Column(nullable = false, length = 15)
+    @Column(unique = true, nullable = false, length = 15)
     private String userName;      // 사용자 이름(닉네임)
 
-    @Column(length = 5)
+    @Column(length = 10)
     private String gender;        // 성별
 
     @Column(length = 12)
@@ -42,36 +42,36 @@ public class User {
     public User() {}
 
     // 모든 생성자마다 파라미터에 String email 추가
-    public User(String userid, String password, String userName){
+    public User(String userid, String password, String userName, String email){
         this.userid = userid;
         this.password = password;
         this.userName = userName;
-        // this.email = email;
+        this.email = email;
     }
 
-    public User(Long id, String userid, String password, String userName) {
+    public User(Long id, String userid, String password, String userName, String email) {
         this.id = id;
         this.userid = userid;
         this.password = password;
         this.userName = userName;
-        // this.email = email;
+        this.email = email;
     }
 
-    public User(String userid, String password, String userName, String gender, LocalDate birthDate) {
+    public User(String userid, String password, String userName, String email, String gender, LocalDate birthDate) {
         this.userid = userid;
         this.password = password;
         this.userName = userName;
-        // this.email = email;
+        this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
     }
 
-    public User(Long id, String userid, String password, String userName, String gender, LocalDate birthDate) {
+    public User(Long id, String userid, String password, String userName, String email, String gender, LocalDate birthDate) {
         this.id = id;
         this.userid = userid;
         this.password = password;
         this.userName = userName;
-        // this.email = email;
+        this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
     }
@@ -81,8 +81,8 @@ public class User {
         this.userid = userDTO.getUserid();
         this.password = userDTO.getPassword();
         this.userName = userDTO.getUserName();
-        // this.email = userDTO.getEmail();
-        // this.gender = userDTO.getGender();
-        // this.birthDate = userDTO.getBirthDate();
+        this.email = userDTO.getEmail();
+        this.gender = userDTO.getGender();
+        this.birthDate = userDTO.getBirthDate();
     }
 }

@@ -90,7 +90,7 @@
                         method: "POST",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
-                            strId: $editCategories.getAttribute('data-id'),
+                            id: $editCategories.getAttribute('data-id'),
                             name:$editCategories.value
                         })
                     })

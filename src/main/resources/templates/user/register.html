@@ -44,7 +44,8 @@
 
         input[type="text"],
         input[type="password"],
-        input[type="date"] {
+        input[type="date"],
+        input[type="email"] {
             padding: 12px; /* 여백 추가 */
             border-radius: 8px; /* 모서리 둥글게 */
             border: 1px solid #ccc; /* 테두리 색상 */
@@ -54,7 +55,8 @@
 
         input[type="text"]:focus,
         input[type="password"]:focus,
-        input[type="date"]:focus {
+        input[type="date"]:focus,
+        input[type="email"]:focus {
             border-color: #fd9800; /* 포커스 시 테두리 색상 변경 */
             outline: none; /* 기본 포커스 아웃라인 제거 */
         }
@@ -74,15 +76,6 @@
     </style>
 </head>
 <body>
-    <!-- 
-    이메일 - 형식검사, 인증번호 메일로 보내기(인증번호 or 인증 링크 - 인증링크는 인증 후 이메일 변경 못하게 해야함)(-)
-
-    이메일 인증번호 확인(-)
-
-    성별 - null 가능(-)
-
-    생년월일 - 데이터타입 date, null 가능(-)
-    -->
 
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <div class="registerContainer">
@@ -108,16 +101,18 @@
 
 
         
-        <!-- <div class="inputShape">
+        <div class="inputShape">
             <label class="required" for="inputEmail">이메일</label>
+            <span id="emailChkRes"></span>
             <div>
-                <form action="#" method="post">
-                    <input id="inputEmail" type="email" placeholder="SUN123@example.com" required>
-                    <button id="emailAuthentication" type="submit">인증하기</button>
+                <form id="emailForm" action="/codePlz" method="post" target="blankifr">
+                    <input id="inputEmail" name="email" type="email" placeholder="SUN123@example.com" required>
+                    <button id="emailAuthBtn" type="submit">인증요청</button>
                 </form>
             </div>
         </div>
-        <input id="emailAuthenticationNum" type="text" placeholder="인증번호를 입력해주세요" required> -->
+        <input id="inputEmailAuthNum" type="text" placeholder="인증번호를 입력해주세요" required>
+        <div>인증 타이머 예정</div>
         
         <div class="inputShape">
             <label class="required" for="inputNicknm">닉네임</label>
@@ -138,21 +133,22 @@
                 <input id="genderFemale" type="radio" name="gender" value="female">
     
                 <label for="genderOther">선택안함</label>
-                <input type="radio" name="gender" value="null">
+                <input id="genderOther" type="radio" name="gender" value="null">
             </div>
         </div>
         
         <div class="inputShape">
             <label for="inputBirthDate">생년월일</label>
-            <input id="inputBirthDate" type="date">
+            <input id="inputBirthDate" type="date" name="birthDate">
         </div>
 
         <div id="guide">표시는 필수 입력 사항입니다</div>
         <button id="registerBtn" type="button">회원가입</button>
     </div>
 
-    <script src="/js/user/register.js"></script>
+    <script type="module" src="/js/user/Register.js"></script>
     <script src="/js/nav.js"></script>
 
 </body>
+<iframe name="blankifr" style="display: none;"></iframe>
 </html>

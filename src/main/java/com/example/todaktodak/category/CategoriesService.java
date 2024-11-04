@@ -13,6 +13,12 @@ public class CategoriesService {
     public CategoriesService(CategoriesRepository categoriesRepository){
         this.categoriesRepository = categoriesRepository;
     }
+
+    // 기본 카테고리 생성
+    public void createDefaultCategory(){
+        Categories categories = new Categories();
+        categoriesRepository.save(categories);
+    }
     
     // 모든 카테고리 찾기
     public List<Categories> getAllCategories(){
@@ -51,7 +57,7 @@ public class CategoriesService {
 
         Categories editCategory = new Categories();
 
-        Long id = Long.parseLong(categoriesDTO.getStrId());
+        Long id = categoriesDTO.getId();
         Optional<Categories> optionalCategory = categoriesRepository.findById(id);
         
         if (optionalCategory.isPresent()) {
