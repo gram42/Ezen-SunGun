@@ -17,6 +17,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 
+
 import java.security.Principal;
 import java.util.Collections;
 import java.util.HashMap;
@@ -95,10 +96,10 @@ public class PostsController {
         } catch (Exception e) {
             logger.error("게시글 생성 중 오류 발생: {}", e.getMessage(), e);
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "게시글 생성 중 오류 발생: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+             errorResponse.put("error", "게시글 생성 중 오류 발생: " + e.getMessage());
+             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+         }
+     }
 
     // 모든 게시글 조회 (페이지네이션 적용) (커뮤니티 게시글)
     @GetMapping
@@ -191,9 +192,18 @@ public ResponseEntity<Map<String, Object>> getAllPosts(Pageable pageable, Princi
 
     // 게시글에 대한 댓글 조회
     @GetMapping("/{postId}/comments")
-    public ResponseEntity<List<CommentsDTO>> getCommentsByPostId(@PathVariable Long postId) {
-        List<CommentsDTO> commentDTOs = commentsService.getCommentsByPostId(postId);
-        return ResponseEntity.ok(commentDTOs);
+    public ResponseEntity<Map<String, Object>> getCommentsByPostId(
+            @PathVariable Long postId, 
+            Pageable pageable) { 
+        Page<CommentsDTO> commentsPage = commentsService.getCommentsByPostId(postId, pageable);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("comments", commentsPage.getContent());
+        response.put("total", commentsPage.getTotalElements());
+        response.put("currentPage", commentsPage.getNumber());
+        response.put("totalPages", commentsPage.getTotalPages());
+
+        return ResponseEntity.ok(response);
     }
 
     // 댓글 추가

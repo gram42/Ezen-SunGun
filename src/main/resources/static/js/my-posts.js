@@ -240,6 +240,35 @@ function editPost(postId) {
         .catch(error => console.error('Error fetching post:', error));
 }
 
+// 입력 필드 글자 수 체크
+function validateInput() {
+    const titleInput = document.getElementById('newTitle');
+    const contentInput = document.getElementById('newContent');
+    const titleAlert = document.getElementById('titleAlert');
+    const contentAlert = document.getElementById('contentAlert');
+
+    // 제목 글자 수 체크
+    if (titleInput.value.length >= 100) {
+        titleAlert.style.display = 'block';
+        titleInput.value = titleInput.value.substring(0, 100); // 100자 초과 시 잘라내기
+    } else {
+        titleAlert.style.display = 'none';
+    }
+
+    // 내용 글자 수 체크
+    if (contentInput.value.length >= 1000) {
+        contentAlert.style.display = 'block';
+        contentInput.value = contentInput.value.substring(0, 1000); // 1000자 초과 시 잘라내기
+    } else {
+        contentAlert.style.display = 'none';
+    }
+}
+
+// 입력 필드에서 실시간 체크
+document.getElementById('newTitle').addEventListener('input', validateInput);
+document.getElementById('newContent').addEventListener('input', validateInput);
+
+
 // 수정 저장 함수
 function submitEdit() {
     const title = document.getElementById('newTitle').value;

@@ -39,7 +39,7 @@ public class CommentsController {
         return ResponseEntity.ok(commentDTOs);
     }
 
-    // 게시글 ID로 댓글 조회
+    // 댓글 ID로 댓글 조회
     @GetMapping("/{id}")
     public ResponseEntity<CommentsDTO> getCommentById(@PathVariable Long id) {
         Comments comment = commentsService.getCommentById(id);
@@ -149,7 +149,7 @@ public ResponseEntity<Map<String, Object>> getCommentsByPostId(@PathVariable Lon
         // 예외 처리
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
-}
+}   
 
     //댓글로 게시글 조회
  @GetMapping("/{commentId}/post")

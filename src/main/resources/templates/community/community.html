@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>커뮤니티 게시판</title>
     <link rel="stylesheet" href="/css/community.css"> <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="/css/my-posts.css">
 </head>
 <body>
     <div class="question-box">
@@ -21,10 +22,52 @@
         <p id="postAuthor">작성자: <span id="userName"></span> | 작성 시간: <span id="createdAt"></span></p>
         <button id="editPostButton" style="display: none;">수정</button>
         <button id="deletePostButton" style="display: none;">삭제</button>
+
+<!-- 게시글 수정 모달 -->
+<div id="editPostModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-button" id="closeEditPostModal">&times;</span>
+        <h3>게시글 수정</h3>
+        <p>새 제목:</p>
+        <input type="text" id="newTitle" maxlength="100" placeholder="새 제목을 입력하세요">
+        <span id="titleAlert" style="color: red; display: none;">제목은 최대 100자까지 입력할 수 있습니다.</span>
+        <p>새 내용:</p>
+        <textarea id="newContent" maxlength="1000" rows="5" placeholder="새 내용을 입력하세요"></textarea>
+        <span id="contentAlert" style="color: red; display: none;">내용은 최대 1000자까지 입력할 수 있습니다.</span>
+        <div>
+            <button id="saveChangesBtn">저장</button>
+            <button id="cancelEditPostButton">취소</button>
+        </div>
+    </div>
+</div>
+
+        <!-- 댓글 생성 -->
         <h3 id="commentSectionTitle">댓글 작성</h3>
-        <input type="text" id="commentText" placeholder="댓글을 입력하세요" />
-        <button id="submitComment">댓글 작성</button>
+        <form id="commentForm">
+            <div>
+                <label for="commentText">댓글 내용:</label>
+                <input type="text" id="commentText" placeholder="댓글을 입력하세요" required maxlength="500" />
+                <span id="warningMessage" style="color: red; display: none;"></span> <!-- 경고 메시지 추가 -->
+                <div id="errorMessage" style="color: red;"></div> <!-- 에러 메시지 추가 -->
+            </div>
+            <button type="submit" id="submitComment">댓글 작성</button>
+        </form>
         
+        <!-- 댓글 수정 모달 -->
+        <div id="editCommentModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button" id="closeEditCommentModal">&times;</span>
+                <h3>댓글 수정</h3>
+                <p>댓글을 수정하세요:</p>
+                <textarea id="editCommentText" maxlength="500" rows="5" placeholder="댓글 내용을 입력하세요..."></textarea>
+                <span id="editWarningMessage" style="color: red; display: none;">댓글 내용은 최대 500자까지 입력할 수 있습니다.</span>
+                <div>
+                    <button id="saveCommentButton">저장</button>
+                    <button id="cancelEditCommentButton">취소</button>
+                </div>
+            </div>
+        </div>
+
         <div id="commentsList">
             <div class="comment">
                 <p id="commentAuthor">작성자: <span id="commentAuthorName"></span></p>
@@ -32,6 +75,26 @@
                 <p id="commentCreatedAt">작성 시간: <span></span></p>
             </div>
         </div>
+
+          <!-- 댓글 페이지네이션 -->
+          <div class="comments-pagination">
+            <div  id="commentsPagination" class="pagination" style="display: none;">
+                <!-- 이전 섹션 버튼 -->
+                <a href="#" id="prevCommentSectionButton" class="pagination-button" style="display: none;">«</a>
+    
+                <!-- 이전 페이지 버튼 -->
+                <a href="#" id="prevCommentButton" class="pagination-button" style="display: none;">‹</a>
+    
+                <!-- 페이지 번호 버튼들 -->
+                <span id="commentPageNumbers"></span>
+    
+                <!-- 다음 페이지 버튼 -->
+                <a href="#" id="nextCommentButton" class="pagination-button">›</a>
+    
+                <!-- 다음 섹션 버튼 -->
+                <a href="#" id="nextCommentSectionButton" class="pagination-button">»</a>
+            </div>
+            </div>
         
         <div class="backButton" id="backButton">게시판으로 이동</div>
     </div>

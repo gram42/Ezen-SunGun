@@ -131,7 +131,7 @@ async function loadUserComments() {
 let editingCommentId = null; // 수정할 댓글 ID 저장 변수
 
 // 댓글 수정 함수
-function editComment(commentId) {
+function editComment(commentId) {   
     if (commentId === undefined) {
         console.error('댓글 ID가 정의되지 않았습니다.');
         alert('댓글 ID가 정의되지 않았습니다.');
@@ -184,6 +184,25 @@ function submitEdit() {
         alert('수정 실패');
     });
 }
+
+// 입력 필드 글자 수 체크
+function validateCommentInput() {
+    const commentInput = document.getElementById('newCommentText');
+    const editWarningMessage = document.getElementById('editWarningMessage');
+
+    // 글자 수 체크
+    if (commentInput.value.length >= 500) {
+        editWarningMessage.style.display = 'block';
+        editWarningMessage.textContent = "댓글 내용은 최대 500자까지 입력할 수 있습니다.";
+        commentInput.value = commentInput.value.substring(0, 500); // 500자 초과 시 잘라내기
+    } else {
+        editWarningMessage.style.display = 'none';
+    }
+}
+
+// 입력 필드에서 실시간 체크
+document.getElementById('newCommentText').addEventListener('input', validateCommentInput);
+
 
 function closeCommentModal() {
     document.getElementById('editCommentModal').style.display = 'none'; // 모달 닫기
