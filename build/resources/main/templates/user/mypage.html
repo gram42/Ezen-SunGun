@@ -4,59 +4,15 @@
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my page</title>
-    <link rel="stylesheet" th:href="@{/css/personal_menu/mypage.css}">
-    <link rel="stylesheet" th:href="@{/css/nav.css}">
-
-<<<<<<< HEAD
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
     <style>
-
-        .mypageContainer {
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            border-radius: 16px;
-            background-color: #FFCC80;
-            width: 400px;
-            margin-top: 20px;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        .info {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-        }
-        .info span {
-            font-weight: bold;
-        }
-        #checkPassword {
-            display: none; /* 초기 상태는 숨김 */
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #fd9800;
-            border-radius: 8px;
-            background-color: white;
-        }
-        button {
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background-color: #fd9800; /* 주황색 배경 */
-            color: white; /* 흰색 글자 */
-            font-size: 16px;
-            cursor: pointer; /* 포인터 커서 */
-            transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
-        }
-        #resultMessage {
-            color: red; /* 오류 메시지 색상 */
+        #checkPassword{
+            display: none;
         }
     </style>
-=======
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 </head>
 <body>
-    <nav th:replace="~{nav.html::top-nav}"></nav>
-    <nav th:replace="~{nav.html::side-nav}"></nav>
+
     <h1>mypage test</h1>
 
     <div sec:authorize="isAnonymous">
@@ -75,11 +31,7 @@
             <span id="resultMessage"></span><br>
             <input id="saveId" type="hidden" name="userid" th:value="${user.userid}">
             <input id="inputPassword" type="password" name="password">
-<<<<<<< HEAD
-            <button id="sendPassword" type="button">입력</button>
-=======
             <button id="sendPassword" type="submit">입력</button>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
         </div>
 
@@ -87,47 +39,27 @@
             
             <div class="info">
                 <span>ID </span>
-<<<<<<< HEAD
-                <p th:if="${user.userid != null}" th:text="${user.userid}">id</p>
-=======
                 <p th:if="${user.userid != null}" th:text="${user.userid}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
             <div class="info">
                 <span>이름 </span>
-<<<<<<< HEAD
-                <p th:if="${user.userName != null}" th:text="${user.userName}">name</p>
-=======
                 <p th:if="${user.userName != null}" th:text="${user.userName}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
             <div class="info">
                 <span>이메일 </span>
-<<<<<<< HEAD
-                <p th:if="${user.email != null}" th:text="${user.email}">email</p>
-=======
                 <p th:if="${user.email != null}" th:text="${user.email}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
             <div class="info">
                 <span>성별 </span>
-<<<<<<< HEAD
-                <p th:if="${user.gender != null}" th:text="${user.gender}">gender</p>
-=======
                 <p th:if="${user.gender != null}" th:text="${user.gender}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
             <div class="info">
                 <span>생일 </span>
-<<<<<<< HEAD
-                <p th:if="${user.birthDate != null}" th:text="${user.birthDate}">birthdate</p>
-=======
                 <p th:if="${user.birthDate != null}" th:text="${user.birthDate}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
         </div>
@@ -140,7 +72,7 @@
         
     </div>
 
-    <script src="/js/nav.js"></script>
+
 <script>
 (()=>{
 

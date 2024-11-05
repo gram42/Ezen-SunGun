@@ -91,9 +91,13 @@ async function loadUserComments() {
         }
 
         const data = await response.json();
+<<<<<<< HEAD
         console.log('댓글 데이터:', data); // 댓글 데이터 구조 확인
 
         const comments = data.content || [];
+=======
+        const comments = data.content;
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         console.log('사용자 댓글:', comments);
 
         const myCommentsList = document.getElementById('myCommentsList');
@@ -103,19 +107,28 @@ async function loadUserComments() {
             myCommentsList.innerHTML = '<p>작성한 댓글이 없습니다.</p>';
         } else {
             comments.forEach(comment => {
+<<<<<<< HEAD
                 console.log('댓글 내용:', comment);
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
                 const commentDiv = document.createElement('div');
                 commentDiv.className = 'comment';
                 commentDiv.style.border = '1px solid #ccc'; // 테두리 추가
                 commentDiv.style.borderRadius = '5px'; // 모서리 둥글게
                 commentDiv.style.padding = '10px'; // 패딩 추가
                 commentDiv.style.margin = '10px 0'; // 마진 추가
+<<<<<<< HEAD
 
                 
 
                 commentDiv.innerHTML = `
                     <p>${comment.commentText || '댓글 내용이 없습니다.'}</p>
                     <p>작성 시간: ${new Date(comment.createdAt).toLocaleString()}</p>
+=======
+                commentDiv.innerHTML = `
+                    <p>${comment.commentText}</p>
+                    <p>작성자: ${comment.userName || '정보 없음'} | 작성 시간: ${new Date(comment.createdAt).toLocaleString()}</p>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
                     <button onclick="loadCommentDetail(${comment.commentsId})">상세보기</button>
                     <button onclick="editComment(${comment.commentsId})">수정</button>
                     <button onclick="deleteComment(${comment.commentsId})">삭제</button>
@@ -240,8 +253,11 @@ async function loadCommentDetail(commentId) {
     }
 
     const data = await response.json();
+<<<<<<< HEAD
     console.log('댓글 데이터:', data); // API 응답 데이터 구조 확인
     const comments = data.content || []; // content가 없을 경우 빈 배열 처리
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
     // HTML 요소에 값을 설정
     const commentTextElem = document.getElementById('commentText');
@@ -251,8 +267,13 @@ async function loadCommentDetail(commentId) {
     // 요소들이 null이 아닌지 확인
     if (commentTextElem && userNameElem && createdAtElem) {
         commentTextElem.textContent = `댓글: ${data.commentText}`;
+<<<<<<< HEAD
         createdAtElem.textContent = new Date(data.createdAt).toLocaleString();
         
+=======
+        userNameElem.textContent = data.userName || '작성자 정보 없음'; // 작성자 정보가 없을 경우 처리
+        createdAtElem.textContent = new Date(data.createdAt).toLocaleString();
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
         // 상세보기 모달 표시
         const modal = document.getElementById('commentModal');
@@ -268,14 +289,18 @@ async function loadCommentDetail(commentId) {
                 modal.style.display = 'none'; // 외부 클릭 시 모달 닫기
             }
         };
+<<<<<<< HEAD
 
         loadposts(commentId); // 댓글로 게시글 로드 함수 호출
 
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     } else {
         console.error('상세보기 요소를 찾을 수 없습니다.');
     }
 }
 
+<<<<<<< HEAD
 
 // 댓글에 대한 게시물 로드
 async function loadposts(commentId) {
@@ -322,4 +347,11 @@ async function loadposts(commentId) {
     });
 
 
+=======
+// 페이지 로드 시 사용자 댓글 로드
+document.addEventListener('DOMContentLoaded', loadUserComments);
+
+document.getElementById('backButton').addEventListener('click', function() {
+    window.history.back(); // 이전 페이지로 돌아가기
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 });
