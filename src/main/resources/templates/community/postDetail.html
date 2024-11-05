@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <style>
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        #commentsList {
+            margin-top: 20px;
+        }
+        .comment {
+            border: 1px solid #eaeaea;
+            padding: 5px;
+            margin: 5px 0;
+        }
+        .backButton {
+            margin: 20px 0;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+    <nav th:replace="~{nav.html::side-nav}"></nav>
+
+    <!-- 상세보기 부분 -->
+    <!-- <div id="postDetail" style="display: none;">
+        <h2 id="postTitle"></h2>
+        <p id="postContent"></p>
+        <h3>댓글 작성</h3>
+        <input type="text" id="commentText" placeholder="댓글을 입력하세요" />
+        <button id="submitComment">댓글 작성</button>
+        <div id="commentsList"></div>
+        <div class="backButton" id="backButton">목록으로 돌아가기</div>
+    </div> -->
+
+    <!-- 커뮤니티 게시글 목록
+    <h2>게시글 목록</h2>
+    <div id="postsList"></div> -->
+
+    <script src="/js/postDatail.js/"></script>
+    <script src="/js/nav.js"></script>
+</body>
+</html>
