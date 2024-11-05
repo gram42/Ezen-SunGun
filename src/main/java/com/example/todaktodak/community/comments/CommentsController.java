@@ -115,6 +115,8 @@ public class CommentsController {
          response.put("totalElements", comments.getTotalElements());
          response.put("totalPages", comments.getTotalPages());
          response.put("currentPage", comments.getNumber());
+         response.put("totalComments", comments.getTotalElements()); //전체 댓글 수
+         response.put("comments", comments.getContent());  // 현재 페이지의 댓글 목록
  
          return ResponseEntity.ok(response);
      } catch (Exception e) {

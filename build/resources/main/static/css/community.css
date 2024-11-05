@@ -207,6 +207,7 @@ button:hover {
     position: relative; /* 수정/삭제 버튼 위치 조정을 위해 필요 */
 }
 
+
 #commentAuthor,
 #commentCreatedAt {
     margin: 0; /* 기본 마진 제거 */

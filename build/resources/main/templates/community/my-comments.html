@@ -5,12 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내가 쓴 댓글</title>
     <link rel="stylesheet" href="/css/my-comments.css">
+    <link rel="stylesheet" href="/css/community.css">
 </head>
 <body>
     <h1>내가 쓴 댓글</h1>
 
     <!-- 사용자 댓글 목록 -->
     <div id="myCommentsList"></div>
+    <div class="comments-pagination">
+        <div  id="commentsPagination" class="pagination" style="display: none;">
+            <!-- 이전 섹션 버튼 -->
+            <a href="#" id="prevCommentSectionButton" class="pagination-button" style="display: none;">«</a>
+
+            <!-- 이전 페이지 버튼 -->
+            <a href="#" id="prevCommentButton" class="pagination-button" style="display: none;">‹</a>
+
+            <!-- 페이지 번호 버튼들 -->
+            <span id="commentPageNumbers"></span>
+
+            <!-- 다음 페이지 버튼 -->
+            <a href="#" id="nextCommentButton" class="pagination-button">›</a>
+
+            <!-- 다음 섹션 버튼 -->
+            <a href="#" id="nextCommentSectionButton" class="pagination-button">»</a>
+        </div>
+        </div>
 
     <!-- 댓글 상세보기 모달 -->
     <div id="commentModal" class="modal">

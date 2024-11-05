@@ -833,10 +833,12 @@ function displaySearchResults(posts, totalPosts, currentPage) {
 
         const postTitle = document.createElement("h3");
         postTitle.textContent = post.title;
+        postTitle.textContent = post.title.length > 10 ? post.title.substring(0, 10) + '...' : post.title;
         postElement.appendChild(postTitle);
 
         const postContent = document.createElement("p");
         postContent.textContent = post.content;
+        postContent.textContent = post.content.length > 20 ? post.content.substring(0, 20) + '...' : post.content;
         postElement.appendChild(postContent);
 
         const commentCount = document.createElement("span");
