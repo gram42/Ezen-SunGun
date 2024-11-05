@@ -105,14 +105,14 @@
             <label class="required" for="inputEmail">이메일</label>
             <span id="emailChkRes"></span>
             <div>
-                <form action="/codePlz" method="post" target="blankifr">
+                <form id="emailForm" action="/codePlz" method="post" target="blankifr">
                     <input id="inputEmail" name="email" type="email" placeholder="SUN123@example.com" required>
                     <button id="emailAuthBtn" type="submit">인증요청</button>
                 </form>
             </div>
         </div>
         <input id="inputEmailAuthNum" type="text" placeholder="인증번호를 입력해주세요" required>
-        <div id="timer" style="display:none;"></div>
+        <div>인증 타이머 예정</div>
         
         <div class="inputShape">
             <label class="required" for="inputNicknm">닉네임</label>
@@ -148,38 +148,6 @@
 
     <script type="module" src="/js/user/Register.js"></script>
     <script src="/js/nav.js"></script>
-    <script>
-
-        document.getElementById('emailForm').addEventListener('submit', function(event) {
-
-            // 타이머 시작
-            startTimer(5 * 60); // 5분
-
-        });
-
-        function startTimer(duration) {
-            let timer = duration, minutes, seconds;
-            const display = document.getElementById('timer');
-            display.style.display = 'block'; // 타이머 표시
-    
-            const interval = setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-    
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-    
-                display.textContent = minutes + ":" + seconds;
-    
-                if (--timer < 0) {
-                    clearInterval(interval);
-                    display.textContent = "시간이 초과되었습니다.";
-                    // 추가적인 동작 (예: 인증 번호 입력 필드 비활성화)
-                    document.getElementById('inputEmailAuthNum').disabled = true;
-                }
-            }, 1000);
-        }
-    </script>
 
 </body>
 <iframe name="blankifr" style="display: none;"></iframe>
