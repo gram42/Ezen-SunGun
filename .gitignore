@@ -19,4 +19,4 @@ test-*.xml
 .docker/
 docker-compose.override.yml
 
-application.properties
+src/main/resources/application.properties
