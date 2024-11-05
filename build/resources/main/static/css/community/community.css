@@ -1,0 +1,257 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.question-box {
+    position: fixed; /* 고정 위치 */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: space-between; /* 자식 요소들 사이의 공간 분배 */
+    align-items: center; /* 세로 가운데 정렬 */
+}
+
+.community-text {
+    flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    margin: 0; /* 기본 여백 제거 */
+    font-size: 24px; /* 텍스트 크기 */
+    font-weight: bold; /* 텍스트 굵기 */
+}
+
+#writePostButton {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute; /* 절대 위치 지정 */
+    right: 20px; /* 오른쪽 여백 */
+    top: 16%; /* 세로 가운데 */
+    transform: translateY(-50%); /* 세로 정렬을 위해 이동 */
+}
+
+#writePostButton:hover {
+    background-color: #0056b3;
+}
+
+/* 게시물 목록 스타일 */
+#postsList {
+    margin-top: 200px; /* 커뮤니티 박스 아래로 위치 조정 */
+    padding-top: 200px;
+    display: flex; /* 플렉스 박스 사용 */
+    flex-wrap: wrap; /* 줄 바꿈 허용 */
+    gap: 20px; /* 게시물 간격 */
+    width: 80%; /* 가로 길이 줄이기 */
+    height: auto; /* 세로 길이는 자동 */
+    margin: 0 auto; /* 상하좌우 여백 설정 */
+    justify-content: center; /* 가로로 중앙 정렬 */
+    position: relative;
+}
+
+
+.post {
+    width: calc(50% - 10px); /* 2열을 만들기 위한 너비 */
+    border: 1px solid #ccc; /* 테두리 추가 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    padding: 15px; /* 패딩 추가 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    background-color: #fff; /* 배경색 */
+    display: flex; /* 플렉스 박스 사용 */
+    flex-direction: column; /* 세로로 배치 */
+    justify-content: space-between; /* 상하 공간 분배 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    height: 200px; /* 높이를 더 높이기 (원하는 높이로 조정) */
+    position: relative; /* 상대 위치 지정 추가 */
+    z-index: 1
+
+}
+
+.post-info {
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: space-between; /* 양 끝에 배치 */
+    width: 100%; /* 가로 전체 사용 */
+}
+
+.comment-count {
+    align-self: flex-end; /* 하단 왼쪽 정렬 */
+}
+
+.user-name {
+    position: absolute;
+    top: 10px; /* 상단에서 10px 떨어지게 */
+    right: 15px; /* 오른쪽에서 15px 떨어지게 */
+    font-weight: bold; /* 글씨 굵게 */
+    margin: 0; /* 혹시 다른 margin이 있을 경우 제거 */
+    text-align: right; /* 텍스트 오른쪽 정렬 */
+}
+
+
+
+
+
+.comment {
+    display: flex;
+    justify-content: space-between; /* 댓글 내용과 수정, 삭제를 양 끝에 배치 */
+    align-items: center; /* 세로 가운데 정렬 */
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+.edit-delete {
+    display: flex;
+    gap: 10px; /* 수정, 삭제 사이의 간격 */
+}
+
+.edit, .delete {
+    cursor: pointer; /* 클릭 시 포인터로 변경 */
+    color: blue; /* 텍스트 색상 */
+    text-decoration: underline; /* 밑줄 추가 */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black; /* 기본 색상 */
+}
+
+.pagination a.active {
+    color: #28a745; /* 현재 페이지 강조 색상 */
+    font-weight: bold; /* 볼드체 적용 */
+    border: 1px solid #28a745; /* 연두색 테두리 추가 */
+    border-radius: 4px; /* 둥근 모서리 */
+    background-color: #f9f9f9; /* 배경색 추가 */
+}
+
+#prevButton, #nextButton {
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer; /* 클릭 시 포인터로 변경 */
+    color: black; /* 기본 색상 */
+}
+
+#prevButton:hover, #nextButton:hover {
+    text-decoration: underline; /* 마우스 오버 시 밑줄 추가 */
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.backButton {
+    cursor: pointer;
+    color: blue;
+    margin-top: 20px;
+}
+
+.edit-post, .delete-post, .edit-comment, .delete-comment {
+    margin-left: 10px;
+    cursor: pointer;
+    color: green;
+}
+
+/* 댓글  */
+#commentsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* 댓글 간격 조정 */
+}
+
+.comment {
+    display: flex;
+    flex-direction: column; /* 세로로 배치 */
+    border: 1px solid #ccc; /* 경계선 추가 */
+    padding: 10px; /* 패딩 추가 */
+    position: relative; /* 수정/삭제 버튼 위치 조정을 위해 필요 */
+}
+
+#commentAuthor,
+#commentCreatedAt {
+    margin: 0; /* 기본 마진 제거 */
+}
+
+#commentContent {
+    margin: 5px 0; /* 댓글 내용과 상단/하단 간격 조정 */
+}
+
+/* 수정 및 삭제 버튼 스타일 */
+.comment .edit-delete {
+    position: absolute; /* 댓글의 오른쪽 상단에 위치 */
+    right: 10px;
+    top: 10px;
+}
+
+#commentsList .comment p {
+    margin: 0; /* 기본 여백 제거 */
+}
+
+#commentsList .comment #commentAuthor {
+    font-weight: bold; /* 작성자 이름 진하게 */
+}
+
+#commentsList .comment #commentCreatedAt {
+    font-size: 0.8em; /* 작성 시간 크기 줄이기 */
+    color: rgba(0, 0, 0, 0.5); /* 흐릿한 색상으로 변경 */
+}
+
+
+
+/* 기본적으로 댓글 작성 섹션을 숨김 */
+#commentSectionTitle, #commentText, #submitComment {
+    display: none;
+}
+
+/* 사용자 로그인 시 댓글 작성 섹션을 보이게 함 */
+.logged-in #commentSectionTitle,
+.logged-in #commentText,
+.logged-in #submitComment {
+    display: block;
+}
+
+
+
+#postDetail {
+    text-align: center; /* 전체 텍스트 가운데 정렬 */
+    margin: 20px; /* 페이지 여백 */
+}
+
+#commentText {
+    width: 80%; /* 댓글 입력란의 너비 조정 */
+    margin: 10px 0; /* 위아래 여백 추가 */
+}

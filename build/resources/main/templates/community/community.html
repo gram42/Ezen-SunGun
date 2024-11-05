@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티 게시판</title>
+    <link rel="stylesheet" href="/css/community/community.css"> <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+</head>
+<body>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+    <nav th:replace="~{nav.html::side-nav}"></nav>
+    <div class="question-box">
+        <div class="community-text">커뮤니티</div>
+    </div>
+
+    <div class="write-box" id="writeBox">
+        <a href="/community/writing" id="writePostButton"><button>글쓰기</button></a>
+    </div>
+    
+    <div id="postDetail" style="display: none;">
+        <h2 id="postTitle"></h2>
+        <p id="postContent"></p>
+        <p id="postAuthor">작성자: <span id="userName"></span> | 작성 시간: <span id="createdAt"></span></p>
+        <button id="editPostButton" style="display: none;">수정</button>
+        <button id="deletePostButton" style="display: none;">삭제</button>
+        <h3 id="commentSectionTitle">댓글 작성</h3>
+        <input type="text" id="commentText" placeholder="댓글을 입력하세요" />
+        <button id="submitComment">댓글 작성</button>
+        
+        <div id="commentsList">
+            <div class="comment">
+                <p id="commentAuthor">작성자: <span id="commentAuthorName"></span></p>
+                <p id="commentContent">댓글 내용</p>
+                <p id="commentCreatedAt">작성 시간: <span></span></p>
+            </div>
+        </div>
+        
+        <div class="backButton" id="backButton">목록으로 돌아가기</div>
+    </div>
+
+    <div id="postsList"></div>
+    <div id="pagination" class="pagination" style="display: none;">
+        <!-- 이전 섹션 버튼 -->
+        <a href="#" id="prevSectionButton" class="pagination-button" style="display: none;">«</a>
+        
+        <!-- 이전 페이지 버튼 -->
+        <a href="#" id="prevButton" class="pagination-button" style="display: none;">‹</a>
+        
+        <!-- 페이지 번호 버튼들 -->
+        <span id="pageNumbers"></span>
+        
+        <!-- 다음 페이지 버튼 -->
+        <a href="#" id="nextButton" class="pagination-button">›</a>
+        
+        <!-- 다음 섹션 버튼 -->
+        <a href="#" id="nextSectionButton" class="pagination-button">»</a>
+    </div>
+    
+    <div id="loadingMessage" style="display: none;">로딩 중...</div>
+    <div id="errorMessage" style="color: red; display: none;"></div>
+
+
+    <div id="userActions">
+        <button id="myPostsButton">내가 쓴 게시물 보기</button>
+        <button id="myCommentsButton">내가 쓴 댓글 보기</button>
+    </div>
+
+
+
+    <script src="/js/community.js"></script>
+    <script src="/js/nav.js"></script>
+</body>
+</html>

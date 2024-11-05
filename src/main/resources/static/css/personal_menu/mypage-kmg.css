@@ -1,0 +1,25 @@
+#mypage-kmg-container {
+    display: flex;
+}
+
+#daysChartContainer {
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#monthsChartContainer {
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+#weeks {
+    display: none;
+}

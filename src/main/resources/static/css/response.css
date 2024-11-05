@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* 스크롤 방지 */
+    background-color: #333; /* 배경색 추가 (이미지 로드 실패 시 대체) */
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('dark_city.jpg') no-repeat center center/cover; /* 어두운 도시 배경 */
+}
+
+.clouds {
+    position: fixed;
+    top: 20px; /* 구름 위치 조정 */
+    left: -200px; /* 초기 위치는 화면 왼쪽 밖 */
+    width: 200px; /* 구름 너비 */
+    height: 100px; /* 구름 높이 */
+    background: url('cloud.png') no-repeat center; /* 구름 이미지 사용 */
+    background-size: contain; /* 이미지 크기 조정 */
+    animation: moveClouds 20s linear infinite; /* 구름 이동 애니메이션 */
+}
+
+@keyframes moveClouds {
+    0% { left: -200px; }
+    100% { left: 100vw; } /* 화면 오른쪽으로 이동 */
+}
+
+.rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 클릭 이벤트를 무시 */
+}
+
+.drop {
+    position: absolute;
+    width: 2px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.8); /* 비의 색상 */
+    bottom: 100%; /* 아래에서 시작 */
+    animation: fall linear infinite; /* 애니메이션 설정 */
+}
+
+@keyframes fall {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); } /* 비가 떨어지는 위치 */
+}
+
+.question-box {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 150px;
+}
+
+.button-container button {
+    width: 50%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-container button:hover {
+    background-color: #45a049;
+}

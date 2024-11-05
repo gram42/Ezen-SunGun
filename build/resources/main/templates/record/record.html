@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Page</title>
+    <link rel="stylesheet" th:href="@{/css/record/record.css}">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+</head>
+<body>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+
+    <div class="record-container">
+
+        <nav th:replace="~{nav.html::side-nav}"></nav>
+    
+        <div sec:authorize="isAnonymous">
+            <div>로그인 후 이용 가능합니다</div>
+            <a href="/user/login">로그인</a>
+        </div>
+        
+        <div sec:authorize="isAuthenticated">
+    
+            <!-- 기록 출력 -->
+            <div id="totalRecord">
+    
+                <!-- 날짜 선택 -->
+                <input id="inputDate" type="date" min="2000-1-1" th:value="${date}">
+                
+                <!-- 카테고리별 정보 출력 -->
+                <div class="record" th:each="record : ${userRecords}" th:userid="${record.user.userid}">
+    
+                    <div class="categoryRecord">
+    
+                        <input th:id="record- + ${record.category.id}" class="checkbox" type="checkbox" th:point="${record.point}">
+                        <label th:for="record- + ${record.category.id}" class="checkboxLabel" th:text="${record.category.name}">카테고리</label>
+        
+                        <!-- 수정 완료 -->
+                        <div class="record-content">
+                            <textarea th:text="${record.content}" readonly></textarea>
+                            <div class="button-container">
+                                <a href="#" class="editBtn">수정</a>
+                                <a href="#" class="submitButton">완료</a>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                </div>
+            </div>
+        
+        </div>
+
+    </div>
+
+<script src="/js/record/record.js"></script>
+<script src="/js/nav.js"></script>
+    
+</body>
+</html>
