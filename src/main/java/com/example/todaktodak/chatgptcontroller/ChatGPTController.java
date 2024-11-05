@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Controller // @RestController 대신 사용
 public class ChatGPTController {
-    
+     
     @Value("${chatgpt.api.key}")
     private String chatGPTApiKey;
 
