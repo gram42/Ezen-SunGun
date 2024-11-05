@@ -1,0 +1,11 @@
+.info{
+    display: flex;
+}
+
+#checkPassword{
+    display: none;
+}
+
+#resultMessage{
+    display: none;
+}

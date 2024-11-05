@@ -1,0 +1,40 @@
+
+<nav class="global-nav" th:fragment="top-nav">
+
+    <a id="logo" href="/ui/index">
+        <img id="logo-img" src="/img/1727768908340_7130.jpg" alt="Logo">
+    </a>
+
+    <div class="menu">
+
+        <span sec:authorize="isAnonymous">
+            <a class="link" href="/user/login">로그인</a>
+            <a class="link" href="/user/register">회원가입</a>
+        </span>
+        
+        <span sec:authorize="isAuthenticated">
+            <form action="/user/logout" method="post" class="logout-form">
+                <button id="logout" type="submit" class="link">로그아웃</button>
+            </form>
+        </span>
+        
+        <a class="link" id="personalMenuBtn" href="#">개인메뉴</a>
+        <div class="personalMenu">
+            
+            <a class="link" href="/mypage">마이페이지</a>
+            <a class="link" href="/user/userInfo">개인 정보 수정</a>
+            <a class="link" href="/interest">관심 분야</a>
+            
+        </div>
+
+    </div>
+    
+</nav>
+
+<nav class="side-nav" th:fragment="side-nav">
+    <div>
+        <a class="link" href="/">이용 안내</a>
+        <a class="link" href="/record">일일 활동 기록</a>
+        <a class="link" href="/community/community">게시판</a>
+    </div>
+</nav>

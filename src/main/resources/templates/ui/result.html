@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>response</title>
+</head>
+<body>
+
+<h1>결과 페이지</h1>
+
+<div>
+    <h2>당신의 관심 분야:</h2>
+    <ul>
+        <li th:each="category : ${selectedCategories}" th:text="${category}"></li>
+    </ul>
+    <div th:if="${#lists.isEmpty(selectedCategories)}">
+        <p>관심 분야를 선택하지 않았습니다.</p>
+    </div>
+
+    <div>
+        <h3>ChatGPT의 추천:</h3>
+        <p th:text="${response}"></p> <!-- API 응답을 표시 -->
+    </div>
+</div>
+
+</body>
+</html>

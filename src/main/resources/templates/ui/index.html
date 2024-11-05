@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="icon" href="data:;base64,=" />
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+</head>
+<body>
+    <nav th:replace="~{nav.html::side-nav}"></nav>
+<h1>메인 페이지</h1>    
+
+<div class="question-box">
+    <h2>추천 받아보세요</h2>
+</div>
+
+<div class="button-container">
+    <button onclick="location.href='#'">빠른 추천</button>
+    <button onclick="location.href='/ui/select'">선택 추천</button>
+</div>
+
+
+<script src="/js/nav.js"></script>
+</body>
+
+</html>
+
