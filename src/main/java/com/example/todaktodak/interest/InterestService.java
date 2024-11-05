@@ -51,7 +51,7 @@ public class InterestService {
         // 기존 유저 관심사 지우기
         deleteUserInterests(userid);
         
-        if (!interestDTO.isEmpty()) {
+        if (interestDTO != null) {
             // 새로 들어온 관심사 저장
             for (Long categoryId : interestDTO) {
 
@@ -61,9 +61,7 @@ public class InterestService {
                 interestRepository.save(interest);
             }
         } else {
-            System.out.println("카테고리 리스트 확인 비었음");
         }
-        System.out.println("모든 메소드 끝");
     }
 
     // 유저 관심사 삭제
