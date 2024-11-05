@@ -45,7 +45,7 @@ public class ChatGPTController {
         messageMap.put("content", prompt);
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("model", "gpt-4");
+        payload.put("model", "gpt-4o-mini");
         payload.put("messages", Collections.singletonList(messageMap));
         payload.put("max_tokens", 50);
 
