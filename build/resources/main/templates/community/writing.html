@@ -12,15 +12,18 @@
     <form id="postForm">
         <div>
             <label for="title">제목:</label>
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="title" name="title" required maxlength="100">
+            <span id="titleAlert" style="color: red; display: none;">제목은 최대 100자까지 입력할 수 있습니다.</span>
         </div>
         <div>
             <label for="content">내용:</label>
-            <textarea id="content" name="content" required></textarea>
+            <textarea id="content" name="content" required maxlength="1000"></textarea>
+            <span id="contentAlert" style="color: red; display: none;">내용은 최대 1000자까지 입력할 수 있습니다.</span>
         </div>
         <button type="submit">제출</button>
     </form>
 
+<<<<<<< HEAD
     <script src="/js/nav.js"></script>
     <script>
         document.getElementById("postForm").onsubmit = async function(event) {
@@ -69,5 +72,8 @@
             }
         }
     </script>
+=======
+    <script src="/js/writing.js"></script>
+>>>>>>> d754e0681422607562daef9c08f10853681e9477
 </body>
 </html>

@@ -30,7 +30,7 @@ public class Record {
 
     @ManyToOne // 여러 기록이 하나의 카테고리에 속함
     @MapsId("categoryId") // RecordCompositeId의 categoryId와 연결
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "categoryId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Categories category;
     
     @Column(length = 500)
