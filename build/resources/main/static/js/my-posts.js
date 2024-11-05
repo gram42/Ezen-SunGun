@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 let currentPage = 1; // 현재 페이지
 const postsPerPage = 6; // 한 페이지에 게시물 수
 const pagesPerSection = 5;
@@ -8,6 +9,8 @@ let totalComments = 0;
 
 
 
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 // 로그인 함수
 async function login(userId, password) {
     const response = await fetch('/user/login', {
@@ -82,13 +85,21 @@ async function fetchCurrentUser() {
 }
 
 // 사용자가 작성한 게시물 목록 로드
+<<<<<<< HEAD
 async function loadUserPosts(page = 1) {
+=======
+async function loadUserPosts() {
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     const currentUser = await fetchCurrentUser(); // 현재 사용자 정보 로드
     if (currentUser) {
         const userId = currentUser.id; 
         console.log(`사용자 ${userId}의 게시물 로드 요청`);
 
+<<<<<<< HEAD
         const response = await fetch(`/posts/user/${userId}?page=${page - 1}&size=${postsPerPage}`, {
+=======
+        const response = await fetch(`/posts/user/${userId}`, {
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             method: 'GET',
             credentials: 'include' // 세션 쿠키 포함
         });
@@ -101,19 +112,28 @@ async function loadUserPosts(page = 1) {
         }
 
         const data = await response.json();
+<<<<<<< HEAD
         const posts = data.content || [];
         totalPosts = data.totalElements; // 전체 게시물 수 저장
+=======
+        const posts = data.content;
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         console.log('사용자 게시물:', posts);
 
         const myPostsList = document.getElementById('myPostsList');
         myPostsList.innerHTML = '';
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         if (posts.length === 0) {
             myPostsList.innerHTML = '<p>작성한 게시물이 없습니다.</p>';
         } else {
             posts.forEach(post => {
                 const postDiv = document.createElement('div');
                 postDiv.className = 'post';
+<<<<<<< HEAD
                 
                 postDiv.innerHTML = `
                     <h3 class="post-title">${post.title.length > 10 ? post.title.substring(0, 10) + '...' : post.title}</h3>
@@ -135,11 +155,28 @@ async function loadUserPosts(page = 1) {
                 myPostsList.appendChild(postDiv);
             });
             updatePagination(); // 페이지네이션 업데이트
+=======
+                postDiv.style.border = '1px solid #ccc'; // 테두리 추가
+                postDiv.style.borderRadius = '5px'; // 모서리 둥글게
+                postDiv.style.padding = '10px'; // 패딩 추가
+                postDiv.style.margin = '10px 0'; // 마진 추가
+                postDiv.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p>${post.content.substring(0, 100)}...</p>
+                    <p>작성자: ${post.userName || '정보 없음'} | 작성 시간: ${new Date(post.createdAt).toLocaleString()}</p>
+                    <button onclick="loadPostDetail(${post.postId})">상세보기</button>
+                    <button onclick="editPost(${post.postId})">수정</button>
+                    <button onclick="deletePost(${post.postId})">삭제</button>
+                `;
+                myPostsList.appendChild(postDiv);
+            });
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         }
     } else {
         console.log('로그인되지 않은 상태입니다.');
     }
 }
+<<<<<<< HEAD
 // 페이지네이션 업데이트 함수
 function updatePagination() {
     const pagination = document.getElementById('pagination');
@@ -223,6 +260,8 @@ function updatePagination() {
 
     pagination.style.display = totalPages > 1 ? 'flex' : 'none';
 }
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
 let editingPostId = null; // 수정할 게시물 ID 저장 변수
 
@@ -239,6 +278,35 @@ function editPost(postId) {
         })
         .catch(error => console.error('Error fetching post:', error));
 }
+
+// 입력 필드 글자 수 체크
+function validateInput() {
+    const titleInput = document.getElementById('newTitle');
+    const contentInput = document.getElementById('newContent');
+    const titleAlert = document.getElementById('titleAlert');
+    const contentAlert = document.getElementById('contentAlert');
+
+    // 제목 글자 수 체크
+    if (titleInput.value.length >= 100) {
+        titleAlert.style.display = 'block';
+        titleInput.value = titleInput.value.substring(0, 100); // 100자 초과 시 잘라내기
+    } else {
+        titleAlert.style.display = 'none';
+    }
+
+    // 내용 글자 수 체크
+    if (contentInput.value.length >= 1000) {
+        contentAlert.style.display = 'block';
+        contentInput.value = contentInput.value.substring(0, 1000); // 1000자 초과 시 잘라내기
+    } else {
+        contentAlert.style.display = 'none';
+    }
+}
+
+// 입력 필드에서 실시간 체크
+document.getElementById('newTitle').addEventListener('input', validateInput);
+document.getElementById('newContent').addEventListener('input', validateInput);
+
 
 // 수정 저장 함수
 function submitEdit() {
@@ -333,7 +401,11 @@ async function loadPostDetail(postId) {
     if (postTitleElem && postContentElem && userNameElem && createdAtElem) {
         postTitleElem.textContent = `제목: ${data.title}`;
         postContentElem.textContent = `상세내용: ${data.content}`;
+<<<<<<< HEAD
         userNameElem.textContent = `작성자: ${data.userName}` || '작성자 정보 없음'; // 작성자 정보가 없을 경우 처리
+=======
+        userNameElem.textContent = data.userName || '작성자 정보 없음'; // 작성자 정보가 없을 경우 처리
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         createdAtElem.textContent = new Date(data.createdAt).toLocaleString();
 
         // 상세보기 모달 표시
@@ -360,18 +432,34 @@ async function loadPostDetail(postId) {
             if (data.userId === currentUserData.id) {
                 document.getElementById('editPostButton').style.display = 'inline-block';
                 document.getElementById('deletePostButton').style.display = 'inline-block';
+<<<<<<< HEAD
+=======
+                document.getElementById('goToPostButton').style.display = 'inline-block';
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
                  // 버튼 클릭 시 이벤트 핸들러 설정
                 document.getElementById('editPostButton').onclick = () => editPost(data.postId); // 수정 버튼 클릭 시 수정 함수 호출
                 document.getElementById('deletePostButton').onclick = () => deletePost(data.postId); // 삭제 버튼 클릭 시 삭제 함수 호출
+<<<<<<< HEAD
+=======
+                document.getElementById('goToPostButton').onclick = () => window.location.href = `/community/postDetail/${postId}`; // 해당 게시물 페이지로 이동
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             } else {
                 // 비작성자의 경우 버튼 숨김
                 document.getElementById('editPostButton').style.display = 'none';
                 document.getElementById('deletePostButton').style.display = 'none';
+<<<<<<< HEAD
             }
         }
 
         loadComments(postId); // 댓글 로드 함수 호출
+=======
+                document.getElementById('goToPostButton').style.display = 'none';
+            }
+        }
+
+
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
 
     } else {
@@ -379,6 +467,7 @@ async function loadPostDetail(postId) {
     }
 }
 
+<<<<<<< HEAD
 // 댓글을 로드하여 모달에 표시하는 함수
 async function loadComments(postId, page = 1) {
     const commentsContainer = document.getElementById('commentsContainer');
@@ -473,6 +562,8 @@ function updateCommentsPagination(postId) {
 
 }
 
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 // DOMContentLoaded 이벤트를 통해 사용자 게시물 로드
 document.addEventListener('DOMContentLoaded', async () => {
     const currentUser = await fetchCurrentUser();
@@ -483,6 +574,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadUserPosts(); // 사용자 게시물 로드
     }
 
+<<<<<<< HEAD
     document.addEventListener('DOMContentLoaded', async () => {
         if (isUserLoggedIn()) {
             await loadUserComments(); // 사용자 댓글 목록 로드
@@ -493,4 +585,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 
+=======
+    // '뒤로가기' 버튼 클릭 이벤트
+    document.getElementById('backButton').addEventListener('click', () => {
+        window.history.back(); // 이전 페이지로 돌아가기
+    });
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 });

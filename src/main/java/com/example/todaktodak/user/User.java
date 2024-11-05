@@ -41,7 +41,6 @@ public class User {
 
     public User() {}
 
-    // 모든 생성자마다 파라미터에 String email 추가
     public User(String userid, String password, String userName, String email){
         this.userid = userid;
         this.password = password;

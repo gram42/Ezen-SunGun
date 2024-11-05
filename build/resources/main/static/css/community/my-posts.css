@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* 커뮤니티 페이지 스타일 */
 body {
     font-family: Arial, sans-serif;
@@ -130,6 +131,8 @@ button:hover {
     text-decoration: none; /* 링크 장식 제거 */
 }
 
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 .modal {
     display: none; /* 기본적으로 숨김 */
     position: fixed;
@@ -163,6 +166,7 @@ button:hover {
     color: black;
     text-decoration: none;
     cursor: pointer;
+<<<<<<< HEAD
 }
 
 /* 댓글 페이지네이션 */
@@ -205,4 +209,6 @@ button:hover {
 .comments-pagination #prevCommentSectionButton:hover,
 .comments-pagination #nextCommentSectionButton:hover {
     text-decoration: underline; /* 마우스 오버 시 밑줄 추가 */
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 }

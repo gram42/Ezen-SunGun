@@ -40,7 +40,6 @@ public class RecordService {
     // 날짜에 맞는 기록 리턴
     public List<Record> getUserRecordByUseridAndRecordedDate(String userid, LocalDate recordedDate){
 
-        // 카테고리가 없을 때 기록 리턴하기 위해 기본 카테고리 생성
         categoriesService.createDefaultCategory();
 
         List<Record> userRecords = recordRepository.findByCompositeIdUseridAndCompositeIdRecordedDate(userid, recordedDate);

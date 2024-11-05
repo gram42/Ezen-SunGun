@@ -16,8 +16,12 @@ public class CategoriesService {
 
     // 기본 카테고리 생성
     public void createDefaultCategory(){
-        Categories categories = new Categories();
-        categoriesRepository.save(categories);
+
+        List<Categories> categories = categoriesRepository.findAll();
+        if (categories.isEmpty()) {
+            Categories category = new Categories("기타");
+            categoriesRepository.save(category);
+        }
     }
     
     // 모든 카테고리 찾기

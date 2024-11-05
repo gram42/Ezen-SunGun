@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/personal_menu/mypage.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 
+<<<<<<< HEAD
     <style>
 
         .mypageContainer {
@@ -50,6 +51,8 @@
             color: red; /* 오류 메시지 색상 */
         }
     </style>
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
@@ -72,7 +75,11 @@
             <span id="resultMessage"></span><br>
             <input id="saveId" type="hidden" name="userid" th:value="${user.userid}">
             <input id="inputPassword" type="password" name="password">
+<<<<<<< HEAD
             <button id="sendPassword" type="button">입력</button>
+=======
+            <button id="sendPassword" type="submit">입력</button>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
         </div>
 
@@ -80,27 +87,47 @@
             
             <div class="info">
                 <span>ID </span>
+<<<<<<< HEAD
                 <p th:if="${user.userid != null}" th:text="${user.userid}">id</p>
+=======
+                <p th:if="${user.userid != null}" th:text="${user.userid}"></p>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
             <div class="info">
                 <span>이름 </span>
+<<<<<<< HEAD
                 <p th:if="${user.userName != null}" th:text="${user.userName}">name</p>
+=======
+                <p th:if="${user.userName != null}" th:text="${user.userName}"></p>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
             <div class="info">
                 <span>이메일 </span>
+<<<<<<< HEAD
                 <p th:if="${user.email != null}" th:text="${user.email}">email</p>
+=======
+                <p th:if="${user.email != null}" th:text="${user.email}"></p>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
             <div class="info">
                 <span>성별 </span>
+<<<<<<< HEAD
                 <p th:if="${user.gender != null}" th:text="${user.gender}">gender</p>
+=======
+                <p th:if="${user.gender != null}" th:text="${user.gender}"></p>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
             <div class="info">
                 <span>생일 </span>
+<<<<<<< HEAD
                 <p th:if="${user.birthDate != null}" th:text="${user.birthDate}">birthdate</p>
+=======
+                <p th:if="${user.birthDate != null}" th:text="${user.birthDate}"></p>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             </div>
 
         </div>

@@ -1,3 +1,11 @@
+let currentPage = 1;
+const commentsPerPage = 10;
+const pagesPerSection = 5;
+let totalComments = 0;
+
+
+
+
 // 로그인 함수
 async function login(userId, password) {
     const response = await fetch('/user/login', {
@@ -72,16 +80,17 @@ async function fetchCurrentUser() {
 }
 
 // 사용자가 작성한 댓글 목록 로드
-async function loadUserComments() {
+async function loadUserComments(page = 1) {
     const currentUser = await fetchCurrentUser(); // 현재 사용자 정보 로드
     if (currentUser) {
         const userId = currentUser.id; 
         console.log(`사용자 ${userId}의 댓글 로드 요청`);
 
-        const response = await fetch(`/comments/user/${userId}`, {
+        const response = await fetch(`/comments/user/${userId}?page=${page - 1}&size=${commentsPerPage}`, {
             method: 'GET',
             credentials: 'include' // 세션 쿠키 포함
         });
+        console.log(`요청 URL: /comments/user/${userId}?page=${page - 1}&size=${commentsPerPage}`)
 
         if (!response.ok) {
             const errorText = await response.text(); // 오류 메시지
@@ -94,16 +103,20 @@ async function loadUserComments() {
         console.log('댓글 데이터:', data); // 댓글 데이터 구조 확인
 
         const comments = data.content || [];
+        totalComments = data.totalComments || 0;
         console.log('사용자 댓글:', comments);
 
         const myCommentsList = document.getElementById('myCommentsList');
         myCommentsList.innerHTML = '';
-
+        currentPage = page;
+        console.log(`currentPage: ${currentPage}, totalComments: ${totalComments}, commentsPerPage: ${commentsPerPage}`);
+      
         if (comments.length === 0) {
             myCommentsList.innerHTML = '<p>작성한 댓글이 없습니다.</p>';
         } else {
             comments.forEach(comment => {
                 console.log('댓글 내용:', comment);
+                console.log(`사용자 ${userId}의 댓글 수: ${comments.length}`);
                 const commentDiv = document.createElement('div');
                 commentDiv.className = 'comment';
                 commentDiv.style.border = '1px solid #ccc'; // 테두리 추가
@@ -122,16 +135,78 @@ async function loadUserComments() {
                 `;
                 myCommentsList.appendChild(commentDiv);
             });
+            updateCommentsPagination();
         }
     } else {
         console.log('로그인되지 않은 상태입니다.');
     }
 }
 
+// 페이지네이션 업데이트 함수
+function updateCommentsPagination() {
+    const commentsPagination = document.getElementById('commentsPagination');
+    const commentPageNumbers = document.getElementById('commentPageNumbers');
+    commentPageNumbers.innerHTML = '';
+    const totalCommentPages = Math.ceil(totalComments / commentsPerPage); // 총 페이지 수 계산
+
+    commentsPagination.style.display = 'flex';
+
+    // 이전 섹션 버튼
+    const prevCommentSectionButton = document.getElementById('prevCommentSectionButton');
+    const isFirstSection = Math.floor((currentPage - 1) / pagesPerSection) === 0;
+    prevCommentSectionButton.style.display = (isFirstSection && currentPage === 1) ? 'none' : 'inline-block';
+
+    prevCommentSectionButton.onclick = (event) => {
+        event.preventDefault();
+        const prevSectionLastPage = Math.max(1, Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection);
+        loadUserComments(prevSectionLastPage); // 사용자 댓글 로드
+    };
+
+    // 이전 페이지 버튼
+    const prevCommentButton = document.getElementById('prevCommentButton');
+    prevCommentButton.style.display = currentPage > 1 ? 'inline-block' : 'none';
+    prevCommentButton.onclick = (event) => {
+        event.preventDefault();
+        if (currentPage > 1) loadUserComments(currentPage - 1); // 사용자 댓글 로드
+    };
+
+    // 페이지 번호 버튼들
+    for (let i = 1; i <= totalCommentPages; i++) {
+        if (i > Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection && 
+            i <= (Math.floor((currentPage - 1) / pagesPerSection) + 1) * pagesPerSection) {
+            const pageSpan = document.createElement('a');
+            pageSpan.textContent = i;
+            pageSpan.className = 'pagination';
+            if (i === currentPage) pageSpan.classList.add('active');
+            pageSpan.onclick = () => loadUserComments(i); // 사용자 댓글 로드
+            commentPageNumbers.appendChild(pageSpan);
+        }
+    }
+
+    // 다음 페이지 버튼
+    const nextCommentButton = document.getElementById('nextCommentButton');
+    nextCommentButton.style.display = currentPage < totalCommentPages ? 'inline-block' : 'none';
+    nextCommentButton.onclick = (event) => {
+        event.preventDefault();
+        if (currentPage < totalCommentPages) loadUserComments(currentPage + 1); // 사용자 댓글 로드
+    };
+
+    // 다음 섹션 버튼
+    const nextCommentSectionButton = document.getElementById('nextCommentSectionButton');
+    nextCommentSectionButton.style.display = currentPage < totalCommentPages ? 'inline-block' : 'none';
+    nextCommentSectionButton.onclick = (event) => {
+        event.preventDefault();
+        const nextSectionFirstPage = Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection + pagesPerSection + 1;
+        loadUserComments(Math.min(nextSectionFirstPage, totalCommentPages)); // 사용자 댓글 로드
+    };
+}
+
+
+
 let editingCommentId = null; // 수정할 댓글 ID 저장 변수
 
 // 댓글 수정 함수
-function editComment(commentId) {
+function editComment(commentId) {   
     if (commentId === undefined) {
         console.error('댓글 ID가 정의되지 않았습니다.');
         alert('댓글 ID가 정의되지 않았습니다.');
@@ -184,6 +259,25 @@ function submitEdit() {
         alert('수정 실패');
     });
 }
+
+// 입력 필드 글자 수 체크
+function validateCommentInput() {
+    const commentInput = document.getElementById('newCommentText');
+    const editWarningMessage = document.getElementById('editWarningMessage');
+
+    // 글자 수 체크
+    if (commentInput.value.length >= 500) {
+        editWarningMessage.style.display = 'block';
+        editWarningMessage.textContent = "댓글 내용은 최대 500자까지 입력할 수 있습니다.";
+        commentInput.value = commentInput.value.substring(0, 500); // 500자 초과 시 잘라내기
+    } else {
+        editWarningMessage.style.display = 'none';
+    }
+}
+
+// 입력 필드에서 실시간 체크
+document.getElementById('newCommentText').addEventListener('input', validateCommentInput);
+
 
 function closeCommentModal() {
     document.getElementById('editCommentModal').style.display = 'none'; // 모달 닫기

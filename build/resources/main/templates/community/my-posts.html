@@ -6,13 +6,17 @@
     <title>my-posts</title>
     <link rel="stylesheet" href="/css/community/my-posts.css">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+<<<<<<< HEAD
     <link rel="stylesheet" href="/css/community/community.css"> <!-- 커뮤니티 CSS -->
+=======
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <nav th:replace="~{nav.html::side-nav}"></nav>
     <h1>내가 쓴 게시물</h1>
 
+<<<<<<< HEAD
         <!-- 사용자 게시물 목록 -->
         <div id="myPostsList">
             <div class="post">
@@ -46,6 +50,16 @@
 
         <!-- 상세보기 모달 또는 섹션 -->
         <div id="postModal" class="modal">
+=======
+    <div id="myPostsContainer">
+        <h2>내 게시물 목록</h2>
+        <!-- 사용자 게시물 목록 -->
+        <div id="myPostsList"></div>
+
+
+    <!-- 상세보기 모달 또는 섹션 -->
+    <div id="postModal" class="modal">
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2 id="postTitle"></h2>
@@ -54,6 +68,7 @@
             <p id="createdAt"></p>
             <button id="editPostButton" style="display: none;">수정하기</button>
             <button id="deletePostButton" style="display: none;">삭제하기</button>
+<<<<<<< HEAD
 
                     <!-- 댓글 섹션 -->
             <h3>댓글</h3>
@@ -79,29 +94,35 @@
         </div>
         </div>
     </div>
+=======
+            <button id="goToPostButton" style="display: none;">게시물로 이동</button>
+        </div>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     </div>
 
-    <!-- 수정 모달 -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeEditModal">&times;</span>
-          
-          <!-- 기존 게시글 내용 표시 -->
-          <h2>수정하기</h2>
-          <p><strong>제목:</strong> <span id="originalTitle"></span></p>
-          <p><strong>내용:</strong> <span id="originalContent"></span></p>
-      
-          <!-- 수정 입력 폼 -->
-          <h2>게시글 수정</h2>
-          <label for="newTitle">제목:</label>
-          <input type="text" id="newTitle">
-          
-          <label for="newContent">내용:</label>
-          <textarea id="newContent"></textarea>
-  
-          <button id="saveChangesBtn">저장</button>
-        </div>
-      </div>
+<!-- 수정 모달 -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeEditModal">&times;</span>
+
+        <!-- 기존 게시글 내용 표시 -->
+        <h2>수정하기</h2>
+        <p><strong>제목:</strong> <span id="originalTitle"></span></p>
+        <p><strong>내용:</strong> <span id="originalContent"></span></p>
+
+        <!-- 수정 입력 폼 -->
+        <h2>게시글 수정</h2>
+        <label for="newTitle">제목:</label>
+        <input type="text" id="newTitle" maxlength="100" placeholder="새 제목을 입력하세요">
+        <span id="titleAlert" style="color: red; display: none;">제목은 최대 100자까지 입력할 수 있습니다.</span>
+
+        <label for="newContent">내용:</label>
+        <textarea id="newContent" maxlength="1000" rows="5" placeholder="새 내용을 입력하세요"></textarea>
+        <span id="contentAlert" style="color: red; display: none;">내용은 최대 1000자까지 입력할 수 있습니다.</span>
+
+        <button id="saveChangesBtn">저장</button>
+    </div>
+</div>
       
 
     <script src="/js/my-posts.js"></script>

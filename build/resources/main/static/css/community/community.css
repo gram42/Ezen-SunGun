@@ -254,6 +254,7 @@ button:hover {
 #commentText {
     width: 80%; /* 댓글 입력란의 너비 조정 */
     margin: 10px 0; /* 위아래 여백 추가 */
+<<<<<<< HEAD
 }
 
 
@@ -285,3 +286,6 @@ button:hover {
 }
 
 .hidden { display: none !important; }
+=======
+}
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275

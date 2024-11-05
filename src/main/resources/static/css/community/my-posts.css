@@ -145,7 +145,7 @@ button:hover {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 위에서 15%, 가운데 정렬 */
+    margin: 5% auto; /* 위에서 15%, 가운데 정렬 */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* 모달 너비 */
@@ -205,4 +205,10 @@ button:hover {
 .comments-pagination #prevCommentSectionButton:hover,
 .comments-pagination #nextCommentSectionButton:hover {
     text-decoration: underline; /* 마우스 오버 시 밑줄 추가 */
+}
+
+#commentsContainer{
+    overflow-wrap: break-word; /* overflow-wrap 속성으로도 줄바꿈 처리 가능 */
+    hyphens: auto; /* 하이픈을 사용하여 줄바꿈을 부드럽게 처리 */
+    white-space: normal;  /* 줄바꿈이 가능한 상태로 설정 */
 }

@@ -67,7 +67,7 @@ public class RecordController {
                 model.addAttribute("date", TODAY);
 
             }
-        } 
+        }
         return "/record/record";
     }
 

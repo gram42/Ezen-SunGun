@@ -1,7 +1,15 @@
 /* 질문 상자 스타일 */
 .question-box {
     position: fixed;
+<<<<<<< HEAD
     top: 150px; /* 질문 상자 위치 조정 */
+=======
+<<<<<<< HEAD
+    top: 150px; /* 질문 상자 위치 조정 */
+=======
+    top: 0;
+>>>>>>> 41285f623e5224ccabf2f60bd63acd2061b2a51c
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     left: 50%;
     transform: translateX(-50%);
     width: 100%;

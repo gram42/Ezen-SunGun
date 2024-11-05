@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-// import com.example.todaktodak.community.comments.Comments;
-// import com.example.todaktodak.community.comments.CommentsRepository;
-// import com.example.todaktodak.community.posts.Posts;
+import com.example.todaktodak.community.comments.Comments;
+import com.example.todaktodak.community.comments.CommentsRepository;
+import com.example.todaktodak.community.posts.Posts;
 import com.example.todaktodak.record.Record;
-// import com.example.todaktodak.community.posts.PostsRepository;
+import com.example.todaktodak.community.posts.PostsRepository;
 import com.example.todaktodak.record.RecordRepository;
 
 @Service
@@ -27,20 +27,20 @@ public class UserService {
 
     // 회원 탈퇴를 위해 연관 기록 찾는 기능 필요
     private final RecordRepository recordRepository;
-    // private final PostsRepository postsRepository;
-    // private final CommentsRepository commentsRepository;
+    private final PostsRepository postsRepository;
+    private final CommentsRepository commentsRepository;
 
     public UserService(UserRepository userRepository, 
                         PasswordEncoder passwordEncoder, 
-                        RecordRepository recordRepository
-                        // PostsRepository postsRepository,
-                        // CommentsRepository commentsRepository
+                        RecordRepository recordRepository,
+                        PostsRepository postsRepository,
+                        CommentsRepository commentsRepository
                         ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.recordRepository = recordRepository;
-        // this.postsRepository = postsRepository;
-        // this.commentsRepository = commentsRepository;
+        this.postsRepository = postsRepository;
+        this.commentsRepository = commentsRepository;
     }
     
 
@@ -127,7 +127,7 @@ public class UserService {
             deleteAllPosts(userDTO);
             
             // 유저와 댓글 관계 제거
-            // setCmtsRelationshipIsNull(userDTO);
+            setCmtsRelationshipIsNull(userDTO);
 
             // 유저 기록 삭제
             deleteAllRecord(userDTO);
@@ -141,18 +141,18 @@ public class UserService {
 
     // 유저의 모든 게시글 삭제
     public void deleteAllPosts(UserDTO userDTO){
-        // List<Posts> posts = postsRepository.findByUserId(userDTO.getId());
-        // postsRepository.deleteAll(posts);
+        List<Posts> posts = postsRepository.findByUserId(userDTO.getId());
+        postsRepository.deleteAll(posts);
     }
 
     // 유저의 모든 댓글 관계 제거
-    // public void setCmtsRelationshipIsNull(UserDTO userDTO){
-    //     List<Comments> comments = commentsRepository.findByUser_Id(userDTO.getId());
-    //     for (Comments comment : comments) {
-    //         comment.setUser(null);
-    //     }
-    //     commentsRepository.saveAll(comments);
-    // }
+    public void setCmtsRelationshipIsNull(UserDTO userDTO){
+        List<Comments> comments = commentsRepository.findByUser_Id(userDTO.getId());
+        for (Comments comment : comments) {
+            comment.setUser(null);
+        }
+        commentsRepository.saveAll(comments);
+    }
     
     // 유저의 모든 기록 삭제
     public void deleteAllRecord(UserDTO userDTO){

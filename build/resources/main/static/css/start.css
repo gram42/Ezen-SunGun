@@ -9,12 +9,28 @@ body{
     justify-content: center;
     align-items: center;
     position: relative;
+<<<<<<< HEAD
     background-image: url('/img/1727768908340_7130.jpg');
+=======
+<<<<<<< HEAD
+    background-image: url('/img/1727768908340_7130.jpg');
+=======
+    background-image: url('/img/1727241857894_6090.jpg');
+>>>>>>> 41285f623e5224ccabf2f60bd63acd2061b2a51c
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     background-size: cover;
     background-position: center;
 }
 
+<<<<<<< HEAD
 #text {
+=======
+<<<<<<< HEAD
+#text {
+=======
+#toMain {
+>>>>>>> 41285f623e5224ccabf2f60bd63acd2061b2a51c
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     text-align: center;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
@@ -31,8 +47,17 @@ body{
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 1;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 }
 
 #title {
     display: flex;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 41285f623e5224ccabf2f60bd63acd2061b2a51c
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 }

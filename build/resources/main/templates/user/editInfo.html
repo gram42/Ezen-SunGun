@@ -7,11 +7,18 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
+<<<<<<< HEAD
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <div>
     <h2>정보 수정</h2>
 
     <form id="submitForm" action="/user/retouch" method="post">
+=======
+    <div>
+    <h2>정보 수정</h2>
+
+    <form id="submit" action="/user/retouch" method="post">
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
         <div>
             <input type="hidden" name="id" th:value="${user.id}">
@@ -19,6 +26,7 @@
 
 
         <div>
+<<<<<<< HEAD
             <span> 아이디 </span>
             <input type="text" name="userid" th:value="${user.userid}" readonly>
         </div>
@@ -41,11 +49,30 @@
             </div>
         </div>
 
+=======
+            <span> ID </span>
+            <input type="text" name="userid" th:value="${user.userid}" readonly>
+        </div>
+
+    
+        <div>
+            <span> 이름 </span>
+            <input type="text" name="userName" th:if="${user.userName != null}" th:value="${user.userName}">
+        </div>
+    
+        <div>
+            <span> 비밀번호 </span>
+            <input id="changePassword" name="password" type="password">
+            <input id="checkChangePassword" type="password">
+        </div>
+    
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         <div>
             <span> 이메일 </span>
             <input type="text" name="email" th:value="${user.email}" readonly>
         </div>
     
+<<<<<<< HEAD
         <div class="inputShape">
             <label>성별</label>
             <div>
@@ -67,13 +94,83 @@
     
         <button type="submit">변경 사항 저장</button>
         <a href="/user/userInfo">취소</a>
+=======
+        <div>
+            <span> 성별 </span>
+            <input type="text" name="gender" th:if="${user.gender != null}" th:value="${user.gender}">
+        </div>
+    
+        <div>
+            <span> 생일 </span>
+            <input type="text" name="birthDate" th:if="${user.birthDate != null}" th:value="${user.birthDate}">
+        </div>
+    
+        <button type="submit">변경 사항 저장</button>
+        <a href="/user/mypage">취소</a>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         
     </form>
     
     <a id="deleteAccount" href="#">회원탈퇴</a>
 
+<<<<<<< HEAD
     <script type="module" src="/js/user/EditInfo.js"></script>
     <script src="/js/nav.js"></script>
+=======
+<script>
+(()=>{
+
+
+    document.querySelector('#submit').addEventListener('submit', (event) => {
+        event.preventDefault();
+        
+        const changePassword = document.querySelector('#changePassword').value;
+        const checkChangePassword = document.querySelector('#checkChangePassword').value;
+
+        if (changePassword != '' && changePassword !== checkChangePassword) {
+            alert("비밀번호를 확인해주세요.");
+            return;
+        }
+
+        event.target.submit();
+    });
+
+
+    document.querySelector('#deleteAccount').addEventListener('click',(event)=>{
+        event.preventDefault();
+
+        if (confirm("회원 탈퇴 시 작성하신 게시글 기록 등이 전부 삭제됩니다.\n정말로 탈퇴 하시겠습니까?")){
+            const userid = document.querySelector('input[name="userid"]').value;
+            const id = document.querySelector('input[name="id"]').value;
+            
+            fetch('/user/deleteAccount', {
+
+                method: 'DELETE',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({userid, id})
+
+            })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                location.href='/ui/main';
+            })
+            .catch(error => {
+                    alert("탈퇴 중 문제가 발생했습니다: " + error.message);
+            });
+        }
+        
+    })
+
+
+
+
+
+})();
+
+
+</script>
+>>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
 </div>    
 </body>
