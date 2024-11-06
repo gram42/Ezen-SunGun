@@ -21,8 +21,7 @@ async function login(userId, password) {
 
     if (response.ok) {
         const data = await response.text(); // "로그인 성공" 메시지
-        console.log(data); // 성공 메시지 로그
-
+ 
         // 로그인 성공 후 사용자 정보 로드
         await fetchCurrentUser(); // 로그인 후 사용자 정보 로드
 
