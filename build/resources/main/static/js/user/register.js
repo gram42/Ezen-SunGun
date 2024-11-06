@@ -1,6 +1,5 @@
 import InputUserInfo from "./InputUserInfo.js";
 (()=>{
-
     const inputUserInfo = new InputUserInfo();
 
     const $inputUserid = document.querySelector('#inputUserid');
