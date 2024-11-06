@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,10 +50,10 @@ public class CommentsController {
 
     // 댓글 생성
     @PostMapping("/{postId}")
-    public ResponseEntity<CommentsDTO> createComment(@PathVariable(name = "postId") Long postId, @RequestBody CommentsDTO commentDTO) {
+    public ResponseEntity<CommentsDTO> createComment(@PathVariable(name = "postId") Long postId, @RequestBody CommentsDTO commentDTO, Principal principal) {
         try {
             // 댓글 생성
-            CommentsDTO createdComment = commentsService.createComment(postId, commentDTO);
+            CommentsDTO createdComment = commentsService.createComment(postId, commentDTO, principal);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
         } catch (Exception e) {
             System.err.println("Error occurred while creating comment: " + e.getMessage()); // 에러 로그

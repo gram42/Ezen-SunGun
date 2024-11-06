@@ -218,7 +218,7 @@ public ResponseEntity<Map<String, Object>> getAllPosts(Pageable pageable, Princi
             // 로그인한 사용자 정보를 가져옴
             User user = userService.getUserByUserid(principal.getName());
             commentDTO.setUserId(user.getId()); // 댓글 작성자 ID 설정
-            CommentsDTO savedCommentDTO = commentsService.createComment(postId, commentDTO);
+            CommentsDTO savedCommentDTO = commentsService.createComment(postId, commentDTO, principal);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedCommentDTO);
         } catch (RuntimeException e) {
             logger.error("댓글 추가 중 오류 발생: {}", e.getMessage(), e);

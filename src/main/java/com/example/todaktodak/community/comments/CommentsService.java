@@ -12,6 +12,7 @@ import com.example.todaktodak.community.posts.Posts;
 import com.example.todaktodak.community.posts.PostsService;
 
 import java.time.LocalDateTime;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,9 +41,9 @@ public class CommentsService {
 
     // 댓글 생성
     @Transactional // 트랜잭션 관리
-    public CommentsDTO createComment(Long postId, CommentsDTO commentDTO) {
+    public CommentsDTO createComment(Long postId, CommentsDTO commentDTO, Principal principal) {
         // 현재 사용자 가져오기
-        User currentUser = userService.getCurrentUser();
+        User currentUser = userService.getUserByUserid(principal.getName());
         if (currentUser == null) {
             throw new RuntimeException("Current user not found");
         }
