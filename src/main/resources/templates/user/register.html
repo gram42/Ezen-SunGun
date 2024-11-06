@@ -12,7 +12,6 @@
             align-items: center;
         }
         .registerContainer{
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 30px;
             border-radius: 16px;
             background-color: #FFCC80;
@@ -84,7 +83,7 @@
     
         <div class="inputShape">
             <label class="required" for="inputUserid">아이디</label>
-            <span id="useridChkRes"></span>
+            <pre id="useridChkRes"></pre>
             <div>
                 <input id="inputUserid" type="text" required>
                 <button id="useridDuplChkBtn" type="button">아이디 중복확인</button>
@@ -93,7 +92,7 @@
     
         <div class="inputShape">
             <label class="required" for="inputPw">비밀번호</label>
-            <span id="pwChkRes"></span>
+            <pre id="pwChkRes"></pre>
             <input id="inputPw" type="password" required>
             <input id="inputPwChk" type="password" placeholder="비밀번호를 다시 입력해주세요" required>
         </div>
@@ -103,7 +102,7 @@
         
         <div class="inputShape">
             <label class="required" for="inputEmail">이메일</label>
-            <span id="emailChkRes"></span>
+            <pre id="emailChkRes"></pre>
             <div>
                 <form id="emailForm" action="/codePlz" method="post" target="blankifr">
                     <input id="inputEmail" name="email" type="email" placeholder="SUN123@example.com" required>
@@ -116,7 +115,7 @@
         
         <div class="inputShape">
             <label class="required" for="inputNicknm">닉네임</label>
-            <span id="nicknmChkRes"></span>
+            <pre id="nicknmChkRes"></pre>
             <div>
                 <input id="inputNicknm" type="text" required>
                 <button id="nicknmDuplChkBtn" type="button">닉네임 중복확인</button>

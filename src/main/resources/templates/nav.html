@@ -18,7 +18,7 @@
             </form>
         </span>
         
-        <a class="link" id="personalMenuBtn" href="#">개인메뉴</a>
+        <a sec:authorize="isAuthenticated" class="link" id="personalMenuBtn" href="#">개인메뉴</a>
         <div class="personalMenu">
             
             <a class="link" href="/mypage">마이페이지</a>

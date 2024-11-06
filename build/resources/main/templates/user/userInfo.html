@@ -7,57 +7,73 @@
     <link rel="stylesheet" th:href="@{/css/personal_menu/mypage.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 
-<<<<<<< HEAD
     <style>
 
-        .mypageContainer {
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            border-radius: 16px;
-            background-color: #FFCC80;
-            width: 400px;
-            margin-top: 20px;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
         .info {
             display: flex;
             justify-content: space-between;
-            margin: 10px 0;
+            margin: 20px 0;
         }
-        .info span {
+
+        .elementsName {
             font-weight: bold;
+            width: 100px; 
         }
+
+        .value {
+            color: #555;
+        }
+
         #checkPassword {
-            display: none; /* 초기 상태는 숨김 */
+            display: none;
             margin-top: 20px;
             padding: 10px;
             border: 1px solid #fd9800;
             border-radius: 8px;
-            background-color: white;
+            /* background-color: white; */
         }
-        button {
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background-color: #fd9800; /* 주황색 배경 */
-            color: white; /* 흰색 글자 */
-            font-size: 16px;
-            cursor: pointer; /* 포인터 커서 */
-            transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
-        }
+
         #resultMessage {
             color: red; /* 오류 메시지 색상 */
         }
+
+        #personalInfoContainer{
+            display: flex;          
+            flex-direction: column;
+            justify-content: center;  
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        #inputEditPw {
+            margin-top: 20px;  /* 개인정보 항목들과 버튼 간의 간격을 추가 */
+        }
+
+        #inputEditPw a {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: #fd9800;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #inputEditPw a:hover {
+            background-color: #f58200;    /* hover 효과 */
+        }
+
+        #sideContainer{
+            /* display: flex; */
+            display: inline-flex;
+        }
     </style>
-=======
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <nav th:replace="~{nav.html::side-nav}"></nav>
-    <h1>mypage test</h1>
 
     <div sec:authorize="isAnonymous">
         <h1>로그인 후 이용 가능합니다.</h1>
@@ -65,78 +81,54 @@
         <a href="/ui/main">홈으로</a>
     </div>
 
-    <div sec:authorize="isAuthenticated()">
-
-        <a href="#" id="perInfoEdit">개인 정보 수정</a><br>
-        
-        <div id="checkPassword">
-
-            <span>개인 정보를 수정하시려면 비밀번호를 입력해주세요.</span><br>
-            <span id="resultMessage"></span><br>
-            <input id="saveId" type="hidden" name="userid" th:value="${user.userid}">
-            <input id="inputPassword" type="password" name="password">
-<<<<<<< HEAD
-            <button id="sendPassword" type="button">입력</button>
-=======
-            <button id="sendPassword" type="submit">입력</button>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
-
-        </div>
+    <div sec:authorize="isAuthenticated()" id="personalInfoContainer">
 
         <div>
+            <div class="info">
+                <div class="elementsName">ID</div>
+                <div class="value" th:if="${user.userid != null}" th:text="${user.userid}">id</div>
+            </div>
             
             <div class="info">
-                <span>ID </span>
-<<<<<<< HEAD
-                <p th:if="${user.userid != null}" th:text="${user.userid}">id</p>
-=======
-                <p th:if="${user.userid != null}" th:text="${user.userid}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
+                <div class="elementsName">이름</div>
+                <div class="value" th:if="${user.userName != null}" th:text="${user.userName}">name</div>
             </div>
-
+            
             <div class="info">
-                <span>이름 </span>
-<<<<<<< HEAD
-                <p th:if="${user.userName != null}" th:text="${user.userName}">name</p>
-=======
-                <p th:if="${user.userName != null}" th:text="${user.userName}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
+                <div class="elementsName">이메일</div>
+                <div class="value" th:if="${user.email != null}" th:text="${user.email}">email</div>
             </div>
-
+            
             <div class="info">
-                <span>이메일 </span>
-<<<<<<< HEAD
-                <p th:if="${user.email != null}" th:text="${user.email}">email</p>
-=======
-                <p th:if="${user.email != null}" th:text="${user.email}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
+                <div class="elementsName">성별</div>
+                <div class="value" th:if="${user.gender != null}" th:text="${user.gender}">gender</div>
             </div>
-
+            
             <div class="info">
-                <span>성별 </span>
-<<<<<<< HEAD
-                <p th:if="${user.gender != null}" th:text="${user.gender}">gender</p>
-=======
-                <p th:if="${user.gender != null}" th:text="${user.gender}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
-            </div>
-
-            <div class="info">
-                <span>생일 </span>
-<<<<<<< HEAD
-                <p th:if="${user.birthDate != null}" th:text="${user.birthDate}">birthdate</p>
-=======
-                <p th:if="${user.birthDate != null}" th:text="${user.birthDate}"></p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
-            </div>
-
+                <div class="elementsName">생일</div>
+                <div class="value" th:if="${user.birthDate != null}" th:text="${user.birthDate}">birthdate</div>
+            </div>            
         </div>
 
         
 
         <!-- 개인 정보 수정을 누르면 각종 정보 수정 가능하게 비밀번호와 정보 수정시 비번 재입력 -->
 
-        <a href="/user/logout">로그아웃</a>
+        <div id="inputEditPw">
+            <a href="#" id="perInfoEdit">개인 정보 수정</a><br>
+            
+            <div id="checkPassword">
+    
+                <span>개인 정보를 수정하시려면 비밀번호를 입력해주세요.</span><br>
+                <span id="resultMessage"></span><br>
+                <input id="saveId" type="hidden" name="userid" th:value="${user.userid}">
+                <input id="inputPassword" type="password" name="password">
+                <button id="sendPassword" type="button">입력</button>
+    
+            </div>
+        </div>
+
+        <!-- <a href="/user/logout">로그아웃</a> -->
         
     </div>
 

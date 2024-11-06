@@ -1,7 +1,6 @@
 import InputUserInfo from "./InputUserInfo.js";
 (()=>{
 
-    // import 메소드 사용
     const inputUserInfo = new InputUserInfo();
 
     const $inputUserid = document.querySelector('#inputUserid');
@@ -46,6 +45,14 @@ import InputUserInfo from "./InputUserInfo.js";
     
     // 최종 확인
     let comphnsExamine = false;
+
+// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// 메일 인증 발송 안내
+document.querySelector('#emailForm').addEventListener('submit',()=>{
+    inputUserInfo.errMessage(document.querySelector('#emailChkRes'), "인증 메일이 발송되었습니다.", "black");
+});
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -185,8 +192,7 @@ import InputUserInfo from "./InputUserInfo.js";
                     .then(message =>{
                         if (message === "register Success"){
     
-                                alert("회원가입 성공!\n 관심 분야를 저장하시면 빠른 추천을 이용하실 수 있습니다.\n \
-                                       개인메뉴의 관심사 설정을 이용해주세요")
+                                alert("회원가입 성공!\n 관심 분야를 저장하시면 빠른 추천을 이용하실 수 있습니다.\n 개인메뉴의 관심사 설정을 이용해주세요")
 
                                 location.href = "/ui/index";
 
@@ -199,7 +205,7 @@ import InputUserInfo from "./InputUserInfo.js";
                 }
             } else {
 
-                inputUserInfo.errMessage(document.querySelector('#emailChkRes'), "인증에 실패했습니다. 이메일과 인증번호를 다시 확인해주세요")
+                inputUserInfo.errMessage(document.querySelector('#emailChkRes'), "인증에 실패했습니다. \n" + "이메일과 인증번호를 다시 확인해주세요")
                 document.querySelector('#emailAuthBtn').focus();
 
             }

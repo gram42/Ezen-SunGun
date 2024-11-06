@@ -47,7 +47,7 @@ public class ChatGPTController {
         Map<String, Object> payload = new HashMap<>();
         payload.put("model", "gpt-4o-mini");
         payload.put("messages", Collections.singletonList(messageMap));
-        payload.put("max_tokens", 50);
+        // payload.put("max_tokens", 50);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
         

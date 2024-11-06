@@ -9,14 +9,7 @@
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
-<<<<<<< HEAD
     <nav th:replace="~{nav.html::side-nav}"></nav>
-=======
-
-    <div class="record-container">
-
-        <nav th:replace="~{nav.html::side-nav}"></nav>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     
         <div sec:authorize="isAnonymous">
             <div>로그인 후 이용 가능합니다</div>
@@ -24,6 +17,7 @@
         </div>
         
         <div sec:authorize="isAuthenticated">
+            <div>테스트 이거 나오나 안나오나</div>
     
             <!-- 기록 출력 -->
             <div id="totalRecord">
@@ -55,14 +49,8 @@
         
         </div>
 
-<<<<<<< HEAD
 
 <script src="/js/Record/record.js"></script>
-=======
-    </div>
-
-<script src="/js/record/record.js"></script>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 <script src="/js/nav.js"></script>
     
 </body>

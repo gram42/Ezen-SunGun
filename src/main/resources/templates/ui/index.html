@@ -19,9 +19,40 @@
 </div>
 
 <div class="button-container">
-    <button onclick="location.href='#'">빠른 추천</button>
+    
+    <button id="fastRecommendation">빠른 추천</button>
+
+    <form id="submitForm" action="/chatgpt-api" method="POST" style="display:none;">
+        <input id="inputInterests" type="hidden" name="interest">
+    </form>
+
     <button onclick="location.href='/ui/select'">선택 추천</button>
 </div>
+
+<script>
+(() => {
+    document.querySelector('#fastRecommendation').addEventListener('click', () => {
+
+        fetch('/userInterestsPlz', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(res => {
+
+            if (res && res.length > 0) {
+
+                document.querySelector('#inputInterests').value = res;
+                document.querySelector('#submitForm').submit();
+                
+            } else {
+                alert("저장하신 관심사가 없습니다.");
+            }
+        })
+        .catch(error => { alert(error.message); });
+    });
+})();
+</script>
 
 
 <script src="/js/nav.js"></script>

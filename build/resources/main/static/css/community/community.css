@@ -101,7 +101,10 @@ body {
     text-align: right; /* 텍스트 오른쪽 정렬 */
 }
 
-
+#userActions {
+    display: flex;
+    gap: 10px; /* 버튼 간 간격 설정 */
+}
 
 
 
@@ -194,12 +197,16 @@ button:hover {
 }
 
 .comment {
-    display: flex;
+    display: block;
+    overflow-wrap: break-word; /* overflow-wrap 속성으로도 줄바꿈 처리 가능 */
+    hyphens: auto; /* 하이픈을 사용하여 줄바꿈을 부드럽게 처리 */
+    white-space: normal;  /* 줄바꿈이 가능한 상태로 설정 */
     flex-direction: column; /* 세로로 배치 */
     border: 1px solid #ccc; /* 경계선 추가 */
     padding: 10px; /* 패딩 추가 */
     position: relative; /* 수정/삭제 버튼 위치 조정을 위해 필요 */
 }
+
 
 #commentAuthor,
 #commentCreatedAt {
@@ -251,10 +258,27 @@ button:hover {
     margin: 20px; /* 페이지 여백 */
 }
 
+#postTitle {
+    font-size: 24px; /* 제목 글자 크기 조정 */
+    margin-bottom: 10px; /* 제목과 내용 간격 조정 */
+    display: block;
+    overflow-wrap: break-word; /* overflow-wrap 속성으로도 줄바꿈 처리 가능 */
+    hyphens: auto; /* 하이픈을 사용하여 줄바꿈을 부드럽게 처리 */
+    white-space: normal
+}
+
+#postContent {
+    font-size: 16px; /* 내용 글자 크기 조정 */
+    margin-bottom: 20px; /* 내용과 댓글 간격 조정 */
+    display: block;
+    overflow-wrap: break-word; /* overflow-wrap 속성으로도 줄바꿈 처리 가능 */
+    hyphens: auto; /* 하이픈을 사용하여 줄바꿈을 부드럽게 처리 */
+    white-space: normal
+}
+
 #commentText {
     width: 80%; /* 댓글 입력란의 너비 조정 */
     margin: 10px 0; /* 위아래 여백 추가 */
-<<<<<<< HEAD
 }
 
 
@@ -286,6 +310,61 @@ button:hover {
 }
 
 .hidden { display: none !important; }
-=======
+
+/* 수정 모달 */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
 }
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#searchContainer {
+    position: relative; /* 부모 요소와의 상대적인 위치 지정 */
+    margin-top: 20px; /* 페이지네이션보다 아래에 위치하도록 여백 추가 */
+    text-align: center; /* 중앙 정렬 (필요에 따라 추가) */
+}
+#dropdownButton {
+    color: #28a745; /* 현재 페이지 강조 색상 */
+    font-weight: bold; /* 볼드체 적용 */
+    border: 1px solid #28a745; /* 연두색 테두리 추가 */
+    background-color: #f9f9f9; /* 배경색 추가 */
+}
+#searchButton {
+    color: #28a745; /* 현재 페이지 강조 색상 */
+    font-weight: bold; /* 볼드체 적용 */
+    border: 1px solid #28a745; /* 연두색 테두리 추가 */
+    background-color: #f9f9f9; /* 배경색 추가 */
+}
+
+.searchcontent {
+    white-space: nowrap;
+}

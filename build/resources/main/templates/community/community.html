@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>커뮤니티 게시판</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="/css/community/community.css"> <!-- CSS 파일 링크 -->
-    <link rel="stylesheet" th:href="@{/css/nav.css}">
-=======
-    <link rel="stylesheet" href="/css/community.css"> <!-- CSS 파일 링크 -->
     <link rel="stylesheet" href="/css/my-posts.css">
->>>>>>> d754e0681422607562daef9c08f10853681e9477
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
@@ -103,11 +99,7 @@
             </div>
             </div>
         
-<<<<<<< HEAD
         <div class="backButton" id="backButton">게시판으로 이동</div>
-=======
-        <div class="backButton" id="backButton">목록으로 돌아가기</div>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     </div>
 
     <div id="postsList"></div>
@@ -128,7 +120,6 @@
         <a href="#" id="nextSectionButton" class="pagination-button">»</a>
     </div>
     
-<<<<<<< HEAD
 
     <div id="searchContainer">
     <div class="dropdown">
@@ -151,11 +142,6 @@
     <div id="errorMessage" style="color: red; display: none;"></div>
 
     <div id="postsContainer"></div> <!-- 검색 결과 게시물 표시 공간 -->
-=======
-    <div id="loadingMessage" style="display: none;">로딩 중...</div>
-    <div id="errorMessage" style="color: red; display: none;"></div>
-
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
     <div id="userActions">
         <button id="myPostsButton">내가 쓴 게시물 보기</button>

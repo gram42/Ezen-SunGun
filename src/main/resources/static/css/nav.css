@@ -56,13 +56,11 @@
 .side-nav {
     background-color: #ffae00;
     padding: 15px 15px;
-    margin-top: 50px;
-    margin-right: 170px;
-    margin-left: 30px;
-    /* margin-bottom: 150vh; */
+    max-height: 120px;
     width: 200px;
-    height: auto;
-    left: 20px;
+    position: fixed;
+    top: 15vh;
+    left: 3vw;
 }
 
 .side-nav .link {

@@ -43,6 +43,23 @@ public class InterestService {
         }
         return interestsId;
     }
+
+    // 유저 취향 리턴(gpt 연결 버전)
+    public List<String> getUserInterestsStr(String userid){
+
+        List<Interest> interests = interestRepository.findByCompositeIdUserid(userid);
+        List<String> interestsCategories = new ArrayList<>();
+
+        if(!interests.isEmpty()){
+            for (Interest interest : interests) {
+                String categoryName = interest.getCategories().getName();
+                interestsCategories.add(categoryName);
+            }
+        }
+
+        return interestsCategories;
+
+    }
         
 
     // 관심사 저장

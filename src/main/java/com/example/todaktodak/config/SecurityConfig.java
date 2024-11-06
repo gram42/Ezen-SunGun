@@ -20,7 +20,6 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests((authorize) -> 
             authorize
                 .requestMatchers("/community/writing").authenticated() // /community/writing 경로는 인증 필요
-                .requestMatchers("/user/current").authenticated() // /user/current는 인증 필요
                 .requestMatchers("/categories").hasRole("ADMIN") // 카테고리 수정 관리자만 접근 가능하게 하려면 이 코드 추가
                 .anyRequest().permitAll() // 그 외 요청은 모두 허용
         );

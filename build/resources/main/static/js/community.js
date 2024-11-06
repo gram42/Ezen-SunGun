@@ -21,10 +21,7 @@ async function loadPosts(page = 1) {
         const data = await response.json();
         const posts = data.content || [];
         totalPosts = data.totalElements;
-<<<<<<< HEAD
         
-=======
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
         // 로드된 게시물 업데이트
         loadedPosts = posts;
@@ -45,11 +42,7 @@ async function loadPosts(page = 1) {
 
             // 게시글 제목
             const title = document.createElement('h3');
-<<<<<<< HEAD
             title.textContent = post.title.length > 10 ? post.title.substring(0, 10) + '...' : post.title;
-=======
-            title.textContent = post.title;
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
             // 게시물 박스 클릭 시 상세보기로 이동
             postDiv.addEventListener('click', () => {
@@ -59,11 +52,7 @@ async function loadPosts(page = 1) {
 
             // 게시글 내용 미리보기
             const preview = document.createElement('p');
-<<<<<<< HEAD
             preview.textContent = post.content.length > 20 ? post.content.substring(0, 20) + '...' : post.content;
-=======
-            preview.textContent = post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content;
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
             // 댓글 수 표시
             const postInfo = document.createElement('div');
@@ -113,12 +102,8 @@ function updatePagination() {
     // 첫 번째 섹션일 경우 이전 섹션 버튼을 보이게 하되, 첫 페이지일 경우에는 숨기기
     prevSectionButton.style.display = (isFirstSection && currentPage === 1) ? 'none' : 'inline-block';
 
-<<<<<<< HEAD
     prevSectionButton.onclick = (event) => {
         event.preventDefault();
-=======
-    prevSectionButton.onclick = () => {
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         const prevSectionLastPage = Math.max(1, Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection); // 이전 섹션의 마지막 페이지
         currentPage = prevSectionLastPage; // 이전 섹션의 마지막 페이지로 이동
         loadPosts(currentPage);
@@ -130,12 +115,8 @@ function updatePagination() {
     // 이전 페이지 버튼
     const prevButton = document.getElementById('prevButton');
     prevButton.style.display = currentPage > 1 ? 'inline-block' : 'none';
-<<<<<<< HEAD
     prevButton.onclick = (event) => {
         event.preventDefault();
-=======
-    prevButton.onclick = () => {
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         if (currentPage > 1) {
             currentPage--;
             console.log("Current Page:", currentPage);
@@ -163,12 +144,8 @@ function updatePagination() {
     // 다음 페이지 버튼
     const nextButton = document.getElementById('nextButton');
     nextButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
-<<<<<<< HEAD
     nextButton.onclick = (event) => {
         event.preventDefault();
-=======
-    nextButton.onclick = () => {
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         if (currentPage < totalPages) {
             currentPage++;
             loadPosts(currentPage);
@@ -177,12 +154,8 @@ function updatePagination() {
     // 다음 섹션 버튼
     const nextSectionButton = document.getElementById('nextSectionButton');
     nextSectionButton.style.display = currentPage < totalPages ? 'inline-block' : 'none';
-<<<<<<< HEAD
     nextSectionButton.onclick = (event) => {
         event.preventDefault();
-=======
-    nextSectionButton.onclick = () => {
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         const nextSectionFirstPage = Math.floor((currentPage - 1) / pagesPerSection) * pagesPerSection + pagesPerSection + 1; // 현재 섹션의 마지막 페이지 +1
         console.log("Next Section First Page:", nextSectionFirstPage);
 
@@ -208,10 +181,7 @@ if (!response.ok) {
 }
 const data = await response.json();
 
-<<<<<<< HEAD
 // 상세 화면 데이터 업데이트
-=======
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 document.getElementById('postTitle').textContent = `제목: ${data.title}`;
 document.getElementById('postContent').textContent = `상세내용: ${data.content}`;
 document.getElementById('userName').textContent = data.userName; // 작성자 이름 업데이트
@@ -234,7 +204,6 @@ if (!currentUserData) {
     }
 }
 
-<<<<<<< HEAD
  // 상세 화면을 표시하고 목록 화면을 숨기기
  document.getElementById('postDetail').style.display = 'block';
  document.getElementById('postsList').style.display = 'none';
@@ -255,17 +224,6 @@ if (!currentUserData) {
 } catch (error) {
  document.getElementById('errorMessage').textContent = "게시글 상세 정보를 불러오는 데 실패했습니다.";
  console.error("게시글 상세 정보를 불러오는 데 실패했습니다.", error);
-=======
-document.getElementById('postDetail').style.display = 'block';
-document.getElementById('postsList').style.display = 'none';
-document.querySelector('.question-box').style.display = 'none';
-document.getElementById('writeBox').style.display = 'none';
-loadComments(postId);
-document.getElementById('pagination').style.display = 'none';
-} catch (error) {
-document.getElementById('errorMessage').textContent = "게시글 상세 정보를 불러오는 데 실패했습니다.";
-console.error("게시글 상세 정보를 불러오는 데 실패했습니다.", error);
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 }
 }
 
@@ -374,14 +332,11 @@ try {
     loadPosts(currentPage); // 커뮤니티 게시물 로드
     document.querySelector('.question-box').style.display = 'block'; // 질문 박스 보여주기
     document.getElementById('writeBox').style.display = 'block'; // 글쓰기 박스 보여주기
-<<<<<<< HEAD
      // 검색 기능 보이기
      const searchContainer = document.getElementById('searchContainer');
      if (searchContainer) {
          searchContainer.style.display = 'block'; // 삭제 후 검색 컨테이너를 보이게 설정
      }
-=======
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 } catch (error) {
     document.getElementById('errorMessage').textContent = "게시물 삭제에 실패했습니다.";
     console.error("게시물 삭제에 실패했습니다.", error);
@@ -738,7 +693,6 @@ window.onload = () => {
     loadPosts(currentPage);
 };
 
-<<<<<<< HEAD
 
 
 
@@ -1070,14 +1024,6 @@ document.addEventListener('DOMContentLoaded', () => {
     checkLoginStatus();
 });
 
-=======
-// 뒤로가기 버튼 클릭 이벤트
-document.getElementById('backButton').addEventListener('click', () => {
-document.getElementById('postDetail').style.display = 'none'; // 게시글 상세 내용 숨김
-document.getElementById('postsList').style.display = 'block'; // 게시글 목록 표시
-loadPosts(currentPage); // 현재 페이지의 게시글 목록 다시 로드
-});
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 
 
 // 내가 쓴 게시물, 댓글 보러가는 버튼

@@ -15,22 +15,44 @@
 <h1>메인 페이지</h1>    
 
 <div class="question-box">
-<<<<<<< HEAD
     <h2>추천 받아보세요</h2>
 </div>
 
 <div class="button-container">
-    <button onclick="location.href='#'">빠른 추천</button>
+    
+    <button id="fastRecommendation">빠른 추천</button>
+
+    <form id="submitForm" action="/chatgpt-api" method="POST" style="display:none;">
+        <input id="inputInterests" type="hidden" name="interest">
+    </form>
+
     <button onclick="location.href='/ui/select'">선택 추천</button>
-=======
-    <h2>오늘 기분은 어떠세요?</h2>
 </div>
 
-<div class="button-container">
-    <button onclick="location.href='page1.html'">대박 기분 너무 좋아</button>
-    <button onclick="location.href='/ui/select'">너무 우울해</button>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
-</div>
+<script>
+(() => {
+    document.querySelector('#fastRecommendation').addEventListener('click', () => {
+
+        fetch('/userInterestsPlz', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(res => {
+
+            if (res && res.length > 0) {
+
+                document.querySelector('#inputInterests').value = res;
+                document.querySelector('#submitForm').submit();
+                
+            } else {
+                alert("저장하신 관심사가 없습니다.");
+            }
+        })
+        .catch(error => { alert(error.message); });
+    });
+})();
+</script>
 
 
 <script src="/js/nav.js"></script>

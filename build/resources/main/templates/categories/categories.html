@@ -9,10 +9,6 @@
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
-    <!-- *주의*
-    지금은 만드는 단계라 로그인 안해도 되지만 
-    나중에 /categories로 접근하면 관리자 계정만 접근하게 스프링 시큐리티 수정해야함.
-    수정 코드는 SecurityConfig 파일에 주석처리 해놨음 주석 풀고 추가할 것 -->
     
     <!-- 데이터가 복합키로 연결되어있기 때문에 삭제는 곤란함 일단 수정, 추가 기능만 구현 -->
     <div>
@@ -47,11 +43,7 @@
         
     </div>
     
-<<<<<<< HEAD
 <script src="/js/category/Categories.js"></script>
-=======
-<script src="/js/category/categories.js"></script>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 <script src="/js/nav.js"></script>
 
     

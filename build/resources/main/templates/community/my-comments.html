@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내가 쓴 댓글</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="/css/community/my-comments.css">
+    <link rel="stylesheet" href="/css/community/community.css">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
-=======
-    <link rel="stylesheet" href="/css/my-comments.css">
-    <link rel="stylesheet" href="/css/community.css">
->>>>>>> d754e0681422607562daef9c08f10853681e9477
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
@@ -19,12 +15,6 @@
 
     <!-- 사용자 댓글 목록 -->
     <div id="myCommentsList"></div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    <button id="backButton">뒤로가기</button>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
-=======
     <div class="comments-pagination">
         <div  id="commentsPagination" class="pagination" style="display: none;">
             <!-- 이전 섹션 버튼 -->
@@ -43,18 +33,14 @@
             <a href="#" id="nextCommentSectionButton" class="pagination-button">»</a>
         </div>
         </div>
->>>>>>> d754e0681422607562daef9c08f10853681e9477
 
     <!-- 댓글 상세보기 모달 -->
     <div id="commentModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeCommentModal">&times;</span>
-<<<<<<< HEAD
             <h3>댓글을 남긴 게시물 정보</h3>
             <div id="postContainer"></div>
 
-=======
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
             <h2>댓글 상세보기</h2>
             <p id="commentText"></p>
             <p id="commentUserName"></p>
@@ -90,10 +76,6 @@
                 commentDiv.className = 'comment';
                 commentDiv.innerHTML = `
                     <p>${comment.text}</p>
-<<<<<<< HEAD
-=======
-                    <p>작성자: ${comment.userName}</p>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
                     <p>작성일: ${comment.createdAt}</p>
                     <button onclick="loadCommentDetail(${comment.commentId})">상세보기</button>
                     <button onclick="editComment(${comment.commentId})">수정</button>

@@ -1,8 +1,10 @@
 package com.example.todaktodak.interest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,6 +56,19 @@ public class InterestController {
         interestService.saveInterests(authentication.getName(), interestDTO.getCategories());
 
         return "redirect:/ui/main";
+    }
+    
+    // 저장한 관심사 요청
+    @PostMapping("/userInterestsPlz")
+    public ResponseEntity<List<String>> postMethodName(Authentication authentication) {
+        
+        List<String> interestsCategories = new ArrayList<>();
+
+        if (authentication != null && authentication.isAuthenticated()){
+            interestsCategories = interestService.getUserInterestsStr(authentication.getName());
+        }
+
+        return ResponseEntity.status(200).body(interestsCategories);
     }
     
     

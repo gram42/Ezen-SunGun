@@ -6,17 +6,13 @@
     <title>my-posts</title>
     <link rel="stylesheet" href="/css/community/my-posts.css">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
-<<<<<<< HEAD
     <link rel="stylesheet" href="/css/community/community.css"> <!-- 커뮤니티 CSS -->
-=======
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <nav th:replace="~{nav.html::side-nav}"></nav>
     <h1>내가 쓴 게시물</h1>
 
-<<<<<<< HEAD
         <!-- 사용자 게시물 목록 -->
         <div id="myPostsList">
             <div class="post">
@@ -50,16 +46,6 @@
 
         <!-- 상세보기 모달 또는 섹션 -->
         <div id="postModal" class="modal">
-=======
-    <div id="myPostsContainer">
-        <h2>내 게시물 목록</h2>
-        <!-- 사용자 게시물 목록 -->
-        <div id="myPostsList"></div>
-
-
-    <!-- 상세보기 모달 또는 섹션 -->
-    <div id="postModal" class="modal">
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2 id="postTitle"></h2>
@@ -68,7 +54,6 @@
             <p id="createdAt"></p>
             <button id="editPostButton" style="display: none;">수정하기</button>
             <button id="deletePostButton" style="display: none;">삭제하기</button>
-<<<<<<< HEAD
 
                     <!-- 댓글 섹션 -->
             <h3>댓글</h3>
@@ -94,10 +79,6 @@
         </div>
         </div>
     </div>
-=======
-            <button id="goToPostButton" style="display: none;">게시물로 이동</button>
-        </div>
->>>>>>> 80ab171c6c4e44fb027024ab229cdbe9e971f275
     </div>
 
 <!-- 수정 모달 -->
