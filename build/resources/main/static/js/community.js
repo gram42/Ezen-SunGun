@@ -5,7 +5,7 @@ let totalPosts = 0;
 let currentPostId = null;
 let loadedPosts = [];
 
-const commentsPerPage = 10;
+const commentsPerPage = 5;
 let totalComments = 0
 
 async function loadPosts(page = 1) {
