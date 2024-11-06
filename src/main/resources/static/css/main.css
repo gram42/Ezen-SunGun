@@ -1,3 +1,7 @@
+html{
+    height: 100%;
+}
+
 /* 질문 상자 스타일 */
 .question-box {
     position: fixed;
@@ -26,7 +30,7 @@
 .button-container {
     display: flex;
     justify-content: center;
-    margin-top: 50px; /* 질문 상자 아래에 버튼 위치 */
+    top: 50vh;
 }
 
 /* 구름 모양 버튼 스타일 */
