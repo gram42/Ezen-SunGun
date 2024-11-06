@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-    <nav th:replace="~{nav.html::top-nav}"></nav>
+    <nav class="side-nav" th:replace="~{nav.html::top-nav}"></nav>
     <nav th:replace="~{nav.html::side-nav}"></nav>
     <div class="question-box">
         <div class="community-text">커뮤니티</div>
@@ -20,12 +20,16 @@
     </div>
     
     <div id="postDetail" style="display: none;">
+        <div id="postDetailContainer">
+        <div id="postTitleContainer">
         <h2 id="postTitle"></h2>
+    </div>
+     <div id="postTitleContainer">
         <p id="postContent"></p>
         <p id="postAuthor">작성자: <span id="userName"></span> | 작성 시간: <span id="createdAt"></span></p>
         <button id="editPostButton" style="display: none;">수정</button>
         <button id="deletePostButton" style="display: none;">삭제</button>
-
+    </div>
 <!-- 게시글 수정 모달 -->
 <div id="editPostModal" class="modal" style="display: none;">
     <div class="modal-content">
@@ -78,7 +82,7 @@
                 <p id="commentCreatedAt">작성 시간: <span></span></p>
             </div>
         </div>
-
+    </div>
           <!-- 댓글 페이지네이션 -->
           <div class="comments-pagination">
             <div  id="commentsPagination" class="pagination" style="display: none;">

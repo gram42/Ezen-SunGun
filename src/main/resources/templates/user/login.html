@@ -4,30 +4,42 @@
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap">
+    <link rel="stylesheet" th:href= "@{/css/user/login.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
-    <h1>Login</h1>
 
-    <div th:if="${param.error}">
+    <a class="linkTitle" href="/ui/index">SUN</a>
+    
+    <div class="loginContainer">
+
+    <div class="failMent" th:if="${param.error}">
         <h3>아이디나 비밀번호가 일치하지 않습니다.</h3>
     </div>
-
+    <div class="loginbox">
     <!-- 로그인 여부에 따라 다른 화면 -->
     <div sec:authorize="isAnonymous">
         <form action="/user/login" method="POST">
-            <input type="text" name="userid"><br>
-            <input type="password" name="password"><br>
-            <button type="submit">전송</button>
+            <div class="logintext">
+            <input type="text" name="userid" class="inputField" placeholder="아이디를 입력해주세요">
+            <input type="password" name="password" class="inputField" placeholder="비밀번호를 입력해주세요">
+            </div>
+            <button class="loginButton" type="submit">로그인</button>
         </form>
     </div>
-
+    <div class="find_wrap">
+        <a href="">비밀번호찾기</a>
+        <a href="">아이디찾기</a>
+        <a href="/user/register">회원가입</a>
+    </div>
+</div>
     <div sec:authorize="isAuthenticated">
         <div>이미 로그인 하셨습니다</div>
         <a href="/ui/index">홈으로</a>
     </div>
-
+</div>
     <script src="/js/nav.js"></script>
         
 
