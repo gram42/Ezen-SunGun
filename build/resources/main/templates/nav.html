@@ -5,6 +5,8 @@
         <img id="logo-img" src="/img/1727768908340_7130.jpg" alt="Logo">
     </a>
 
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="link" href="/categories">카테고리 설정</a>
+
     <div class="menu">
 
         <span sec:authorize="isAnonymous">
@@ -20,9 +22,9 @@
         
         <a sec:authorize="isAuthenticated" class="link" id="personalMenuBtn" href="#">개인메뉴</a>
         <div class="personalMenu">
-            
+
             <a class="link" href="/mypage">마이페이지</a>
-            <a class="link" href="/user/userInfo">개인 정보 수정</a>
+            <a class="link" href="/user/userInfo">개인 정보</a>
             <a class="link" href="/interest">관심 분야</a>
             
         </div>

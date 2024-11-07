@@ -67,8 +67,9 @@ public class RecordController {
                 model.addAttribute("date", TODAY);
 
             }
+            return "/record/record";
         }
-        return "/record/record";
+        return "redirect:/user/login";
     }
 
     // 체크박스 체크여부에 다라 포인트 증감

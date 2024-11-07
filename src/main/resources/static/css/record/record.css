@@ -1,21 +1,34 @@
-#totalRecord .record-content, .checkbox{
+#printRecord{
+    display: flex;
+    flex-direction: column;
+    top: 15%;
+    left: 27%;
+    position: absolute;
+    border: 1px solid black;
+    padding-top: 30px;
+    padding-left: 30px;
+    border-radius: 10px;
+    /* bottom: 20pxs; */
+}
+
+#printRecord .record-content, .checkbox{
     display: none;
 }
 
 #inputDate {
     margin-bottom: 20px;
+    width: 110px;
 }
 
 .record {
-    display: flex;             
-    justify-content: flex-start;
-    align-items: flex-start;
+    display: flex;
     margin-bottom: 20px;
-    width: 100%;            
+    left: 50%;
 }
 
 .categoryRecord {
-    display: flex;           
+    display: flex;
+    justify-content: flex-start;
     align-items: flex-start;  
     margin-right: 20px;     
 }

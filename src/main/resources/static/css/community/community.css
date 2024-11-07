@@ -440,3 +440,8 @@ button:hover {
 .searchcontent {
     white-space: nowrap;
 }
+
+.sideBar{
+    height: 150px;
+    width: 230px;
+}

@@ -17,10 +17,9 @@
         </div>
         
         <div sec:authorize="isAuthenticated">
-            <div>테스트 이거 나오나 안나오나</div>
     
             <!-- 기록 출력 -->
-            <div id="totalRecord">
+            <div id="printRecord">
     
                 <!-- 날짜 선택 -->
                 <input id="inputDate" type="date" min="2000-1-1" th:value="${date}">
