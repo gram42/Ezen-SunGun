@@ -9,8 +9,18 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-    <nav class="side-nav" th:replace="~{nav.html::top-nav}"></nav>
-    <nav th:replace="~{nav.html::side-nav}"></nav>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+
+    <div class="sidebar">
+        <a class="side-link" href="/">이용 안내</a>
+        <a class="side-link" href="/record">일일 활동 기록</a>
+        <a class="side-link" href="/community/community">게시판</a>
+        <div sec:authorize="isAuthenticated">
+            <a class="side-link" href="/community/my-posts">내가 쓴 게시물</a>
+            <a class="side-link" href="/community/my-comments">내가 쓴 댓글</a>
+        </div>
+    </div>
+
     <div class="question-box">
         <div class="community-text">커뮤니티</div>
     </div>
@@ -52,7 +62,7 @@
         <h3 id="commentSectionTitle">댓글 작성</h3>
         <form id="commentForm">
             <div>
-                <label for="commentText">댓글 내용:</label>
+                <label class="commentstitle"for="commentText">댓글</label>
                 <input type="text" id="commentText" placeholder="댓글을 입력하세요" required maxlength="500" />
                 <span id="warningMessage" style="color: red; display: none;"></span> <!-- 경고 메시지 추가 -->
                 <div id="errorMessage" style="color: red;"></div> <!-- 에러 메시지 추가 -->
@@ -147,10 +157,6 @@
 
     <div id="postsContainer"></div> <!-- 검색 결과 게시물 표시 공간 -->
 
-    <div id="userActions">
-        <button id="myPostsButton">내가 쓴 게시물 보기</button>
-        <button id="myCommentsButton">내가 쓴 댓글 보기</button>
-    </div>
 
 
 

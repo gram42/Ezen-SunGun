@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TodaktodakApplication",
+            "request": "launch",
+            "mainClass": "com.example.todaktodak.TodaktodakApplication",
+            "projectName": "Ezen-SunGun-main"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

@@ -182,8 +182,8 @@ if (!response.ok) {
 const data = await response.json();
 
 // 상세 화면 데이터 업데이트
-document.getElementById('postTitle').textContent = `제목: ${data.title}`;
-document.getElementById('postContent').textContent = `상세내용: ${data.content}`;
+document.getElementById('postTitle').textContent = `${data.title}`;
+document.getElementById('postContent').textContent = `${data.content}`;
 document.getElementById('userName').textContent = data.userName; // 작성자 이름 업데이트
 document.getElementById('createdAt').textContent = new Date(data.createdAt).toLocaleString(); // 작성 시간 업데이트
 
@@ -212,8 +212,6 @@ if (!currentUserData) {
  document.querySelector('.question-box').style.display = 'none';
  document.getElementById('writeBox').style.display = 'none';
  document.getElementById('pagination').style.display = 'none';
- document.getElementById('myPostsButton').style.display = 'none';
- document.getElementById('myCommentsButton').style.display = 'none';
  const searchContainer = document.getElementById('searchContainer'); 
  if (searchContainer) {
      searchContainer.style.display = 'none';
@@ -357,8 +355,6 @@ const response = await fetch('http://localhost:9090/user/current', {
 const writePostButton = document.getElementById('writePostButton');
 const submitCommentButton = document.getElementById('submitComment');
 const commentText = document.getElementById('commentText');
-const myPostsButton = document.getElementById('myPostsButton'); // 내가 쓴 게시물 보기 버튼
-const myCommentsButton = document.getElementById('myCommentsButton'); // 댓글 보기 버튼
 
 if (!response.ok) {
     if (response.status === 401) {
@@ -367,8 +363,6 @@ if (!response.ok) {
         writePostButton.style.display = 'none'; // 글쓰기 버튼 숨기기
         submitCommentButton.style.display = 'none'; // 댓글 작성 버튼 숨기기
         commentText.style.display = 'none';
-        myPostsButton.style.display = 'none'; // 내가 쓴 게시물 보기 버튼 숨기기
-        myCommentsButton.style.display = 'none'; // 댓글 보기 버튼 숨기기
         return null; // 사용자에게 알림을 표시하거나 null 반환
     }
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -381,8 +375,6 @@ currentUserId = user.id; // 현재 사용자 ID 설정
 writePostButton.style.display = 'inline-block'; // 글쓰기 버튼 보이기
 submitCommentButton.style.display = 'inline-block'; // 댓글 작성 버튼 보이기
 commentText.style.display = 'block'; // 댓글 입력 필드 보이기
-myPostsButton.style.display = 'inline-block'; // 내가 쓴 게시물 보기 버튼 보이기
-myCommentsButton.style.display = 'inline-block'; // 댓글 보기 버튼 보이기
 return user; // 로그인한 사용자 정보 반환
 } catch (error) {
 console.error('사용자 정보를 불러오는 데 실패했습니다.', error);
@@ -391,8 +383,6 @@ const submitCommentButton = document.getElementById('submitComment');
 writePostButton.style.display = 'none'; // 글쓰기 버튼 숨기기
 submitCommentButton.style.display = 'none'; // 댓글 작성 버튼 숨기기
 commentText.style.display = 'none'; // 댓글 입력 필드 숨기기
-myPostsButton.style.display = 'none'; // 내가 쓴 게시물 보기 버튼 숨기기
-myCommentsButton.style.display = 'none'; // 댓글 보기 버튼 숨기기
 
 
 
@@ -952,8 +942,6 @@ document.querySelectorAll('.dropdown-content div').forEach(option => {
 document.getElementById('backButton').addEventListener('click', () => {
     document.getElementById('postDetail').style.display = 'none';
     document.getElementById('postsList').style.display = 'block';
-    document.getElementById('myPostsButton').style.display = 'block';
-    document.getElementById('myCommentsButton').style.display = 'block';
     loadPosts(currentPage);
 
     const searchContainer = document.getElementById('searchContainer');
@@ -969,8 +957,6 @@ window.addEventListener('popstate', (event) => {
     const questionBox = document.querySelector('.question-box');
     const communityText = document.querySelector('.community-text'); 
     const writePostButton = document.getElementById('writeBox');
-    const myPostsButton = document.getElementById('myPostsButton');
-    const myCommentsButton = document.getElementById('myCommentsButton');
 
     if (event.state && event.state.page) {
         currentPage = event.state.page; // 상태에서 페이지 번호 가져오기
@@ -996,12 +982,6 @@ window.addEventListener('popstate', (event) => {
     if (writePostButton) {
         writePostButton.style.display = 'block';
     }
-    if (myPostsButton) {
-        myPostsButton.style.display = 'block';
-    }
-    if (myCommentsButton) {
-        myCommentsButton.style.display = 'block';
-    }
 });
 
 // 로그인 상태 확인하는 함수
@@ -1022,15 +1002,4 @@ async function checkLoginStatus() {
 // 페이지가 로드될 때 로그인 상태 확인
 document.addEventListener('DOMContentLoaded', () => {
     checkLoginStatus();
-});
-
-
-
-// 내가 쓴 게시물, 댓글 보러가는 버튼
-document.getElementById('myPostsButton').addEventListener('click', () => {
-    window.location.href = '/community/my-posts'; // 자신의 게시물 페이지로 이동
-});
-
-document.getElementById('myCommentsButton').addEventListener('click', () => {
-    window.location.href = '/community/my-comments'; // 자신의 댓글 페이지로 이동
 });

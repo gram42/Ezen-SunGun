@@ -41,8 +41,8 @@ body {
     border-radius: 4px;
     cursor: pointer;
     position: absolute; /* 절대 위치 지정 */
-    right: 20px; /* 오른쪽 여백 */
-    top: 16%; /* 세로 가운데 */
+    right: 250px; /* 오른쪽 여백 */
+    top: 18%; /* 세로 가운데 */
     transform: translateY(-50%); /* 세로 정렬을 위해 이동 */
 }
 
@@ -52,16 +52,16 @@ body {
 
 /* 게시물 목록 스타일 */
 #postsList {
-    /* margin-top: 200px; 커뮤니티 박스 아래로 위치 조정 */
+    margin-top: 200px; 
+    margin-left: 220px;
     /* padding-top: 200px; */
     display: flex; /* 플렉스 박스 사용 */
     flex-wrap: wrap; /* 줄 바꿈 허용 */
     gap: 20px; /* 게시물 간격 */
     width: 80%; /* 가로 길이 줄이기 */
     height: auto; /* 세로 길이는 자동 */
-    margin: 0 auto; /* 상하좌우 여백 설정 */
+    /* margin: 0 auto; 상하좌우 여백 설정 */
     justify-content: center; /* 가로로 중앙 정렬 */
-    position: relative;
 }
 
 
@@ -293,11 +293,22 @@ button:hover {
     display: block;
 }
 
+#commentText {
+    width: 100%;
+    height: 60px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
 
 #postDetailContainer {
-    margin-left: 220px; /* 사이드바 너비만큼 여백 */
-    margin-top: 50px; /* 페이지 상단과의 간격 */
-    max-width: 800px; /* 최대 너비 설정 */
+    margin-left: 220px;
+    margin-top: 50px;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9; /* 전체 컨테이너 배경 */
     border-radius: 8px;
@@ -321,8 +332,12 @@ button:hover {
 
 #postContent {
     font-size: 18px;
-    color: #666;
+    color: black;
     margin: 0;
+}
+
+#postAuthor {
+    color:#666;
 }
 
 #postDetail {
@@ -349,7 +364,7 @@ button:hover {
 }
 
 #commentText {
-    width: 80%; /* 댓글 입력란의 너비 조정 */
+    width: 100%; /* 댓글 입력란의 너비 조정 */
     margin: 10px 0; /* 위아래 여백 추가 */
 }
 
@@ -439,4 +454,26 @@ button:hover {
 
 .searchcontent {
     white-space: nowrap;
+}
+
+.sidebar {
+    background-color: #ffae00;
+    padding: 15px 15px;
+    height: auto;
+    width: 200px;
+    position: fixed;
+    top: 15vh;
+    left: 3vw;
+}
+
+.sidebar .side-link {
+    display: block;
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.sidebar .side-link:hover {
+    background-color: #ddd;
 }
