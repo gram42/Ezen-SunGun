@@ -1,5 +1,6 @@
 package com.example.todaktodak.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -159,6 +160,20 @@ public class UserService {
         List<Record> records = recordRepository.findByCompositeIdUserid(userDTO.getUserid());
         recordRepository.deleteAll(records);
     }
+
+    public List<UserDTO> getUserByEmail(String email){
+
+        List<UserDTO> useridList = new ArrayList<>();
+
+        List<User> userList = userRepository.findByEmail(email);
+
+        for (User userInfo : userList) {
+            useridList.add(new UserDTO(userInfo.getUserid()));
+        }
+
+        return useridList;
+    }
+
 
 }
 

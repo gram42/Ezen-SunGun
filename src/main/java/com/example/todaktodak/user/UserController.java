@@ -1,6 +1,7 @@
 package com.example.todaktodak.user;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 
 @Controller
 @RequestMapping("/user")
@@ -205,6 +207,23 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인하지 않았습니다.");
         }
     }
+
+    // id 찾기 페이지 요청
+    @GetMapping("/findId")
+    public String getMethodName() {
+        return "/user/findId";
+    }
+    
+
+    // id 찾기 이메일 활용
+    @PostMapping("/getUseridByEmail")
+    public ResponseEntity<List<UserDTO>> postMethodName(@RequestBody UserDTO userDTO) {
+
+        List<UserDTO> useridList = userService.getUserByEmail(userDTO.getEmail());
+
+        return ResponseEntity.status(200).body(useridList);
+    }
+    
     
 
 }

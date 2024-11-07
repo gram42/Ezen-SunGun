@@ -54,4 +54,8 @@ public class UserDTO {
         this.gender = gender;
         this.birthDate = birthDate;
     }
+
+    public UserDTO(String userid){
+        this.userid = userid;
+    }
 }
