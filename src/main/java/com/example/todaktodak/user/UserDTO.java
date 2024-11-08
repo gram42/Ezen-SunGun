@@ -55,6 +55,13 @@ public class UserDTO {
         this.birthDate = birthDate;
     }
 
+    public UserDTO(Long id, String userName, String gender, LocalDate birthDate){
+        this.id = id;
+        this.userName = userName;
+        this.gender = gender;
+        this.birthDate = birthDate;
+    }
+
     public UserDTO(String userid){
         this.userid = userid;
     }
