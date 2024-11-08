@@ -88,18 +88,8 @@ public class UserService {
 
     // 유저 정보 수정
     public void editUserInfo(UserDTO userDTO) {
-        String password = getUserByUserid(userDTO.getUserid()).getPassword();
-        String finalPassword;
 
-        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
-            if (passwordEncoder.matches(userDTO.getPassword(), password)) {
-                finalPassword = password;
-            } else {
-                finalPassword = passwordEncoder.encode(userDTO.getPassword());
-            }
-        } else {
-            finalPassword = password;
-        }
+        String password = getUserByUserid(userDTO.getUserid()).getPassword();
 
         if (userDTO.getGender() == null || userDTO.getGender().equals("null")){
             userDTO.setGender(null);
@@ -107,7 +97,7 @@ public class UserService {
 
         User setUser = new User(userDTO.getId(),
                             userDTO.getUserid(),
-                            finalPassword,
+                            password,
                             userDTO.getUserName(),
                             userDTO.getEmail(),
                             userDTO.getGender(),
@@ -117,6 +107,7 @@ public class UserService {
         userRepository.save(setUser);
     }
 
+    // 회원 탈퇴
     public boolean deleteAccount(UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findByUserid(userDTO.getUserid());
 
@@ -161,6 +152,7 @@ public class UserService {
         recordRepository.deleteAll(records);
     }
 
+    // 이메일로 유저 찾기(id/pw 찾기 용)
     public List<UserDTO> getUserByEmail(String email){
 
         List<UserDTO> useridList = new ArrayList<>();
@@ -178,4 +170,16 @@ public class UserService {
 }
 
 
+// 비밀번호 변경용
+// String password = getUserByUserid(userDTO.getUserid()).getPassword();
+// String finalPassword;
 
+// if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
+//     if (passwordEncoder.matches(userDTO.getPassword(), password)) {
+//         finalPassword = password;
+//     } else {
+//         finalPassword = passwordEncoder.encode(userDTO.getPassword());
+//     }
+// } else {
+//     finalPassword = password;
+// }

@@ -72,8 +72,6 @@ public class ChatGPTController {
             .map(Message::getContent)
             .orElse("No answer provided");
 
-        System.out.println(answer);
-
         List<QuestionAnswer> questionAnswers = new ArrayList<>();
         String[] answerParts = answer.split("질문:");
 

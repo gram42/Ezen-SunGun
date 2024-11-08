@@ -4,9 +4,9 @@ import InputUserInfo from "./InputUserInfo.js";
 
     const inputUserInfo = new InputUserInfo();
 
-    const $inputPw = document.querySelector('#inputPw');
-    const $inputPwChk = document.querySelector('#inputPwChk');
-    const $pwChkRes = document.querySelector('#pwChkRes');
+    // const $inputPw = document.querySelector('#inputPw');
+    // const $inputPwChk = document.querySelector('#inputPwChk');
+    // const $pwChkRes = document.querySelector('#pwChkRes');
     const $inputNicknm = document.querySelector('#inputNicknm');
     const $nicknmChkRes = document.querySelector('#nicknmChkRes');
     const $nicknDuplChkBtn = document.querySelector('#nicknmDuplChkBtn');
@@ -18,9 +18,9 @@ import InputUserInfo from "./InputUserInfo.js";
     let lastChkNicknm = "";
 
     // 비밀번호 - 비밀번호 확인, 형식(길이, 영문자(대소), 숫자, 특수문자), 공백 확인
-    let pwChk = false;
-    let pwFormChk = false;
-    let pwSpaceChk = false
+    // let pwChk = false;
+    // let pwFormChk = false;
+    // let pwSpaceChk = false
 
     // 닉네임 길이, 공백, 중복 확인, 변경 확인
     let nicknmLenChk = false;
@@ -30,14 +30,14 @@ import InputUserInfo from "./InputUserInfo.js";
 
     // 비밀번호
     // 비밀번호 - 비밀번호 확인 일치 여부 검사
-    $inputPw.addEventListener('input',()=>{
-        if ($inputPwChk.value.length !== 0){
-            pwChk = inputUserInfo.pwNPwChkResFunc($inputPw.value, $inputPwChk.value, $pwChkRes);
-        }
-    })
-    $inputPwChk.addEventListener('input',()=>{
-        pwChk = inputUserInfo.pwNPwChkResFunc($inputPw.value, $inputPwChk.value, $pwChkRes);
-    })
+    // $inputPw.addEventListener('input',()=>{
+    //     if ($inputPwChk.value.length !== 0){
+    //         pwChk = inputUserInfo.pwNPwChkResFunc($inputPw.value, $inputPwChk.value, $pwChkRes);
+    //     }
+    // })
+    // $inputPwChk.addEventListener('input',()=>{
+    //     pwChk = inputUserInfo.pwNPwChkResFunc($inputPw.value, $inputPwChk.value, $pwChkRes);
+    // })
 
     // 닉네임
     // 닉네임 형식 검사
@@ -79,17 +79,17 @@ import InputUserInfo from "./InputUserInfo.js";
     // 개인 정보 수정 종합 검사
     const comphnsExamineFunc = function(){
     
-        if($inputPw.value.length !== 0 || $inputPwChk.value.length !== 0){
-            // 비밀번호
-            pwFormChk = inputUserInfo.pwFormChkFunc($inputPw, $pwChkRes); // 비밀번호 형식 검사(길이-8~20, 영문자(대소), 숫자, 특수문자)
-            if (!pwFormChk){return false}
-            pwSpaceChk = inputUserInfo.spaceChkFunc($inputPw.value, $pwChkRes, "비밀번호에 공백이 들어갈 수 없습니다"); // 비밀번호 공백 검사
-            if (!pwSpaceChk) {return false}
-        } else {
-            pwChk = true;
-            pwFormChk = true;
-            pwSpaceChk = true;
-        }
+        // if($inputPw.value.length !== 0 || $inputPwChk.value.length !== 0){
+        //     // 비밀번호
+        //     pwFormChk = inputUserInfo.pwFormChkFunc($inputPw, $pwChkRes); // 비밀번호 형식 검사(길이-8~20, 영문자(대소), 숫자, 특수문자)
+        //     if (!pwFormChk){return false}
+        //     pwSpaceChk = inputUserInfo.spaceChkFunc($inputPw.value, $pwChkRes, "비밀번호에 공백이 들어갈 수 없습니다"); // 비밀번호 공백 검사
+        //     if (!pwSpaceChk) {return false}
+        // } else {
+        //     pwChk = true;
+        //     pwFormChk = true;
+        //     pwSpaceChk = true;
+        // }
     
         // 닉네임
         if(existingNicknm === $inputNicknm.value){
@@ -105,12 +105,12 @@ import InputUserInfo from "./InputUserInfo.js";
             };
         }
 
-        console.log('pwChk-'+pwChk+' pwFormChk-'+pwFormChk+' pwFormChk-'+pwFormChk+' nicknmLenChk-'+nicknmLenChk+' nicknmSpaceChk-'+nicknmSpaceChk+' nicknmDuplChk-'+nicknmDuplChk+' nicknmChngChk-'+nicknmChngChk);
     
         // 전체
-        if (!pwChk ||
-            !pwFormChk ||
-            !pwSpaceChk ||
+        if (
+            // !pwChk ||
+            // !pwFormChk ||
+            // !pwSpaceChk ||
             !nicknmLenChk ||
             !nicknmSpaceChk ||
             !nicknmDuplChk ||

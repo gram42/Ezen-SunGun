@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>커뮤니티 게시판</title>
     <link rel="stylesheet" href="/css/community/community.css"> <!-- CSS 파일 링크 -->
-    <link rel="stylesheet" href="/css/my-posts.css">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="stylesheet" href="/css/my-posts.css">
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
-    <nav th:replace="~{nav.html::side-nav}"></nav>
+
+    <div class="sidebar">
+        <a class="side-link" href="/">이용 안내</a>
+        <a class="side-link" href="/record">일일 활동 기록</a>
+        <a class="side-link" href="/community/community">게시판</a>
+        <div sec:authorize="isAuthenticated">
+            <a class="side-link" href="/community/my-posts">내가 쓴 게시물</a>
+            <a class="side-link" href="/community/my-comments">내가 쓴 댓글</a>
+        </div>
+    </div>
+
     <div class="question-box">
         <div class="community-text">커뮤니티</div>
     </div>
@@ -20,12 +30,16 @@
     </div>
     
     <div id="postDetail" style="display: none;">
+        <div id="postDetailContainer">
+        <div id="postTitleContainer">
         <h2 id="postTitle"></h2>
+    </div>
+     <div id="postTitleContainer">
         <p id="postContent"></p>
         <p id="postAuthor">작성자: <span id="userName"></span> | 작성 시간: <span id="createdAt"></span></p>
         <button id="editPostButton" style="display: none;">수정</button>
         <button id="deletePostButton" style="display: none;">삭제</button>
-
+    </div>
 <!-- 게시글 수정 모달 -->
 <div id="editPostModal" class="modal" style="display: none;">
     <div class="modal-content">
@@ -48,7 +62,7 @@
         <h3 id="commentSectionTitle">댓글 작성</h3>
         <form id="commentForm">
             <div>
-                <label for="commentText">댓글 내용:</label>
+                <label class="commentstitle"for="commentText">댓글</label>
                 <input type="text" id="commentText" placeholder="댓글을 입력하세요" required maxlength="500" />
                 <span id="warningMessage" style="color: red; display: none;"></span> <!-- 경고 메시지 추가 -->
                 <div id="errorMessage" style="color: red;"></div> <!-- 에러 메시지 추가 -->
@@ -78,7 +92,7 @@
                 <p id="commentCreatedAt">작성 시간: <span></span></p>
             </div>
         </div>
-
+    </div>
           <!-- 댓글 페이지네이션 -->
           <div class="comments-pagination">
             <div  id="commentsPagination" class="pagination" style="display: none;">
@@ -143,10 +157,6 @@
 
     <div id="postsContainer"></div> <!-- 검색 결과 게시물 표시 공간 -->
 
-    <div id="userActions">
-        <button id="myPostsButton">내가 쓴 게시물 보기</button>
-        <button id="myCommentsButton">내가 쓴 댓글 보기</button>
-    </div>
 
 
 
