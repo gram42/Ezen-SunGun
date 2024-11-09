@@ -17,7 +17,7 @@
         </div>
         
         <div sec:authorize="isAuthenticated">
-    
+            
             <!-- 기록 출력 -->
             <div id="printRecord">
     
@@ -34,7 +34,7 @@
         
                         <!-- 수정 완료 -->
                         <div class="record-content">
-                            <textarea th:text="${record.content}" readonly></textarea>
+                            <textarea class="recordContent" th:text="${record.content}" readonly></textarea>
                             <div class="button-container">
                                 <a href="#" class="editBtn">수정</a>
                                 <a href="#" class="submitButton">완료</a>
@@ -42,7 +42,6 @@
                         </div>
     
                     </div>
-    
                 </div>
             </div>
         

@@ -24,12 +24,19 @@
 
     <h1>비밀번호 변경</h1>
 
+
         <div class="inputShape">
             <label class="required" for="inputPw">비밀번호</label>
+
             <span id="pwChkRes"></span>
-            <div><input id="inputPw" type="password" name="password"></div>
-            <div><input id="inputPwChk" type="password" name="passwordChk" placeholder="비밀번호를 다시 입력해주세요"></div>
+            <div sec:Authorize="isAuthenticated"><input id="inputBeforePw" type="password" name="beforePw" placeholder="현재 비밀번호 입력"></div>
+            <div><input id="inputPw" type="password" name="password" placeholder="비밀번호 입력"></div>
+            <div><input id="inputPwChk" type="password" name="passwordChk" placeholder="비밀번호 확인"></div>
         </div>
+        <button id="submitBtn" type="button">변경</button>
+
+
+    <script type="module" src="/js/user/EditPw.js"></script>
     
 </body>
 </html>

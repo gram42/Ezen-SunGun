@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -25,9 +24,9 @@ public class SecurityConfig {
         );
 
         // 세션 관리
-        httpSecurity.sessionManagement(session -> 
-            session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요한 경우에만 세션 생성
-        );
+        // httpSecurity.sessionManagement(session -> 
+        //     session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요한 경우에만 세션 생성
+        // );
 
         // 로그인 설정
        httpSecurity.formLogin(formLogin -> 

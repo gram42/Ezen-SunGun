@@ -5,12 +5,20 @@
     "version": "0.2.0",
     "configurations": [
 
+        // {
+        //     "type": "java",
+        //     "name": "TodaktodakApplication",
+        //     "request": "launch",
+        //     "mainClass": "com.example.todaktodak.TodaktodakApplication",
+        //     "projectName": "todaktodak-todaktodak_ver0.1.5"
+        // },
+
         {
             "type": "java",
             "name": "TodaktodakApplication",
             "request": "launch",
             "mainClass": "com.example.todaktodak.TodaktodakApplication",
-            "projectName": "todaktodak-todaktodak_ver0.1.5"
+            "projectName": "todaktodak_ver0.1.5"
         },
     ]
 }

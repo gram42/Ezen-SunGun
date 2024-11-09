@@ -12,6 +12,7 @@ import lombok.ToString;
 public class UserDTO {
     private Long id;              // 사용자 ID
     private String userid;        // 유저 ID
+    private String beforePw;      // 기존 비밀번호
     private String password;      // 비밀번호
     private String passwordCheck; // 비밀번호 확인
     private String email;         // 이메일
