@@ -91,23 +91,27 @@ public class RecordService {
 
     }
 
-    // 포인트와 같은 방식으로 본문 저장
-    public void setContent(RecordCompositeId compositeId, String content){
+    // 본문 전체 저장
+    public void saveContent(List<RecordDTO> recordDTOs){
+
+        for (RecordDTO recordDTO : recordDTOs) {
+            System.out.println(recordDTO);
+            
+            Optional<Record> optionalRecord  = recordRepository.findByCompositeId(recordDTO.getCompositeId());
+    
+            if (optionalRecord.isPresent()){
+    
+                Record record = optionalRecord.get();
+                record.setContent(recordDTO.getContent());
+                recordRepository.save(record);
+    
+            }
+            else{
+                System.out.println("유저 찾기 실패");
+                System.out.println("ID : " + recordDTO.getUserid() + " " + "categoryId : " + recordDTO.getCategoryId() + " " + "date : " + recordDTO.getCompositeId().getRecordedDate());
+            }
         
-        Optional<Record> optionalRecord  = recordRepository.findByCompositeId(compositeId);
-
-        if (optionalRecord.isPresent()){
-
-            Record record = optionalRecord.get();
-            record.setContent(content);
-            recordRepository.save(record);
-
         }
-        else{
-            System.out.println("유저 찾기 실패");
-            System.out.println("ID : " + compositeId.getUserid() + " " + "categoryId : " + compositeId.getCategoryId() + " " + "date : " + compositeId.getRecordedDate());
-        }
-
     }
 
     // 일주일간 카테고리 당 포인트 데이터 연산 메소드 - 이 메소드 모르는게 좀 있음 공부하기

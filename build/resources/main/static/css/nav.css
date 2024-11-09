@@ -57,6 +57,7 @@
 .side-nav {
     background-color: #ffae00;
     padding: 15px 15px;
+    padding-bottom: 25px;
     height: 120px;
     width: 200px;
     position: relative;

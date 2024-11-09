@@ -87,12 +87,10 @@ public class RecordController {
 
     // 본문 기록
     @PostMapping("/record/saveContent")
-    public ResponseEntity<String> recordContent(@RequestBody RecordDTO recordDTO) {
+    public ResponseEntity<String> recordContent(@RequestBody List<RecordDTO> recordDTOs) {
 
-        RecordCompositeId compositeId = recordDTO.getCompositeId();
-        String content = recordDTO.getContent();
-
-        recordService.setContent(compositeId, content);
+        System.out.println(recordDTOs);
+        recordService.saveContent(recordDTOs);
         
         return ResponseEntity.status(200).body("Success");
     }
