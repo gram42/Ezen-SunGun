@@ -8,6 +8,117 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 
     <style>
+        #printRecord{
+    display: flex;
+    flex-direction: column;
+    top: 15%;
+    left: 27%;
+    position: absolute;
+    border: 1px solid black;
+    padding-top: 30px;
+    padding-left: 30px;
+    border-radius: 10px;
+    /* bottom: 20pxs; */
+}
+
+#printRecord .checkbox{
+    display: none;
+}
+
+#inputDate {
+    margin-bottom: 20px;
+    width: 110px;
+}
+
+.record {
+    /* display: flex; */
+    margin-bottom: 20px;
+    left: 50%;
+}
+
+.categoryRecord {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;  
+    margin-right: 20px;     
+}
+
+.checkboxLabel {
+    padding: 10px;
+    background-color: #ff9900;
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer; 
+    transition: background-color 0.2s, opacity 0.2s;
+    line-height: 1.5;
+    height: 150px;
+    width: 80px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+}
+
+.checkboxLabel:active {
+    opacity: 0.7;
+}
+
+.record-content {
+    display: flex;
+    width: 800px;
+    margin-left: 10px;
+    flex-direction: row;
+    align-items: flex-start;
+    position: relative;
+}
+
+.record-content textarea {
+    height: 170px;
+    resize: none;
+    box-sizing: border-box; 
+    padding: 10px; 
+    border: none; 
+    border-radius: 5px;  
+    color: #333;       
+    font-size: 16px;  
+    transition: border-color 0.3s; 
+    margin-left: 5px;
+    width: 750px;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.record-top{
+    display: flex;
+    justify-content: space-between;
+}
+.record-top .submitButton{
+    margin-right: 20px;
+    margin-bottom: 10px;
+    background-color: #ff9900;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.record-top .submitButton:active {
+    background-color: #ff99007e;
+}
+
+.divisionLine {
+    width: 81%;
+    border-top: 2px solid #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    left: 3%;
+}
+.divLineContainer{
+    display: flex;
+    flex-direction: column;
+}
     </style>
 </head>
 <body>
@@ -20,6 +131,7 @@
         </div>
         
         <div sec:authorize="isAuthenticated">
+            
             
             <!-- 기록 출력 -->
             <div id="printRecord">
@@ -46,8 +158,8 @@
                         <div class="record-content">
                             <textarea class="recordContent" th:text="${record.content}"></textarea>
                         </div>
-                        
                     </div>
+                    <div class="divLineContainer"><hr class="divisionLine"></div>
                 </div>
             </div>
         </div>

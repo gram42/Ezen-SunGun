@@ -21,7 +21,7 @@
 }
 
 .record {
-    display: flex;
+    /* display: flex; */
     margin-bottom: 20px;
     left: 50%;
 }
@@ -95,4 +95,17 @@
 
 .record-top .submitButton:active {
     background-color: #ff99007e;
+}
+
+.divisionLine {
+    width: 81%;
+    border-top: 2px solid #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    left: 3%;
+}
+.divLineContainer{
+    display: flex;
+    flex-direction: column;
 }
