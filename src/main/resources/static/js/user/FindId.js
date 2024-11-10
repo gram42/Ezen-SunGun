@@ -41,6 +41,8 @@ import InputUserInfo from "./InputUserInfo.js";
                     const userIdsList = document.querySelector('#userIdsList');
     
                     if (userList && userList.length > 0) {
+
+                        document.querySelector('#idPlzContainer').style.display = 'none';
     
                         resultMessage.textContent = "가입하신 아이디 입니다.";
                         resultMessage.style.color = "black";
