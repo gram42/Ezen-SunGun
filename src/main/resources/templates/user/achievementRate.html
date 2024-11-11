@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+</head>
+<body>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+
+    <h1>달성률 페이지</h1>
+
+    <form action="/saveAchievementGoal" method="post">
+        
+        <div th:each="category : ${categories}">
+            <label th:for="category- + ${category.id}" th:text="${category.name}"></label>
+            <input th:id="category- + ${category.id}" type="radio" name="categoryId" th:value="${category.id}">
+        </div>
+        
+        <input type="date" name="startDate" id="inputStartDate">
+        <input type="date" name="endDate" id="inputEndDate">
+
+        <textarea name="goal" id="">목표</textarea>
+
+        <button type="submit">추가</button>
+
+    </form>
+
+    <div th:each="info:${totalInfo}">
+        <div th:text="${info.goal}"></div>
+        <div th:text="${info.startDate}"></div>
+        <div th:text="${info.endDate}"></div>
+        <div th:text="${info.categoryName}"></div>
+        <div th:text="${info.totalPoint} + '총 포인트'"></div>
+        <div th:text="${info.currPoint} + '현재 포인트'"></div>
+        <br>
+    </div>
+
+    <script src="/js/nav.js"></script>
+</body>
+</html>

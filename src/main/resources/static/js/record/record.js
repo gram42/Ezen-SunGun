@@ -115,7 +115,10 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(recordsList)
         })
-
+        .then(res=>{
+            alert('저장이 완료되었습니다')
+            location.reload();
+        })
         .catch(error => {
             alert(error.message);
         });
