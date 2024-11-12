@@ -28,7 +28,7 @@
         <input type="date" name="startDate" id="inputStartDate" required>
         <input type="date" name="endDate" id="inputEndDate" required>
 
-        <textarea name="goal" placeholder="목표를 적어주세요"></textarea>
+        <textarea name="goal" placeholder="목표를 적어주세요" required></textarea>
 
         <button type="submit">추가</button>
 
@@ -40,8 +40,33 @@
         <div th:text="${info.endDate}">종료 날짜</div>
         <div th:text="${info.categoryName}">달성할 분야</div>
         <div th:text="${info.currPoint} + '/' + ${info.totalPoint}">현재 달성 점수 / 총 달성 점수</div>
+        <progress id="file" max="100" th:value="${info.achievementRate}">진행률 바</progress>
         <div th:utext="${info.achievementRate + ' &#37;'}">달성률</div>
         <br>
+    </div>
+
+    <div class="pageBar">
+
+
+        <button id="prevSection" type="button"><<</button>
+        <button id="prev" type="button"><</button>
+
+        <a  class="pageBtn"
+            th:each="pageNum : ${#numbers.sequence(pgInfo.startPg, pgInfo.endPg)}"  
+            th:href="'/achievementRate?p=' + ${pageNum}"
+            th:text="${pageNum}">
+        </a>
+
+        <button id="next" type="button">></button>
+        <button id="nextSection" type="button">>></button>
+
+        <input id="currPg" type="hidden" th:value="${pgInfo.currPg}">
+        <input id="totalPg" type="hidden" th:value="${pgInfo.totalPg}">
+        <input id="startPg" type="hidden" th:value="${pgInfo.startPg}">
+        <input id="endPg" type="hidden" th:value="${pgInfo.endPg}">
+        <input id="currSection" type="hidden" th:value="${pgInfo.currSection}">
+
+
     </div>
 
     <script src="/js/nav.js"></script>

@@ -3,11 +3,17 @@ package com.example.todaktodak.achievement_rate;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.todaktodak.category.Categories;
@@ -67,19 +73,12 @@ public class AchievementService {
         return categoriesRepository.findAll();
     }
 
-    // 유저의 목표 달성률 목록 리턴
-    public List<Achievement> getAllGoalsByUser(String userid){
-        return achievementRepository.findByUser(userRepository.findByUserid(userid).get());
-    }
-
-    
-
     // 유저 목표 기간에 해당하는 포인트 데이터(현재 점수-진행률) 리턴
-    public List<AchievementDTO> getTotalUserInfo(String userid){
+    public List<AchievementDTO> getTotalUserInfo(String userid, Integer pgNum, Integer pgSize){
 
-        AchievementDTO achievementDTO = new AchievementDTO();
         List<AchievementDTO> achievementDTOs = new ArrayList<>();
-        List<Achievement> achievements = getAllGoalsByUser(userid);
+
+        List<Achievement> achievements = getUserAchievementByPg(userid, pgNum, pgSize);
         
         for (Achievement achievement : achievements) {
 
@@ -95,8 +94,7 @@ public class AchievementService {
             // 달성률 계산
             double achievementRate = calcAchievementRate(wholePoint, currPoint);
 
-            achievementDTO = new AchievementDTO(achievement, wholePoint, currPoint, achievementRate);
-            achievementDTOs.add(achievementDTO);
+            achievementDTOs.add(new AchievementDTO(achievement, wholePoint, currPoint, achievementRate));
 
         }
         return achievementDTOs;
@@ -126,9 +124,68 @@ public class AchievementService {
         return currPoint;
     }
 
+    // 유저의 목표 달성률 목록 리턴
+    public List<Achievement> getUserAchievementByPg(String userid, Integer pgNum, Integer pgSize){
+
+        Optional<User> optionalUser = userRepository.findByUserid(userid);
+        User user = optionalUser.get();
+
+        if (optionalUser.isPresent()){
+            Pageable pageable = PageRequest.of(pgNum - 1, pgSize, Sort.by("id").descending());
+            Page<Achievement> page = achievementRepository.findByUser(user, pageable);
+            return page.getContent();
+        }
+        return null;
+    }
+
     // 달성률 계산
     public double calcAchievementRate(Integer wholePoint, Integer currPoint){
         double achievementRate = (double) currPoint / wholePoint * 100;
         return Double.parseDouble(String.format("%.2f", achievementRate));
+    }
+
+    // 총 페이지 수
+    public Integer getPages(String userid, int pgSize){
+
+        Optional<User> optionalUser = userRepository.findByUserid(userid);
+        User user = optionalUser.get();
+
+        if (optionalUser.isPresent()){
+            Pageable pageable = PageRequest.of(0, pgSize, Sort.by("id").descending());
+            Page<Achievement> page = achievementRepository.findByUser(user, pageable);
+            return page.getTotalPages();
+        }
+        return null;
+    }
+
+    // 현재 섹션 구하기
+    public int getCurrentSection(int currentPage, int sectionSize){
+        return ((currentPage - 1) / sectionSize);
+    }
+    // 섹션별 시작 페이지 구하기
+    public int getStartPage(int currentSection, int sectionSize){
+        return (currentSection * sectionSize) + 1;
+    }
+    // 섹션별 마지막 페이지 or 최종 페이지
+    public int getEndPage(int startPage, int sectionSize, int totalPage){
+        return Math.min(startPage + sectionSize - 1, totalPage);
+    }
+
+    public Map<String, Object> getPgInfo(String userid, Integer pgSize, Integer sectionSize, Integer currPg){
+        Map<String, Object> pageInfo = new HashMap<>();
+
+        Integer totalPage = getPages(userid, pgSize);
+        Integer currentSection = getCurrentSection(currPg, sectionSize);
+        Integer startPage = getStartPage(currentSection, sectionSize);
+        Integer endPage = getEndPage(startPage, sectionSize, totalPage);
+    
+        pageInfo.put("currPg", currPg);
+        pageInfo.put("totalPg", totalPage);
+        pageInfo.put("sectionSize", sectionSize);
+        pageInfo.put("currSection", currentSection);
+        pageInfo.put("startPg", startPage);
+        pageInfo.put("endPg", endPage);
+
+        return pageInfo;
     }
 }

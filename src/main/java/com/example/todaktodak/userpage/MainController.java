@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 
+
 @Controller
 public class MainController {
 
@@ -14,5 +15,11 @@ public class MainController {
     public String main() {
         return "/ui/index";
     }
+
+    @GetMapping("/error")
+    public String error() {
+        return "/error";
+    }
+    
     
 }
