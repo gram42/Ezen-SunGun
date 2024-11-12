@@ -5,38 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <style>
+        #dateError{
+            color: red;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
 
     <h1>달성률 페이지</h1>
 
-    <form action="/saveAchievementGoal" method="post">
+    <form id="submitAchievementGoal" action="/saveAchievementGoal" method="post">
         
         <div th:each="category : ${categories}">
             <label th:for="category- + ${category.id}" th:text="${category.name}"></label>
-            <input th:id="category- + ${category.id}" type="radio" name="categoryId" th:value="${category.id}">
+            <input th:id="category- + ${category.id}" type="radio" name="categoryId" th:value="${category.id}" required>
         </div>
         
-        <input type="date" name="startDate" id="inputStartDate">
-        <input type="date" name="endDate" id="inputEndDate">
+        <pre id="dateError">종료 일은 시작 일보다 앞설 수 없습니다</pre>
+        <input type="date" name="startDate" id="inputStartDate" required>
+        <input type="date" name="endDate" id="inputEndDate" required>
 
-        <textarea name="goal" id="">목표</textarea>
+        <textarea name="goal" placeholder="목표를 적어주세요"></textarea>
 
         <button type="submit">추가</button>
 
     </form>
 
     <div th:each="info:${totalInfo}">
-        <div th:text="${info.goal}"></div>
-        <div th:text="${info.startDate}"></div>
-        <div th:text="${info.endDate}"></div>
-        <div th:text="${info.categoryName}"></div>
-        <div th:text="${info.totalPoint} + '총 포인트'"></div>
-        <div th:text="${info.currPoint} + '현재 포인트'"></div>
+        <div th:text="${info.goal}">목표</div>
+        <div th:text="${info.startDate}">시작 날짜</div>
+        <div th:text="${info.endDate}">종료 날짜</div>
+        <div th:text="${info.categoryName}">달성할 분야</div>
+        <div th:text="${info.currPoint} + '/' + ${info.totalPoint}">현재 달성 점수 / 총 달성 점수</div>
+        <div th:utext="${info.achievementRate + ' &#37;'}">달성률</div>
         <br>
     </div>
 
     <script src="/js/nav.js"></script>
+    <script src="/js/user/Achievement.js"></script>
 </body>
 </html>

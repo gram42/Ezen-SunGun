@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.todaktodak.category.Categories;
 
@@ -28,12 +29,15 @@ public class AchievementController {
 
     // 달성률 페이지
     @GetMapping("/achievementRate")
-    public String getAchievementRate(Authentication authentication, Model model) {
+    public String getAchievementRate(Authentication authentication, 
+                                    @RequestParam(name="p", required = true, defaultValue = "1") String pageNum, 
+                                    Model model) {
 
         if (authentication != null && authentication.isAuthenticated()){
 
-            List<Categories> categories = achievementService.getAllCategories();
+            int pgSize = 3; // 페이지당 요소 개수
 
+            List<Categories> categories = achievementService.getAllCategories();            
             List<AchievementDTO> totalInfo = achievementService.getTotalUserInfo(authentication.getName());
 
             model.addAttribute("categories", categories);

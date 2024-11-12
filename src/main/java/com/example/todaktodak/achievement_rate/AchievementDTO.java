@@ -19,6 +19,7 @@ public class AchievementDTO {
     String goal;
     Integer totalPoint;
     Integer currPoint;
+    double achievementRate;
 
     public AchievementDTO(){}
     
@@ -30,7 +31,8 @@ public class AchievementDTO {
                             LocalDate endDate,
                             String goal,
                             Integer totalPoint,
-                            Integer currPoint
+                            Integer currPoint,
+                            double achievementRate
                             )
                             {
         this.userid = userid;
@@ -41,6 +43,7 @@ public class AchievementDTO {
         this.goal = goal;
         this.totalPoint = totalPoint;
         this.currPoint = currPoint;
+        this.achievementRate = achievementRate;
     }
 
     public AchievementDTO(  Long id, 
@@ -51,7 +54,8 @@ public class AchievementDTO {
                             LocalDate endDate,
                             String goal,
                             Integer totalPoint,
-                            Integer currPoint
+                            Integer currPoint,
+                            double achievementRate
                             )
                             {
         this.id = id;
@@ -63,12 +67,14 @@ public class AchievementDTO {
         this.goal = goal;
         this.totalPoint = totalPoint;
         this.currPoint = currPoint;
+        this.achievementRate = achievementRate;
     }
 
     public AchievementDTO(  
                             Achievement achievement,
                             Integer totalPoint,
-                            Integer currPoint
+                            Integer currPoint,
+                            double achievementRate
                             )
                             {
 
@@ -81,6 +87,7 @@ public class AchievementDTO {
         this.goal = achievement.getGoal();
         this.totalPoint = totalPoint;
         this.currPoint = currPoint;
+        this.achievementRate = achievementRate;
     }
 
 

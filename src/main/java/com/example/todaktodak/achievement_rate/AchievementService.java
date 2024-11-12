@@ -76,39 +76,59 @@ public class AchievementService {
 
     // 유저 목표 기간에 해당하는 포인트 데이터(현재 점수-진행률) 리턴
     public List<AchievementDTO> getTotalUserInfo(String userid){
+
         AchievementDTO achievementDTO = new AchievementDTO();
-
         List<AchievementDTO> achievementDTOs = new ArrayList<>();
-
         List<Achievement> achievements = getAllGoalsByUser(userid);
         
         for (Achievement achievement : achievements) {
 
-
-            // 목표기간 전체 포인트 점수 계산
             LocalDate startDate = achievement.getStartDate();
             LocalDate endDate = achievement.getEndDate();
-            Integer wholePoint = (int) startDate.until(endDate, ChronoUnit.DAYS);
+
+            // 목표기간 전체 포인트 점수 계산
+            Integer wholePoint = calcWholePoint(startDate, endDate);
 
             // 목표기간 현재 포인트 점수 계산
-            List<Record> recordList =  recordRepository.findByCompositeIdUseridAndCompositeIdCategoryIdAndCompositeIdRecordedDateBetween(
-                                                                                                                        userid, 
-                                                                                                                        achievement.getCategories().getId(), 
-                                                                                                                        startDate, 
-                                                                                                                        endDate);
-            Integer currPoint = 0;
-            for (Record record : recordList) {
-                currPoint = currPoint + record.getPoint();
+            Integer currPoint = calcCurrPoint(userid, achievement.getCategories().getId(), startDate, endDate);
 
-            }
+            // 달성률 계산
+            double achievementRate = calcAchievementRate(wholePoint, currPoint);
 
-            achievementDTO = new AchievementDTO(achievement, wholePoint, currPoint);
+            achievementDTO = new AchievementDTO(achievement, wholePoint, currPoint, achievementRate);
             achievementDTOs.add(achievementDTO);
 
         }
         return achievementDTOs;
     }
 
-    
 
+    // 목표기간 전체 포인트 점수 계산
+    public Integer calcWholePoint(LocalDate startDate, LocalDate endDate){
+        Integer wholePoint = (int) startDate.until(endDate, ChronoUnit.DAYS);
+        return wholePoint + 1;
+    }
+
+    // 목표기간 현재 포인트 점수 계산
+    public Integer calcCurrPoint(String userid, Long categoryId, LocalDate startDate, LocalDate endDate){
+
+        List<Record> recordList =  recordRepository.findByCompositeIdUseridAndCompositeIdCategoryIdAndCompositeIdRecordedDateBetween(
+                                                                                                                                        userid, 
+                                                                                                                                        categoryId, 
+                                                                                                                                        startDate, 
+                                                                                                                                        endDate);
+
+        Integer currPoint = 0;
+        for (Record record : recordList) {
+            currPoint = currPoint + record.getPoint();
+        }
+
+        return currPoint;
+    }
+
+    // 달성률 계산
+    public double calcAchievementRate(Integer wholePoint, Integer currPoint){
+        double achievementRate = (double) currPoint / wholePoint * 100;
+        return Double.parseDouble(String.format("%.2f", achievementRate));
+    }
 }
