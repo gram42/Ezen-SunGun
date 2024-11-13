@@ -6,14 +6,12 @@
     <title>response</title>
 </head>
 <body>
-
-
     <div class="question-box">
         <h2>관심이 있는 분야를 눌러주세요</h2>
     </div>
     
     <div>
-        <form action="/chatgpt-api" method="post">
+        <form id="chatgpt-form" action="/chatgpt-api" method="post">
             <!-- 카테고리 목록을 체크박스로 표시 -->
             <div th:each="category : ${categories}">
                 <label>
@@ -21,13 +19,12 @@
                     <span th:text="${category.name}"></span>
                 </label>
                 <br>
-            </div>
-            <button type="submit">제출</button>
+            </div>          
         </form>      
     </div>
-
-    <script>
-    </script>
-
+    <div class="button-group">        
+        <button type="submit" form="chatgpt-form">제출</button>
+        <button onclick="location.href='/ui/index'">메인 페이지</button>
+    </div>
 </body>
 </html>
