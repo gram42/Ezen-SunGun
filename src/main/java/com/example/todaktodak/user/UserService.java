@@ -1,5 +1,6 @@
 package com.example.todaktodak.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,18 +88,8 @@ public class UserService {
 
     // 유저 정보 수정
     public void editUserInfo(UserDTO userDTO) {
-        String password = getUserByUserid(userDTO.getUserid()).getPassword();
-        String finalPassword;
 
-        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
-            if (passwordEncoder.matches(userDTO.getPassword(), password)) {
-                finalPassword = password;
-            } else {
-                finalPassword = passwordEncoder.encode(userDTO.getPassword());
-            }
-        } else {
-            finalPassword = password;
-        }
+        String password = getUserByUserid(userDTO.getUserid()).getPassword();
 
         if (userDTO.getGender() == null || userDTO.getGender().equals("null")){
             userDTO.setGender(null);
@@ -106,7 +97,7 @@ public class UserService {
 
         User setUser = new User(userDTO.getId(),
                             userDTO.getUserid(),
-                            finalPassword,
+                            password,
                             userDTO.getUserName(),
                             userDTO.getEmail(),
                             userDTO.getGender(),
@@ -116,6 +107,65 @@ public class UserService {
         userRepository.save(setUser);
     }
 
+    // 비밀번호 찾을 유저 찾기
+    public User findUserByEmainAndUserid(String email, String userid){
+        Optional<User> optionalUser = userRepository.findByEmailAndUserid(email, userid);
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+            return user;
+        }
+        return null;
+    }
+
+    // 비밀번호 수정
+    public boolean chngPw(String email, String userid, String password){
+
+        Optional<User> optionalUser = userRepository.findByEmailAndUserid(email, userid);
+        
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user);
+            return true;
+
+        }
+        return false;
+    }
+
+    // 비밀번호 수정(로그인)
+    public boolean chngPwWhenLogin(String userid, UserDTO userDTO){
+
+        Optional<User> optionalUser = userRepository.findByUserid(userid);
+        
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+
+            if (passwordEncoder.matches(userDTO.getBeforePw(), user.getPassword())){
+
+                return chngPw(user.getEmail(), user.getUserid(), userDTO.getPassword());
+
+            }
+            return false;
+        }
+        return false;
+    }
+
+    // 비밀번호 수정(비밀번호 찾기)
+    public boolean chngPwWhenFindPw(String email, String userid, UserDTO userDTO){
+        Optional<User> optionalUser = userRepository.findByEmailAndUserid(email, userid);
+
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+            
+            return chngPw(user.getEmail(), user.getUserid(), userDTO.getPassword());
+            
+        }
+        return false;
+    }
+
+
+    // 회원 탈퇴
     public boolean deleteAccount(UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findByUserid(userDTO.getUserid());
 
@@ -160,7 +210,19 @@ public class UserService {
         recordRepository.deleteAll(records);
     }
 
+    // 이메일로 유저 찾기(id/pw 찾기 용)
+    public List<UserDTO> getUserByEmail(String email){
+
+        List<UserDTO> useridList = new ArrayList<>();
+
+        List<User> userList = userRepository.findByEmail(email);
+
+        for (User userInfo : userList) {
+            useridList.add(new UserDTO(userInfo.getUserid()));
+        }
+
+        return useridList;
+    }
+
+
 }
-
-
-

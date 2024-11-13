@@ -1,6 +1,7 @@
 package com.example.todaktodak.user;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+
 
 @Controller
 @RequestMapping("/user")
@@ -123,9 +127,9 @@ public class UserController {
 
     // 비밀번호 확인
     @PostMapping("/checkPassword")
-    public ResponseEntity<String> checkPassword(@RequestBody UserDTO userDTO, Model model) {
+    public ResponseEntity<String> checkPassword(Authentication authentication, @RequestBody UserDTO userDTO, Model model) {
 
-        String password = userService.getUserByUserid(userDTO.getUserid()).getPassword();
+        String password = userService.getUserByUserid(authentication.getName()).getPassword();
         String inputPassword = userDTO.getPassword();
 
         if (passwordEncoder.matches(inputPassword, password)){
@@ -141,28 +145,83 @@ public class UserController {
         }
     }
 
+    
     // 개인정보 수정 페이지
     @GetMapping("/editInfo")
     public String editInfo(Authentication authentication, Model model) {
+        
+        if (authentication != null && authentication.isAuthenticated()){
 
-        User user = null;
-
-        if((authentication != null) && (authentication.isAuthenticated())){
-            user = userService.getCurrentUser();
+            User user = null;
+            
+            if((authentication != null) && (authentication.isAuthenticated())){
+                user = userService.getCurrentUser();
+            }
+            
+            if (user != null) {
+                model.addAttribute("user", user);
+            }
+            return "/user/editInfo"; // 사용자 정보 수정 페이지 반환
         }
-
-        if (user != null) {
-            model.addAttribute("user", user);
-        }
-        return "/user/editInfo"; // 사용자 정보 수정 페이지 반환
+        return "redirect:/user/login";
     }
-
+    
     // 개인정보 수정
     @PostMapping("/retouch")
     public String retouch(@ModelAttribute UserDTO userDTO) {
         userService.editUserInfo(userDTO); // 사용자 정보 수정
         return "redirect:/user/userInfo"; // 수정 후 개인 정보 페이지로 리다이렉트
     }
+    
+    // 비밀번호 찾기 페이지
+    @GetMapping("/findPw")
+    public String findPassword() {
+        return "/user/findPw";
+    }
+    
+    // 비밀번호 찾기 정보 저장 요청
+    @PostMapping("/saveFindPwInfo")
+    public ResponseEntity<Boolean> postMethodName(@RequestBody UserDTO userDTO, HttpSession session) {
+        
+        User user = userService.findUserByEmainAndUserid(userDTO.getEmail(), userDTO.getUserid());
+
+        if (user != null) {
+            session.setAttribute("email", user.getEmail());
+            session.setAttribute("userid", user.getUserid());
+            return ResponseEntity.ok().body(true);
+        }
+        return ResponseEntity.status(200).body(false);
+        
+    }
+    
+    
+    // 비밀번호 수정 페이지
+    @GetMapping("/chngPw")
+    public String getMethodName(Authentication authentication) {
+
+            return "/user/chngPw";
+
+    }
+
+    // 비밀번호 변경
+    @PostMapping("/chngPw")
+    public ResponseEntity<Boolean> changePw(Authentication authentication, @RequestBody UserDTO userDTO, HttpSession session) {
+        boolean chngPw = false;
+
+        // 로그인 했을 경우
+        if((authentication != null) && (authentication.isAuthenticated())){
+            chngPw = userService.chngPwWhenLogin(authentication.getName(), userDTO);
+            return ResponseEntity.ok().body(chngPw);
+            
+        }
+        // 비밀번호 찾기로 들어왔을 경우
+        else {
+            chngPw = userService.chngPwWhenFindPw((String)session.getAttribute("email"), (String)session.getAttribute("userid"), userDTO);
+            return ResponseEntity.ok().body(chngPw);
+        }
+    }
+    
+    
 
     // 탈퇴 후 세션, 쿠키 정리
     @DeleteMapping("/deleteAccount")
@@ -205,6 +264,23 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인하지 않았습니다.");
         }
     }
+
+    // id 찾기 페이지 요청
+    @GetMapping("/findId")
+    public String getMethodName() {
+        return "/user/findId";
+    }
+    
+
+    // id 찾기 이메일 활용
+    @PostMapping("/getUseridByEmail")
+    public ResponseEntity<List<UserDTO>> postMethodName(@RequestBody UserDTO userDTO) {
+
+        List<UserDTO> useridList = userService.getUserByEmail(userDTO.getEmail());
+
+        return ResponseEntity.status(200).body(useridList);
+    }
+    
     
 
 }

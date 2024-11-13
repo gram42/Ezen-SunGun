@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -20,14 +19,14 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests((authorize) -> 
             authorize
                 .requestMatchers("/community/writing").authenticated() // /community/writing 경로는 인증 필요
-                .requestMatchers("/categories").hasRole("ADMIN") // 카테고리 수정 관리자만 접근 가능하게 하려면 이 코드 추가
+                .requestMatchers("/categories").hasRole("ADMIN") // 카테고리 수정, 관리자만 접근 가능
                 .anyRequest().permitAll() // 그 외 요청은 모두 허용
         );
 
         // 세션 관리
-        httpSecurity.sessionManagement(session -> 
-            session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요한 경우에만 세션 생성
-        );
+        // httpSecurity.sessionManagement(session -> 
+        //     session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요한 경우에만 세션 생성
+        // );
 
         // 로그인 설정
        httpSecurity.formLogin(formLogin -> 

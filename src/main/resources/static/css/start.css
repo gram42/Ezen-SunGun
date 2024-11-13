@@ -1,135 +1,261 @@
-/* body{
-    margin: 0;
+/* 전체 페이지 세로 스크롤 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;  /* 가로 스크롤을 숨깁니다 */
 }
 
-#background {
-    margin: 0;
-    height: 100vh;
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background-image: url('/img/1727768908340_7130.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-#text {
-    text-align: center;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    position: relative;
-    z-index: 2;
+/* 세로 스크롤 섹션 */
+section {
+  height: 100vh;  /* 각 섹션을 화면 크기만큼 설정 */
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 
-#overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1;
+
+
+
+/* 1. 도넛차트 */
+/* 전체 섹션을 flexbox로 배치 */
+.donut-section {
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  height: 100vh; /* 화면 전체 높이 */
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: white;
+  flex-direction: column; /* 세로로 배치 */
+  text-align: center; /* 모든 텍스트를 가운데 정렬 */
 }
 
-#title {
-    display: flex;
-} */
+/* 제목과 내용은 상단에 고정 */
+.text-area {
+  text-align: center;
+  margin-bottom: 20px; /* 제목과 내용 간의 간격 */
+  transform: translateY(-230px); /* 텍스트를 위로 이동 */
+}
+
+.text-area h1 {
+  font-size: 2.5em;
+  top: 60px;
+  margin-bottom: 10px;
+}
+
+.text-area p {
+  font-size: 1.2em;
+  color: #555;
+}
+
+/* 기능 설명 */
+.text-explanation {
+  text-align: center; /* 텍스트를 수평으로 가운데 정렬 */
+  margin-bottom: 40px; /* 설명과 차트 간의 간격 */
+  margin-top: -135px;
+}
+
+.text-explanation h3 {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+.text-explanation p {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+/* 도넛 차트를 오른쪽 정렬하기 위한 wrapper */
+.donut-chart-wrapper {
+  position: absolute;
+  top: 50%; /* 화면 중앙에서 약간 위로 */
+  right: 10%; /* 오른쪽 여백을 5%로 설정 (너무 오른쪽으로 가지 않도록) */
+  transform: translateY(-50%); /* 수직 중앙 정렬 */
+  display: flex;
+  justify-content: flex-start; /* 도넛 차트를 왼쪽으로 정렬 */
+  align-items: center;
+}
+
+/* 도넛 차트 */
+.donut-chart {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* 도넛 차트 항목 */
+.donut-chart .donut-item {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  background-color: #f28d35;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.donut-chart .donut-item:nth-child(1) { top: 0; left: 50%; transform: translate(-50%, -50%); }
+.donut-chart .donut-item:nth-child(2) { top: 50%; right: 0; transform: translate(50%, -50%); }
+.donut-chart .donut-item:nth-child(3) { bottom: 0; left: 50%; transform: translate(-50%, 50%); }
+.donut-chart .donut-item:nth-child(4) { top: 50%; left: 0; transform: translate(-50%, -50%); }
 
 
-/* 기본 설정 */
-body, html {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
-  
-  /* 1. 배경이 자연스럽게 바뀌는 섹션 */
-  .section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: white;
-    font-size: 2em;
-    background-size: cover;
-    background-attachment: fixed;
-    transition: background 0.5s ease;
-  }
-  
-  .bg1 {
-    background-image: url('/img/1727241546563_2687.jpg');
-  }
-  
-  .bg2 {
-    background-image: url('/img/1727241857894_6090.jpg');
-  }
-  
-  .bg3 {
-    background-image: url('/img/1727768908340_7130.jpg');
-  }
-  
 
-/* 전체 화면 섹션 */
-.fullscreen-section {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    transform-origin: top center;
-    position: relative;
-    transition: transform 0.3s ease;
-  }
-  
-  /* 배경 이미지와 텍스트 스타일 */
-  .fullscreen-background {
-    width: 100%;
-    height: 100%;
-    background-image: url('/img/1727768908340_7130.jpg'); /* 여기에 배경 이미지 경로 추가 */
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease; /* 부드러운 전환 효과 */
-  }
-  
-  .fullscreen-background h1 {
-    color: white;
-    font-size: 3rem;
-    z-index: 1;
-  }
-  
-  /* 3. 고정 배경과 텍스트 애니메이션 섹션 */
-  .fixed-background {
-    background-image: url('/img/1727241857894_6090.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    }
-  
 
-    .text-container {
-        position: absolute;
-        bottom: 20%;
-        text-align: center;
-      }
-      
-     .scroll-text {
-        font-size: 2em;
-        color: white;
-        opacity: 0;
-        transform: translateY(50px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-      }
-      
-      .scroll-text.show {
-        opacity: 1;
-        transform: translateY(0);
-      }
+/* 2. 텍스트 이질감 효과 */
+.text-section {
+  position: relative;
+  height: 100vh; /* 화면 전체 높이 */
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  background-color: white;
+}
+
+.text2-container {
+  position: absolute;
+  left: 50%; /* 텍스트를 화면의 중앙에 위치시킴 */
+  transform: translateX(-50%) translateY(-30%); /* 텍스트를 수직 중앙에서 더 위로 이동 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  z-index: 2; /* 텍스트가 이미지 위에 위치 */
+  margin-left: -20px; /* 텍스트 왼쪽으로 20px 이동 */
+}
+
+.image-container {
+  position: absolute;
+  right: 10%; /* 이미지를 왼쪽으로 이동 */
+  top: 50%; /* 수직 중앙 */
+  transform: translateY(-50%); /* 정확히 중앙에 위치 */
+  z-index: 1; /* 이미지가 텍스트 아래에 위치 */
+}
+
+.scroll-animation {
+  opacity: 0;
+  transform: translateY(100px); /* 스크롤이 시작되면 아래에서 위로 이동 */
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-animation.show {
+  opacity: 1;
+  transform: translateY(0); /* 위치가 0으로 이동하면서 보이게 됨 */
+}
+
+
+
+
+
+
+
+
+/* 전체 화면에 하나씩 보이도록 설정 */
+/* 가로 스크롤을 위한 스타일 */
+.horizontal-scroll-section {
+  display: flex;
+  overflow-x: auto; /* 가로 스크롤 활성화 */
+  background-color: white;
+  scroll-snap-type: x mandatory; /* 가로 스크롤 아이템들이 스냅되도록 설정 */
+  white-space: nowrap; /* 가로로 이어서 배치 */
+  scroll-behavior: smooth; /* 스크롤 애니메이션 부드럽게 */
+  height: 100vh;
+  align-items: center;
+}
+
+.scroll-content {
+  display: flex;
+  width: max-content; /* 내용에 맞게 너비를 늘리도록 설정 */
+  gap: 20px; /* 이미지 사이 간격 */
+  padding: 1rem;
+}
+
+.scroll-item {
+  flex: none; /* 크기를 자식 항목에 맞게 설정 */
+  width: 80vw; /* 각 항목이 화면 대부분을 차지 */
+  min-width: 300px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  scroll-snap-align: start;
+}
+
+.scroll-item img {
+  max-width: 100%;
+  max-height: 60vh;
+  margin-bottom: 1rem;
+}
+
+/* 화면에 보일 때 opacity 1로 설정 */
+.scroll-item.show {
+  opacity: 1;
+}
+
+/* 가로 스크롤바 숨기기 */
+.horizontal-scroll-section::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 5. 고정 배경과 텍스트 애니메이션 섹션 (페이지 하단) */
+.fixed-background {
+  background-image: url('/img/1727241857894_6090.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.text-container {
+  position: absolute;
+  bottom: 20%;
+  text-align: center;
+}
+
+.scroll-text {
+  font-size: 2em;
+  color: white;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-text.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.startbutton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+}

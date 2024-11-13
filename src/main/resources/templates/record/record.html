@@ -6,6 +6,9 @@
     <title>Record Page</title>
     <link rel="stylesheet" th:href="@{/css/record/record.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+
+    <style>
+    </style>
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
@@ -17,13 +20,21 @@
         </div>
         
         <div sec:authorize="isAuthenticated">
-            <div>테스트 이거 나오나 안나오나</div>
-    
+            
+            
             <!-- 기록 출력 -->
-            <div id="totalRecord">
-    
-                <!-- 날짜 선택 -->
-                <input id="inputDate" type="date" min="2000-1-1" th:value="${date}">
+            <div id="printRecord">
+
+                <div class="record-top">
+                    
+                    <!-- 날짜 선택 -->
+                    <input id="inputDate" type="date" min="2000-1-1" th:value="${date}">
+                    
+                    <!-- 기록 본문 수정 -->
+                    <a href="#" class="submitButton">저장</a>
+
+                </div>
+
                 
                 <!-- 카테고리별 정보 출력 -->
                 <div class="record" th:each="record : ${userRecords}" th:userid="${record.user.userid}">
@@ -33,20 +44,13 @@
                         <input th:id="record- + ${record.category.id}" class="checkbox" type="checkbox" th:point="${record.point}">
                         <label th:for="record- + ${record.category.id}" class="checkboxLabel" th:text="${record.category.name}">카테고리</label>
         
-                        <!-- 수정 완료 -->
                         <div class="record-content">
-                            <textarea th:text="${record.content}" readonly></textarea>
-                            <div class="button-container">
-                                <a href="#" class="editBtn">수정</a>
-                                <a href="#" class="submitButton">완료</a>
-                            </div>
+                            <textarea class="recordContent" th:text="${record.content}"></textarea>
                         </div>
-    
                     </div>
-    
+                    <div class="divLineContainer"><hr class="divisionLine"></div>
                 </div>
             </div>
-        
         </div>
 
 

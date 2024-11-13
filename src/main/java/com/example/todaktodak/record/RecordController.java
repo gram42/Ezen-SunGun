@@ -67,8 +67,9 @@ public class RecordController {
                 model.addAttribute("date", TODAY);
 
             }
+            return "/record/record";
         }
-        return "/record/record";
+        return "redirect:/user/login";
     }
 
     // 체크박스 체크여부에 다라 포인트 증감
@@ -86,12 +87,10 @@ public class RecordController {
 
     // 본문 기록
     @PostMapping("/record/saveContent")
-    public ResponseEntity<String> recordContent(@RequestBody RecordDTO recordDTO) {
+    public ResponseEntity<String> recordContent(@RequestBody List<RecordDTO> recordDTOs) {
 
-        RecordCompositeId compositeId = recordDTO.getCompositeId();
-        String content = recordDTO.getContent();
-
-        recordService.setContent(compositeId, content);
+        System.out.println(recordDTOs);
+        recordService.saveContent(recordDTOs);
         
         return ResponseEntity.status(200).body("Success");
     }

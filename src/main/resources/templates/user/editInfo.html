@@ -5,75 +5,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>edit user info</title>
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"],
+        /* input[type="password"], */
+        input[type="date"]
+        {
+            padding: 12px; /* 여백 추가 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            border: 1px solid #ccc; /* 테두리 색상 */
+            font-size: 16px; /* 글자 크기 */
+            transition: border 0.3s; /* 부드러운 전환 효과 */
+        }
+
+        input[type="text"]:focus,
+        /* input[type="password"]:focus, */
+        input[type="date"]:focus
+        {
+            border-color: #fd9800; /* 포커스 시 테두리 색상 변경 */
+            outline: none; /* 기본 포커스 아웃라인 제거 */
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #fd9800; /* 주황색 배경 */
+            color: white; /* 흰색 글자 */
+            font-size: 16px;
+            cursor: pointer; /* 포인터 커서 */
+            transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
+        }
+
+        #editArea {
+            display: none;
+        }
+        
+
+    </style>
+
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
-    <div>
+
     <h2>정보 수정</h2>
+                
+    <div id="checkPassword">
+    
+        <span>개인 정보를 수정하시려면 비밀번호를 입력해주세요.</span><br>
+        <span id="resultMessage"></span><br>
+        <input id="saveId" type="hidden" name="userid" th:value="${user.userid}">
+        <input id="inputPassword" type="password" name="password">
+        <button id="sendPassword" type="button">입력</button>
 
-    <form id="submitForm" action="/user/retouch" method="post">
+    </div>
+    
+    <div id="editArea">
 
-        <div>
+        <form id="submitForm" action="/user/retouch" method="post">
+    
             <input type="hidden" name="id" th:value="${user.id}">
-        </div>
-
-
-        <div>
-            <span> 아이디 </span>
-            <input type="text" name="userid" th:value="${user.userid}" readonly>
-        </div>
-
-        
-        <div class="inputShape">
-            <label class="required" for="inputPw">비밀번호</label>
-            <span id="pwChkRes"></span>
-            <input id="inputPw" type="password" name="password">
-            <input id="inputPwChk" type="password" name="passwordChk" placeholder="비밀번호를 다시 입력해주세요">
-        </div>
-        
-        
-        <div class="inputShape">
-            <label class="required" for="inputNicknm">닉네임</label>
-            <span id="nicknmChkRes"></span>
-            <div>
-                <input id="inputNicknm" type="text" name="userName" th:value="${user.userName}">
-                <button id="nicknmDuplChkBtn" type="button">닉네임 중복확인</button>
+    
+            <input type="hidden" name="userid" th:value="${user.userid}" readonly>
+    
+            <input id="inputPw" type="hidden" name="password">
+                    
+            <div class="inputShape">
+                <label class="required" for="inputNicknm">닉네임</label>
+                <span id="nicknmChkRes"></span>
+                <div>
+                    <input id="inputNicknm" type="text" name="userName" th:value="${user.userName}">
+                    <button id="nicknmDuplChkBtn" type="button">닉네임 중복확인</button>
+                </div>
             </div>
-        </div>
-
-        <div>
-            <span> 이메일 </span>
-            <input type="text" name="email" th:value="${user.email}" readonly>
-        </div>
     
-        <div class="inputShape">
-            <label>성별</label>
-            <div>
-                <label for="genderMale">남</label>
-                <input id="genderMale" type="radio" name="gender" value="male" th:checked="${user.gender == 'male'}">
-    
-                <label for="genderFemale">여</label>
-                <input id="genderFemale" type="radio" name="gender" value="female" th:checked="${user.gender == 'female'}">
-    
-                <label for="genderOther">선택안함</label>
-                <input id="genderOther" type="radio" name="gender" value="null" th:checked="${user.gender == null or user.gender.isEmpty()}">
-            </div>
-        </div>
-    
-        <div class="inputShape">
-            <label for="inputBirthDate">생년월일</label>
-            <input id="inputBirthDate" type="date" name="birthDate" th:value="${user.birthDate}">
-        </div>
-    
-        <button type="submit">변경 사항 저장</button>
-        <a href="/user/userInfo">취소</a>
+                <input type="hidden" name="email" th:value="${user.email}" readonly>
         
-    </form>
-    
-    <a id="deleteAccount" href="#">회원탈퇴</a>
+            <div class="inputShape">
+                <label>성별</label>
+                <div>
+                    <label for="genderMale">남</label>
+                    <input id="genderMale" type="radio" name="gender" value="male" th:checked="${user.gender == 'male'}">
+        
+                    <label for="genderFemale">여</label>
+                    <input id="genderFemale" type="radio" name="gender" value="female" th:checked="${user.gender == 'female'}">
+        
+                    <label for="genderOther">선택안함</label>
+                    <input id="genderOther" type="radio" name="gender" value="null" th:checked="${user.gender == null or user.gender.isEmpty()}">
+                </div>
+            </div>
+        
+            <div class="inputShape">
+                <label for="inputBirthDate">생년월일</label>
+                <input id="inputBirthDate" type="date" name="birthDate" th:value="${user.birthDate}">
+            </div>
+        
+            <button type="submit">변경 사항 저장</button>
+            <a href="/user/userInfo">취소</a>
+            
+        </form>
+        
+        <a id="deleteAccount" href="#">회원탈퇴</a>
+
+    </div>
+
+
 
     <script type="module" src="/js/user/EditInfo.js"></script>
     <script src="/js/nav.js"></script>
+
+<script>
+(()=>{
+    const $resultMessage = document.querySelector('#resultMessage');
+
+    document.querySelector('#sendPassword').addEventListener('click',()=>{
+
+        const password = document.querySelector('#inputPassword').value;
+
+        if (password !== ''){
+            
+            fetch('/user/checkPassword', {
+
+                method : 'POST',
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify({password})
+
+            })
+            .then(response => response.text())
+            .then((message)=>{
+
+                if (message === "비밀번호가 확인되었습니다."){
+
+                    document.querySelector('#editArea').style.display = 'block';
+                    document.querySelector('#checkPassword').style.display = 'none';
+
+
+                } else {
+                    $resultMessage.style.display = "block";
+                    $resultMessage.style.color = "red";
+                    $resultMessage.textContent = message;
+                }
+            })
+            .catch(error => {
+                alert("비밀번호 확인 중 문제가 발생했습니다: " + error.message);
+            })
+
+        }
+        else {
+
+            $resultMessage.style.display = "block";
+            $resultMessage.style.color = "red";
+            $resultMessage.textContent = "비밀번호를 입력해주세요.";
+
+        }
+    })
+})();
+</script>
+
 
 </div>    
 </body>

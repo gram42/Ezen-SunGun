@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #inputShape {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+
+</head>
+<body>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+
+    <h1>비밀번호 변경</h1>
+
+
+        <div class="inputShape">
+            <label class="required" for="inputPw">비밀번호</label>
+
+            <span id="pwChkRes"></span>
+            <div sec:Authorize="isAuthenticated"><input id="inputBeforePw" type="password" name="beforePw" placeholder="현재 비밀번호 입력"></div>
+            <div><input id="inputPw" type="password" name="password" placeholder="비밀번호 입력"></div>
+            <div><input id="inputPwChk" type="password" name="passwordChk" placeholder="비밀번호 확인"></div>
+        </div>
+        <button id="submitBtn" type="button">변경</button>
+
+
+    <script type="module" src="/js/user/EditPw.js"></script>
+    
+</body>
+</html>

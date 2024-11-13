@@ -1,21 +1,33 @@
-#totalRecord .record-content, .checkbox{
+#printRecord{
+    display: flex;
+    flex-direction: column;
+    top: 15%;
+    left: 27%;
+    position: absolute;
+    border: 1px solid black;
+    padding-top: 30px;
+    padding-left: 30px;
+    border-radius: 10px;
+    /* bottom: 20pxs; */
+}
+
+#printRecord .checkbox{
     display: none;
 }
 
 #inputDate {
     margin-bottom: 20px;
+    width: 110px;
 }
 
 .record {
-    display: flex;             
-    justify-content: flex-start;
-    align-items: flex-start;
     margin-bottom: 20px;
-    width: 100%;            
+    left: 50%;
 }
 
 .categoryRecord {
-    display: flex;           
+    display: flex;
+    justify-content: flex-start;
     align-items: flex-start;  
     margin-right: 20px;     
 }
@@ -54,9 +66,8 @@
     resize: none;
     box-sizing: border-box; 
     padding: 10px; 
-    border: 2px solid #ccc; 
+    border: none; 
     border-radius: 5px;  
-    background-color: #f9f9f9;
     color: #333;       
     font-size: 16px;  
     transition: border-color 0.3s; 
@@ -66,16 +77,34 @@
     vertical-align: top;
 }
 
-.submitButton {
-    display: none;
+.record-top{
+    display: flex;
+    justify-content: space-between;
+}
+.record-top .submitButton{
+    margin-right: 20px;
+    margin-bottom: 10px;
+    background-color: #ff9900;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
-.button-container {
+.record-top .submitButton:active {
+    background-color: #ff99007e;
+}
+
+.divisionLine {
+    width: 81%;
+    border-top: 2px solid #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    left: 3%;
+}
+.divLineContainer{
     display: flex;
-    align-items: flex-start;
-    position: absolute;
-    justify-content: flex-start;
     flex-direction: column;
-    bottom: 10px;
-    right: 5px;
 }
