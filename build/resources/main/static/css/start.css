@@ -238,18 +238,6 @@ section {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* 5. 고정 배경과 텍스트 애니메이션 섹션 (페이지 하단) */
 .fixed-background {
   background-image: url('/img/우주배경1.jpg');
@@ -286,4 +274,21 @@ section {
   padding: 10px 20px;
   font-size: 1.2em;
   cursor: pointer;
+}
+
+
+
+
+
+.startbutton {
+  position: fixed;
+  bottom: 10%; /* 초기 위치는 화면 중앙 하단 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  transition: all 0.3s ease; /* 부드러운 이동을 위한 전환 */
+  border-radius: 50px;
+  opacity: 0.7;
+  border: none;
+  background-color: lightsalmon;
 }
