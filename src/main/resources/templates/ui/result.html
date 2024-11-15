@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결과 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="icon" href="data:;base64,=" />
+    <nav th:replace="~{nav.html::top-nav}"></nav>
     <style>
         /* 상자 레이아웃 스타일 */
         .container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            justify-items: center;
+            grid-template-columns: repeat(3, minmax(200px, 1fr)); /* 각 상자의 최대 너비 설정 */
+            row-gap: 10px; /* 상자 간의 상하 간격 */
+            justify-items: stretch; /* 상자들이 그리드 셀을 꽉 채우도록 */
+            margin-left: 220px; /* 네비게이션 바의 영역을 침범하지 않도록 왼쪽 여백 추가 */
+            padding-top: 20px;
+            
         }
 
         .box {
             border: 1px solid #ddd;
             padding: 15px;
-            width: 100%;
-            max-width: 300px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             background-color: #f9f9f9;
@@ -33,24 +38,49 @@
             font-size: 1em;
             color: #555;
         }
+
+        /* 버튼을 화면 가운데로 배치 */
+        .button-group {
+            display: flex;
+            justify-content: center; /* 버튼을 가로로 중앙 정렬 */
+            gap: 10px; /* 버튼 사이 간격 */
+            margin-top: 20px; /* 버튼 그룹의 위쪽 간격 조정 */
+        }
+
+        /* 네비게이션 바와 결과창 해당 페이지 적용 CSS */
+        #relative-position {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>       
 </head>
+
 <body>
+ 
+        <nav th:replace="~{nav.html::side-nav}"></nav>
 
-<h3>ChatGPT의 추천:</h3>
 
-<div class="container">
-    <!-- 주제별 상자. Thymeleaf를 사용하여 반복해서 생성 -->
-    <div th:each="category : ${categories}" class="box">
-        <h4 th:text="${category.name}">주제 제목</h4>
-        <div th:utext="${category.content}">추천 내용</div>
+
+    <div id="relative-position" class="question-box">
+        <h2>ChatGPT의 추천</h2>
     </div>
-</div>
 
-<div class="button-group">
-    <button onclick="location.href='/ui/index'">메인 페이지</button>
-    <button onclick="location.href='/ui/select'">선택 추천</button>
-</div>
 
+    <div class="container">
+        <!-- 주제별 상자. Thymeleaf를 사용하여 반복해서 생성 -->
+        <div th:each="category : ${categories}" class="box">
+            <h4 th:text="${category.name}">주제 제목</h4>
+            <div th:utext="${category.content}">추천 내용</div>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button onclick="location.href='/ui/index'">메인 페이지</button>
+        <button onclick="location.href='/ui/select'">선택 추천</button>
+    </div>
+
+    <script src="/js/nav.js"></script>
 </body>
 </html>
