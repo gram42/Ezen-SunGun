@@ -11,13 +11,14 @@
     <style>
         /* 상자 레이아웃 스타일 */
         .container {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(200px, 1fr)); /* 각 상자의 최대 너비 설정 */
-            row-gap: 10px; /* 상자 간의 상하 간격 */
-            justify-items: stretch; /* 상자들이 그리드 셀을 꽉 채우도록 */
-            margin-left: 220px; /* 네비게이션 바의 영역을 침범하지 않도록 왼쪽 여백 추가 */
+            position: relative;
             padding-top: 20px;
-            
+            gap: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            left: 30%;
+            max-width: 1200px;
+            height: 300px;            
         }
 
         .box {
@@ -54,12 +55,18 @@
             left: 50%;
             transform: translateX(-50%);
         }
+        .recommend-content{
+            min-width: 200px;
+            max-width: 300px;
+            height: 300px;
+        }
     </style>       
 </head>
 
 <body>
  
         <nav th:replace="~{nav.html::side-nav}"></nav>
+        <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
 
 
@@ -72,7 +79,7 @@
         <!-- 주제별 상자. Thymeleaf를 사용하여 반복해서 생성 -->
         <div th:each="category : ${categories}" class="box">
             <h4 th:text="${category.name}">주제 제목</h4>
-            <div th:utext="${category.content}">추천 내용</div>
+            <div class="recommend-content" th:utext="${category.content}">추천 내용</div>
         </div>
     </div>
 
