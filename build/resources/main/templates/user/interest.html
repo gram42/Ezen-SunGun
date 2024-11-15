@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <style>
+        #test{
+            position: relative;
+            left: 50%;
+            bottom: 10vh;
+        }
+    </style>
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <nav th:replace="~{nav.html::side-nav}"></nav>
+    <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
-    <h1>관심사 설정 페이지</h1>
-
-    <form action="/saveInterests" method="post">
+    <form id="test" action="/saveInterests" method="post">
         <div th:each="category : ${categories}">
                 <input th:id="'interest-' + ${category.id}" 
                        type="checkbox" 

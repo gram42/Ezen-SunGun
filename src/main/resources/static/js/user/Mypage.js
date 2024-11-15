@@ -1,6 +1,5 @@
 (()=>{
 
-    // 이 파일 내용은 모두 공부하기
     const ctxDays = document.querySelector('#daysChart');
     const ctxMonths = document.querySelector('#monthsChart');
     const $pointsByDays = document.querySelectorAll('.pointsByDays');
@@ -12,17 +11,16 @@
     const weeksInfo = document.querySelector('#weeks');
     const today = new Date();
 
+
     const daysDataMap = new Map();
     const monthsDataMap = new Map();
-    let maxValue;
-    let unit = 2;
-    let chartMax = 10;
 
     // 클릭 여부에 따라 일간, 월간 차트 출력
     // 일간 포인트 null 여부에 따라 다르게 출력
     $viewDays.addEventListener('click', (event) => {
         event.preventDefault();
-
+        chosen($viewDays);
+        others($viewMonths)
         if (weeksInfo.getAttribute('data-totalPoint') === null){
 
             weeksInfo.style.display = 'block';
@@ -33,6 +31,7 @@
             weeksInfo.style.display = 'block';
             $daysChartContainer.style.display = 'block';
             $monthsChartContainer.style.display = 'none';
+            document.querySelector('#weekActivityPoint').style.display = 'block';
 
         }
 
@@ -40,9 +39,11 @@
 
     $viewMonths.addEventListener('click', (event) => {
         event.preventDefault();
-
+        chosen($viewMonths);
+        others($viewDays)
         weeksInfo.style.display = 'none';
         $monthsChartContainer.style.display = 'block';
+        document.querySelector('#weekActivityPoint').style.display = 'none';
 
     });
 
@@ -89,41 +90,49 @@
 
     }));
 
-
-// x축 날짜 레이블 - day
-const getLastDays = () => {
-
-    let daysNames = [];
-
-    for (let i = 0; i < 7; i++) {
-
-        const pastDate = new Date(today);
-        pastDate.setDate(today.getDate() - i);
-
-        const month = pastDate.getMonth() + 1;
-        const day = pastDate.getDate();
-        daysNames.push(`${month}.${day}`);
-
+    // 버튼 디자인 변환
+    const chosen = function(button){
+        button.classList.add('selected')
+    }
+    const others = function(button){
+        button.classList.remove('selected')
     }
 
-    daysNames.reverse();
 
-    return daysNames;
-};
+    // x축 날짜 레이블 - day
+    const getLastDays = () => {
 
-// x축 날짜 레이블 - month
-const getLastMonths = () => {
-    let monthNames = [];
+        let daysNames = [];
 
-    for (let i = 0; i < 12; i++) {
-        const monthIndex = (today.getMonth() - i + 12) % 12;
-        monthNames.push((monthIndex + 1) + "월");
-    }
+        for (let i = 0; i < 7; i++) {
 
-    monthNames.reverse();
+            const pastDate = new Date(today);
+            pastDate.setDate(today.getDate() - i);
 
-    return monthNames;
-};
+            const month = pastDate.getMonth() + 1;
+            const day = pastDate.getDate();
+            daysNames.push(`${month}.${day}`);
+
+        }
+
+        daysNames.reverse();
+
+        return daysNames;
+    };
+
+    // x축 날짜 레이블 - month
+    const getLastMonths = () => {
+        let monthNames = [];
+
+        for (let i = 0; i < 12; i++) {
+            const monthIndex = (today.getMonth() - i + 12) % 12;
+            monthNames.push((monthIndex + 1) + "월");
+        }
+
+        monthNames.reverse();
+
+        return monthNames;
+    };
 
     // 차트 생성 Chart.js 차트 만들기 활용
     // 일주간 데이터 차트

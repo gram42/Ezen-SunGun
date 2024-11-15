@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap');
+
+* body{
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+}
+
 .global-nav {
-    background-color: #f2b700;
+    background-color: #f2b500;
     position: relative;
     display: flex;
-    width: calc(100% - 40px);
-    padding: 0px 20px;
+    width: 100%;
     padding-left: 0;
     margin-bottom: 0;
     justify-content: space-between;
@@ -18,7 +24,7 @@
 }
 
 #logo-img {
-    height: 50px;
+    height: 55px;
     width: 200px;
 }
 
@@ -43,26 +49,36 @@
     position: absolute;
     padding: 8px 0 ;
     top: 100%;
-    left: 100%;
+    right: 7vw;
     width: 200px;
-    transform: translateX(-100%);
-    background-color: #ffae00;
+    background-color: #ffae00b6;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    display: none;
+    display: flex;
     flex-direction: column;
     white-space: nowrap;
+
+    opacity: 0;
+    transform: translateY(-5px);
+    visibility: hidden;
+}
+
+.personalMenu.show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0s;
 }
 
 .side-nav {
-    background-color: #ffae00;
+    background-color: #ffae00d0;
     padding: 15px 15px;
     padding-bottom: 25px;
     height: 120px;
     width: 200px;
     position: relative;
     margin-top: 5vh;
-    left: 3vw;
+    left: 3%;
 }
 
 .side-nav .link {
@@ -81,6 +97,7 @@
 
 .logout-form {
     display: inline;
+    width: 0;
 }
 
 .logout-form .link {
@@ -95,4 +112,45 @@
 
 .logout-form button.link:hover {
     background-color: #0000001f;
+}
+
+#additional-contents-info{
+    position: fixed;
+    top: 65vh;
+    left: 82vw;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: rgba(255, 148, 18, 0.622);
+    padding: 0; 
+}
+
+#additional-contents-info a{
+    text-decoration: none;
+    padding: 10px 20px 10px 20px;
+    color: #444;
+    white-space: nowrap;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#additional-contents-info a:first-child{
+    padding-top: 20px;
+}
+#additional-contents-info a:last-child{
+    padding-bottom: 20px;
+}
+
+#additional-contents-info a:hover{
+    background-color: #0000001f;
+}
+
+#additional-contents-info hr{
+    width: 90%;
+    margin: 0;
+    margin-left: 20px;
 }

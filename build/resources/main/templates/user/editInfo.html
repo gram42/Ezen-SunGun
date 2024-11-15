@@ -5,55 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>edit user info</title>
     <link rel="stylesheet" th:href="@{/css/nav.css}">
-
-    <style>
-        body{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        input[type="text"],
-        /* input[type="password"], */
-        input[type="date"]
-        {
-            padding: 12px; /* 여백 추가 */
-            border-radius: 8px; /* 모서리 둥글게 */
-            border: 1px solid #ccc; /* 테두리 색상 */
-            font-size: 16px; /* 글자 크기 */
-            transition: border 0.3s; /* 부드러운 전환 효과 */
-        }
-
-        input[type="text"]:focus,
-        /* input[type="password"]:focus, */
-        input[type="date"]:focus
-        {
-            border-color: #fd9800; /* 포커스 시 테두리 색상 변경 */
-            outline: none; /* 기본 포커스 아웃라인 제거 */
-        }
-
-        button {
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background-color: #fd9800; /* 주황색 배경 */
-            color: white; /* 흰색 글자 */
-            font-size: 16px;
-            cursor: pointer; /* 포인터 커서 */
-            transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
-        }
-
-        #editArea {
-            display: none;
-        }
-        
-
-    </style>
-
+    <link rel="stylesheet" href="/css/user/editInfo.css">
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
-
-    <h2>정보 수정</h2>
                 
     <div id="checkPassword">
     
@@ -61,7 +16,7 @@
         <span id="resultMessage"></span><br>
         <input id="saveId" type="hidden" name="userid" th:value="${user.userid}">
         <input id="inputPassword" type="password" name="password">
-        <button id="sendPassword" type="button">입력</button>
+        <button id="sendPassword" class="btn" type="button">입력</button>
 
     </div>
     
@@ -80,7 +35,7 @@
                 <span id="nicknmChkRes"></span>
                 <div>
                     <input id="inputNicknm" type="text" name="userName" th:value="${user.userName}">
-                    <button id="nicknmDuplChkBtn" type="button">닉네임 중복확인</button>
+                    <button id="nicknmDuplChkBtn" class="btn" type="button">닉네임 중복확인</button>
                 </div>
             </div>
     
@@ -105,7 +60,7 @@
                 <input id="inputBirthDate" type="date" name="birthDate" th:value="${user.birthDate}">
             </div>
         
-            <button type="submit">변경 사항 저장</button>
+            <button class="btn" type="submit">변경 사항 저장</button>
             <a href="/user/userInfo">취소</a>
             
         </form>

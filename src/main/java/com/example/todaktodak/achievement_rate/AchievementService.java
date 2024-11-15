@@ -97,6 +97,9 @@ public class AchievementService {
             achievementDTOs.add(new AchievementDTO(achievement, wholePoint, currPoint, achievementRate));
 
         }
+        if(achievementDTOs.isEmpty()){
+            return null;
+        }
         return achievementDTOs;
     }
 

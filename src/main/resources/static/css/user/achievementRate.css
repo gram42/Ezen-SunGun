@@ -1,0 +1,179 @@
+#elements{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    bottom: 110px;
+    left: 600px;
+    max-width: 800px;
+}
+
+.addBtn{
+    position: relative;
+    left: 60%;
+    text-decoration: none;
+    color: white;
+    background-color: #fd9800;
+    padding: 10px 15px 10px 15px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+#dateError{
+    color: red;
+    display: none;
+}
+.label-box{
+    background-color: rgba(243, 191, 47, 0.702);
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid #cccccc75;
+    border-radius: 16px;
+    margin: 5px 5px;
+    display: flex;
+}
+.label-box:last-child{
+    margin-right: 0;
+}
+.inputCategories{
+    margin-bottom: 30px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    color: #444;
+    
+    max-width: 500px;
+}
+.date-label{
+    display: inline-flex;
+    flex-direction: column;
+    align-content: space-between;
+    margin-right: 30px;
+    color: #444;
+}
+#input-date{
+    margin-bottom: 20px;
+}
+
+#submitBtn{
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #fd9800; /* 주황색 배경 */
+    color: white; /* 흰색 글자 */
+    font-size: 16px;
+    cursor: pointer; /* 포인터 커서 */
+    transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
+}
+
+input[type="date"], textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: border 0.3s;
+    vertical-align: bottom;
+}
+
+input[type="date"]:focus{
+    border-color: #fd9800;
+    outline: none;
+}
+textarea{
+    resize: none;
+    height: 50px;
+    width: 400px;
+}
+input[type="radio"]:checked + .label-box {
+    background-color: #fd98009e;
+    border-color: #fd9800;
+    color: white;
+}
+input[type="radio"] {
+    display: none;
+}
+
+.label-box:hover {
+    background-color: #fffcd1;
+}
+#submit-area{
+    display: none;
+    border: 2px solid ;
+    padding: 15px 25px 15px 25px;
+    border-color: #ffb63743;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    background-color: #ffb63793;
+
+}
+
+.goals-block{
+    border-top: 1px solid; 
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-bottom: none;
+    padding: 20px 20px 15px 25px;
+    /* background-color: rgba(255, 255, 0, 0.043); */
+    background-color: #ffb84d5a;
+    border-color: #ccc;
+    min-width: 770px;
+}
+
+.goals-block:first-child{
+    border-radius: 12px 12px 0 0;
+}
+.goals-block:last-child{
+    border-bottom: 1px solid;;
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 50px;
+    border-color: #ccc;
+}
+.goal-date{
+    display: flex;
+    gap: 10px;
+}
+
+#rate-bar{
+    width: 100%;
+    height: 10px;
+    border-radius: 10px; 
+    border: none; 
+}
+.achievement-point{
+    display: flex;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #ffffffbf; 
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #ff9d00;
+    border-radius: 10px;
+}
+
+.additional-info{
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.additional-info #category-type{
+    margin-right: 57%;
+}
+#goal-text{
+    color: #444;
+    font-size: larger;
+    font-weight: 550;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+}

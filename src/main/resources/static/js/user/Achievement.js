@@ -1,8 +1,9 @@
 (()=>{
     const $startDate = document.querySelector('#inputStartDate');
     const $endDate = document.querySelector('#inputEndDate');
+    const $inputGoal = document.querySelector('#input-goal');
 
-    // 제출 전 날짜 검사
+    // 제출 전 날짜, 글자 수 검사
     document.querySelector('#submitAchievementGoal').addEventListener('submit',(submit)=>{
 
         submit.preventDefault();
@@ -13,12 +14,26 @@
         if (startDate > endDate){
             document.querySelector('#dateError').style.display = 'block';
             return
+        } else if($inputGoal.value.length > 500){
+            alert('목표 글자 수는 500자를 넘을 수 없습니다');
+            return;
         }
         submit.target.submit();
     });
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+document.querySelector('.addBtn').addEventListener('click', (event)=>{
+    event.preventDefault();
+
+    document.querySelector('#submit-area').style.display = 'block';
+    document.querySelector('.addBtn').style.display = 'none';
+})
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+    // 페이지네이션 관련
     const currPg = document.querySelector('#currPg');
     const totalPg = document.querySelector('#totalPg');
     const startPg = document.querySelector('#startPg');
@@ -34,9 +49,6 @@
     const startPgNum = parseInt(startPg.value, 10);
     const endPgNum = parseInt(endPg.value, 10);
     const currSectionNum = parseInt(currSection.value, 10);
-
-    console.log((totalPgNum - 1)/5);
-
 
     $prevBtn.addEventListener('click',()=>{
         location.href="/achievementRate?p=" + (currPgNum - 1);

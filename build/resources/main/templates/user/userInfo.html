@@ -4,78 +4,9 @@
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my page</title>
-    <link rel="stylesheet" th:href="@{/css/personal_menu/mypage.css}">
+    <link rel="stylesheet" th:href="@{/css/personal_menu/userInfo.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 
-    <style>
-
-        .info {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-        }
-
-        .elementsName {
-            font-weight: bold;
-            width: 100px; 
-        }
-
-        .value {
-            color: #555;
-        }
-
-        #checkPassword {
-            display: none;
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #fd9800;
-            border-radius: 8px;
-            /* background-color: white; */
-        }
-
-        #resultMessage {
-            color: red; /* 오류 메시지 색상 */
-        }
-
-        #personalInfoContainer{
-            display: flex;          
-            flex-direction: column;
-            justify-content: center;  
-            align-items: center;
-            padding: 20px;
-            position: relative;
-        }
-
-        #inputEditPw {
-            margin-top: 20px;
-            display: flex;
-        }
-
-        #inputEditPw a {
-            padding: 10px 20px;
-            border-radius: 8px;
-            background-color: #fd9800;
-            color: white;
-            font-size: 16px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-            margin-right: 8px;
-        }
-
-        #inputEditPw a:last-child {
-            margin-right: 0;
-        }
-
-        #inputEditPw a:hover {
-            background-color: #f58200;    /* hover 효과 */
-        }
-
-        #sideContainer{
-            /* display: flex; */
-            display: inline-flex;
-        }
-    </style>
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
@@ -94,35 +25,41 @@
                 <div class="elementsName">ID</div>
                 <div class="value" th:if="${user.userid != null}" th:text="${user.userid}">id</div>
             </div>
+            <hr>
             
             <div class="info">
                 <div class="elementsName">이름</div>
                 <div class="value" th:if="${user.userName != null}" th:text="${user.userName}">name</div>
             </div>
+            <hr>
             
             <div class="info">
                 <div class="elementsName">이메일</div>
                 <div class="value" th:if="${user.email != null}" th:text="${user.email}">email</div>
             </div>
+            <hr>
             
             <div class="info">
                 <div class="elementsName">성별</div>
                 <div class="value" th:if="${user.gender != null}" th:text="${user.gender}">gender</div>
             </div>
+            <hr>
             
             <div class="info">
                 <div class="elementsName">생일</div>
                 <div class="value" th:if="${user.birthDate != null}" th:text="${user.birthDate}">birthdate</div>
-            </div>            
+            </div>   
+            <hr>         
         </div>
 
         
 
         <!-- 개인 정보 수정을 누르면 각종 정보 수정 가능하게 비밀번호와 정보 수정시 비번 재입력 -->
 
-    <div id="inputEditPw">
-        <a href="/user/editInfo" id="perInfoEdit">개인 정보 수정</a><br>
-        <a href="/user/chngPw">비밀번호 변경</a>
+        <div id="linkBtn">
+            <a href="/user/editInfo" id="perInfoEdit">개인 정보 수정</a><br>
+            <a href="/user/chngPw">비밀번호 변경</a>
+        </div>
     </div>
 
     <script src="/js/nav.js"></script>

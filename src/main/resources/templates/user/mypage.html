@@ -4,16 +4,15 @@
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mypage2</title>
-    <link rel="stylesheet" href="/css/personal_menu/mypage-kmg.css">
+    <link rel="stylesheet" href="/css/personal_menu/mypage.css">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 
 <body>
-    <!-- *주의* 추후 파일 위치 옮길 것 -> user, 이름 mypage로 바꿀 것, 당연히 위치나 이름이 바뀌면 컨트롤러도 변경해줘야함 -->
+
     <nav th:replace="~{nav.html::top-nav}"></nav>
-    
-        
-        <nav th:replace="~{nav.html::side-nav}"></nav>
+    <nav th:replace="~{nav.html::side-nav}"></nav>
+    <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
         <!-- 로그인 유무 -->
         <div sec:authorize="isAnonymous">
@@ -28,11 +27,11 @@
                 <div> 최근 기록이 없습니다. </div>
             </div>
     
-            <div th:if="${pointsByMonths != null and !pointsByMonths.isEmpty()}">
+            <div id="contentContainer" th:if="${pointsByMonths != null and !pointsByMonths.isEmpty()}">
     
                 <!-- 원하는 단위 통계 확인 버튼 -->
-                <div>
-                    <a id="viewDays" href="#">일 단위 통계</a> <a id="viewMonths" href="#">월 단위 통계</a>
+                <div id="dateUnitContainer">
+                    <a id="viewDays" href="#">주간 활동</a> <a id="viewMonths" class="selected" href="#">월간 활동</a>
                 </div>
     
                 <div id="weeks" th:attr="data-totalPoint = ${totalPoint}">
@@ -43,14 +42,12 @@
     
                     <!-- 주간 데이터 -->
                     <div th:if="${totalPoint} != null">
-        
-                        <div th:text="'주간 활동 점수 : ' + ${totalPoint}"></div>
                         <div th:each="pointD : ${pointsByDays}">
                             <div class="pointsByDays" th:attr="data-key=${pointD.key}, data-value=${pointD.value}"></div>
                         </div>
-                        <div id="daysChartContainer"><canvas id="daysChart"></canvas></div>
-        
+                        <div id="daysChartContainer" class="chartsContainer"><canvas id="daysChart"></canvas></div>
                     </div>
+                    <div id="weekActivityPoint" th:if="${totalPoint} != null" th:text="'주간 총 활동 포인트 : ' + ${totalPoint}"></div>
     
                 </div>
     
@@ -59,14 +56,14 @@
                     <div class="pointsByMonths" th:attr="data-key=${pointM.key}, data-value=${pointM.value}"></div>
                 </div>
     
-                <div id="monthsChartContainer"><canvas id="monthsChart"></canvas></div>
+                <div id="monthsChartContainer" class="chartsContainer"><canvas id="monthsChart"></canvas></div>
     
             </div>
     
         </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/js/record/Mypage-kmg.js"></script>
+<script src="/js/user/Mypage.js"></script>
 <script src="/js/nav.js"></script>
     
 </body>

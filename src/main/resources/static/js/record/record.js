@@ -45,9 +45,6 @@
 
                 })
                 .then((message)=>{return message.text()})
-                .then(() => {
-                    category_color();
-                })
                 .catch(error => {
                     alert(error.message);
                 });
@@ -68,9 +65,6 @@
 
                 })
                 .then((message)=>{return message.text();})
-                .then(() => {
-                    category_color();
-                })
                 .catch(error => {
                     alert(error.message);
                 });
@@ -85,6 +79,7 @@
         event.preventDefault();
 
         const recordsList = [];
+        let lengthChk = true;
 
         document.querySelectorAll('.record').forEach(record => {
             const userId = record.getAttribute('userid');
@@ -96,51 +91,38 @@
             if (content.length > 500) {
                 alert("기록 내용은 500자를 넘을 수 없습니다.");
                 inputContent.focus();
+                lengthChk = false;
                 return;
+            } else{
+                // recordsData 배열에 각 기록 데이터 추가
+                recordsList.push({
+                    compositeId: {
+                        userid: userId,
+                        categoryId: categoryId,
+                        recordedDate: $inputDate.value
+                    },
+                    content: content
+                });
             }
-    
-            // recordsData 배열에 각 기록 데이터 추가
-            recordsList.push({
-                compositeId: {
-                    userid: userId,
-                    categoryId: categoryId,
-                    recordedDate: $inputDate.value
-                },
-                content: content
-            });
         });
-
-        fetch('/record/saveContent', {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(recordsList)
-        })
-        .then(res=>{
-            alert('저장이 완료되었습니다')
-            location.reload();
-        })
-        .catch(error => {
-            alert(error.message);
-        });
-    });
-
-
-    // 체크 여부에 따라 색상 변경
-    const category_color = function(){
         
-        checkbox.forEach(checkbox=>{
-            
-            const recordDiv = checkbox.parentElement.parentElement;
-            
-            if (checkbox.checked){
-                recordDiv.querySelector('.checkboxLabel').style.backgroundColor = 'black';
-            }
-            else {
-                recordDiv.querySelector('.checkboxLabel').style.backgroundColor = '#ff9900';
-            }
-        });   
-    }
-    
-    category_color();
+        if(lengthChk){
+            fetch('/record/saveContent', {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(recordsList)
+            })
+            .then(response=>{return response.json()})
+            .then(res=>{
+                if (res){
+                    alert('저장이 완료되었습니다')
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+        }
+    });
 
 })();

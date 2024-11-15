@@ -8,19 +8,19 @@
     })
 
     personalMenuBtn.addEventListener('mouseover', () => {
-        personalMenu.style.display = 'flex';
+        personalMenu.classList.add('show');
     });
 
     personalMenu.addEventListener('mouseover', () => {
-        personalMenu.style.display = 'flex';
+        personalMenu.classList.add('show');
     });
 
     personalMenuBtn.addEventListener('mouseout', () => {
-        personalMenu.style.display = 'none';
+        personalMenu.classList.remove('show');
     });
 
     personalMenu.addEventListener('mouseout', () => {
-        personalMenu.style.display = 'none';
+        personalMenu.classList.remove('show');
     });
 
 })();

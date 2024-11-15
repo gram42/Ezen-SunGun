@@ -39,6 +39,7 @@ public class Achievement {
     @Column(nullable = false)
     LocalDate endDate; // 종료날짜
 
+    @Column(length = 500)
     String goal; // 목표
 
     public Achievement(){}

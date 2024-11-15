@@ -13,6 +13,7 @@
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <nav th:replace="~{nav.html::side-nav}"></nav>
+    <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
     
         <div sec:authorize="isAnonymous">
             <div>로그인 후 이용 가능합니다</div>
