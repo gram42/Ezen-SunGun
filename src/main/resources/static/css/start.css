@@ -160,53 +160,80 @@ section {
 
 
 
-/* 전체 화면에 하나씩 보이도록 설정 */
-/* 가로 스크롤을 위한 스타일 */
+/* 수평 스크롤 섹션 */
+/* 스크롤 섹션 */
 .horizontal-scroll-section {
   display: flex;
-  overflow-x: auto; /* 가로 스크롤 활성화 */
+  overflow-x: hidden; /* 가로 스크롤 숨기기 */
   background-color: white;
-  scroll-snap-type: x mandatory; /* 가로 스크롤 아이템들이 스냅되도록 설정 */
-  white-space: nowrap; /* 가로로 이어서 배치 */
-  scroll-behavior: smooth; /* 스크롤 애니메이션 부드럽게 */
   height: 100vh;
   align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  position: relative;
 }
 
+/* 스크롤 콘텐츠 */
 .scroll-content {
   display: flex;
-  width: max-content; /* 내용에 맞게 너비를 늘리도록 설정 */
-  gap: 20px; /* 이미지 사이 간격 */
-  padding: 1rem;
+  gap: 30px; /* 항목 간 간격 설정 */
+  scroll-snap-type: x mandatory; /* 스크롤 스냅 적용 */
+  scroll-snap-align: start; /* 스크롤을 항목의 시작 부분에 맞추기 */
+  width: auto; /* 콘텐츠에 맞춰 너비 조정 */
+  transition: transform 0.5s ease; /* 부드러운 애니메이션 */
 }
 
+/* 개별 항목 */
 .scroll-item {
-  flex: none; /* 크기를 자식 항목에 맞게 설정 */
-  width: 80vw; /* 각 항목이 화면 대부분을 차지 */
-  min-width: 300px;
-  height: 80vh;
+  width: 100vw; /* 화면 너비만큼 차지 */
+  height: 80vh; /* 화면 높이의 80% */
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   text-align: center;
-  scroll-snap-align: start;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
-.scroll-item img {
-  max-width: 100%;
-  max-height: 60vh;
-  margin-bottom: 1rem;
-}
-
-/* 화면에 보일 때 opacity 1로 설정 */
+/* 항목이 보이게 되면 opacity가 1로 바뀌도록 */
 .scroll-item.show {
   opacity: 1;
 }
 
-/* 가로 스크롤바 숨기기 */
-.horizontal-scroll-section::-webkit-scrollbar {
-  display: none;
+/* 이미지 */
+.scroll-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+
+
+/* 글씨크기 점점 크게 */
+/* 섹션에 텍스트를 중앙 정렬하고, 화면에 맞게 크기 조정 */
+/* 스크롤 애니메이션에 맞춰 텍스트가 커지고 중앙에 위치하도록 조정 */
+.scaling-text-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200vh;  /* 섹션 높이를 충분히 크게 */
+  overflow: hidden; /* 텍스트가 섹션 밖으로 나가지 않도록 */
+  position: relative;
+  background-color: #f5f5f5; /* 배경색 */
+  margin: 0;
+  text-align: center; /* 텍스트를 중앙 정렬 */
+}
+
+.animated-scale-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 */
+  font-weight: bold;
+  color: black; /* 기본 텍스트 색상 */
+  background-color: white; /* 기본 배경 */
+  z-index: 999; /* 다른 요소보다 위에 표시되도록 */
 }
 
 
