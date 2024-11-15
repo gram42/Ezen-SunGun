@@ -219,7 +219,7 @@ section {
   height: 200vh;  /* 섹션 높이를 충분히 크게 */
   overflow: hidden; /* 텍스트가 섹션 밖으로 나가지 않도록 */
   position: relative;
-  background-color: #f5f5f5; /* 배경색 */
+  background-color: white; /* 배경색 */
   margin: 0;
   text-align: center; /* 텍스트를 중앙 정렬 */
 }
@@ -234,6 +234,7 @@ section {
   color: black; /* 기본 텍스트 색상 */
   background-color: white; /* 기본 배경 */
   z-index: 999; /* 다른 요소보다 위에 표시되도록 */
+  cursor: default;
 }
 
 
@@ -251,7 +252,7 @@ section {
 
 /* 5. 고정 배경과 텍스트 애니메이션 섹션 (페이지 하단) */
 .fixed-background {
-  background-image: url('/img/1727241857894_6090.jpg');
+  background-image: url('/img/우주배경1.jpg');
   background-size: cover;
   background-attachment: fixed;
   height: 100vh;

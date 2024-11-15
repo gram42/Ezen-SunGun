@@ -92,8 +92,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 스크롤 애니메이션 설정
     gsap.to(animatedText, {
-      fontSize: "500vw", // 텍스트가 화면을 가득 채울 정도로 커짐
-      letterSpacing: "-50vw", // 자간을 줄여 빈틈 제거
+      fontSize: "50vw", // 텍스트가 화면을 가득 채울 정도로 커짐
+      scale: 30,
+      letterSpacing: "-5vw", // 자간을 줄여 빈틈 제거
       lineHeight: "0.8",
       color: "#000", // 텍스트를 검정색으로 설정
       ease: 'power2.out',
@@ -103,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
         end: 'bottom+=100',
         scrub: 1, // 스크롤에 맞춰 애니메이션을 부드럽게 진행
         pin: true, // 스크롤 시 섹션을 고정
-        markers: true, // 디버깅을 위한 마커 표시
         onEnter: () => {
           document.body.style.backgroundColor = "#000"; // 배경 강제 검정
         },
