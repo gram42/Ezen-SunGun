@@ -3,6 +3,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 #inputPassword{
@@ -47,9 +48,17 @@ input[type="date"]:focus
     font-size: 16px;
     cursor: pointer; /* 포인터 커서 */
     transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
+    width: max-content;
 }
 
 #editArea {
     display: none;
     gap: 50px;
+}
+
+#submitForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
 }
