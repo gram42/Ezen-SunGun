@@ -9,6 +9,46 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
     <link rel="icon" href="data:;base64,=" />
     <nav th:replace="~{nav.html::top-nav}"></nav>
+    <style>
+/* 로딩 컨테이너 스타일 */
+#lottie-wrapper {
+    display: none; /* 초기 숨김 */
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9); /* 반투명 배경 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    text-align: center;
+}
+
+/* 애니메이션 영역 */
+#lottie-container {
+    width: 150px; /* 애니메이션 크기 */
+    height: 150px;
+}
+
+/* 텍스트 스타일 */
+#loading-text {
+    font-size: 1.5rem;
+    color: #555;
+    margin-top: 20px; /* 애니메이션 아래에 배치 */
+    animation: loadingTextFade 1.5s infinite; /* 페이드 효과 */
+}
+
+/* 텍스트 페이드 애니메이션 */
+@keyframes loadingTextFade {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+    </style>
+
 </head>
 <body>
     <!-- <nav th:replace="~{nav.html::side-nav}"></nav> -->
@@ -32,27 +72,52 @@
         </div>
     </div>
 
+
+    <div id="lottie-wrapper">
+        <div id="lottie-container"></div> <!-- Lottie 애니메이션 -->
+        <div id="loading-text">SunGPT 출근시키는 중 ...</div> <!-- 텍스트 -->
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
 <script>
 (() => {
     document.querySelector('#fastRecommendation').addEventListener('click', () => {
+        // 로딩 래퍼 가져오기
+        const lottieWrapper = document.getElementById('lottie-wrapper');
+        const lottieContainer = document.getElementById('lottie-container');
 
+        // 로딩 래퍼가 화면에 보이도록 설정
+        lottieWrapper.style.display = 'flex';
+
+        // Lottie 애니메이션 로드
+        var animation = lottie.loadAnimation({
+            container: lottieContainer, // 애니메이션을 삽입할 요소
+            renderer: 'svg', // 렌더링 방식
+            loop: true, // 애니메이션 반복
+            autoplay: true, // 자동 재생
+            path: '/loading.json/로딩.json' // JSON 애니메이션 파일 경로
+        });
+
+        // API 호출
         fetch('/userInterestsPlz', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' }
         })
         .then(response => response.json())
         .then(res => {
-
             if (res && res.length > 0) {
-
                 document.querySelector('#inputInterests').value = res;
                 document.querySelector('#submitForm').submit();
-                
             } else {
                 alert("저장하신 관심사가 없습니다.");
+                lottieWrapper.style.display = 'none'; // 로딩 숨기기
             }
         })
-        .catch(error => { alert(error.message); });
+        .catch(error => {
+            alert(error.message);
+            lottieWrapper.style.display = 'none'; // 로딩 숨기기
+        });
     });
 })();
 </script>
