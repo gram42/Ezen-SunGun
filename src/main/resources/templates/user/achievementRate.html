@@ -15,7 +15,7 @@
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
-    <nav th:replace="~{nav.html::side-nav}"></nav>
+    <!-- <nav th:replace="~{nav.html::side-nav}"></nav> -->
     <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
     <div id="elements">
@@ -36,7 +36,7 @@
                         <label th:for="category- + ${category.id}" class="label-box" th:text="${category.name}">카테고리</label>
                     </div>
                 </div>
-    
+
                 <div id="input-date">
     
                     <pre id="dateError">종료 일은 시작 일보다 앞설 수 없습니다</pre>
@@ -82,8 +82,8 @@
         <div class="pageBar" th:if="${pgInfo.totalPg} != 0">
 
 
-            <button id="prevSection" type="button"><<</button>
-            <button id="prev" type="button"><</button>
+            <button id="prevSection" class="pgnationBtn" type="button"><<</button>
+            <button id="prev" class="pgnationBtn" type="button"><</button>
 
             <a  class="pageBtn"
                 th:each="pageNum : ${#numbers.sequence(pgInfo.startPg, pgInfo.endPg)}"  
@@ -91,8 +91,8 @@
                 th:text="${pageNum}">
             </a>
 
-            <button id="next" type="button">></button>
-            <button id="nextSection" type="button">>></button>
+            <button id="next" class="pgnationBtn" type="button">></button>
+            <button id="nextSection" class="pgnationBtn" type="button">>></button>
 
         </div>
     </div>

@@ -86,4 +86,12 @@ document.querySelector('.addBtn').addEventListener('click', (event)=>{
         $nextBtn.style.display = 'none';
         $nextSectionBtn.style.display = 'none';
     }
+
+    document.querySelectorAll('.pageBtn').forEach((button)=> {
+        if (button.textContent == currPg.value){
+            button.classList.add('active');
+        } else{
+            button.classList.remove('active');
+        }
+    })
 })();

@@ -4,9 +4,9 @@
     align-items: center;
     flex-direction: column;
     position: relative;
-    bottom: 110px;
-    left: 600px;
-    max-width: 800px;
+    bottom: 200px;
+    left: 550px;
+    max-width: 1000px;
 }
 
 .addBtn{
@@ -118,7 +118,7 @@ input[type="radio"] {
     /* background-color: rgba(255, 255, 0, 0.043); */
     background-color: #ffb84d5a;
     border-color: #ccc;
-    min-width: 770px;
+    min-width: 1000px;
 }
 
 .goals-block:first-child{
@@ -168,7 +168,7 @@ progress::-webkit-progress-value {
 }
 
 .additional-info #category-type{
-    margin-right: 57%;
+    margin-right: 65%;
 }
 #goal-text{
     color: #444;
@@ -176,4 +176,32 @@ progress::-webkit-progress-value {
     font-weight: 550;
     margin-bottom: 10px;
     font-family: 'Poppins', sans-serif;
+}
+
+.pageBtn{
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black; /* 기본 색상 */
+}
+
+.pageBtn.active{
+    color: #28a745; /* 현재 페이지 강조 색상 */
+    font-weight: bold; /* 볼드체 적용 */
+    border: 1px solid #28a745; /* 연두색 테두리 추가 */
+    border-radius: 4px; /* 둥근 모서리 */
+    background-color: #f9f9f9; /* 배경색 추가 */
+}
+
+.pgnationBtn{
+    border: none;
+    padding: 5px 10px; /* 패딩 */
+    margin: 0 5px; /* 좌우 여백 */
+    cursor: pointer; /* 클릭 시 포인터로 변경 */
+    color: black; /* 기본 색상 */
+}
+
+.pgnationBtn:hover{
+    text-decoration: underline; /* 마우스 오버 시 밑줄 추가 */
 }
