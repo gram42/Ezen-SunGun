@@ -9,26 +9,38 @@
     <link rel="icon" href="data:;base64,=" />
     <nav th:replace="~{nav.html::top-nav}"></nav>
     <style>
+        /* 전체 레이아웃 */
+        body {
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 배치 */
+            min-height: 100vh; /* 화면 전체 높이 */
+            margin: 0;
+        }
+
+        main {
+            flex: 1; /* 메인 콘텐츠가 화면 대부분을 차지 */
+        }
+
         /* 상자 레이아웃 스타일 */
         .container {
-            position: relative;
-            padding-top: 20px;
-            gap: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            left: 30%;
-            max-width: 1200px;
-            height: 300px;            
-        }
+        display: flex;
+        flex-wrap: wrap; /* 자동 줄바꿈 */
+        gap: 10px; /* 상자 간 간격 */
+        max-width: 1200px;
+        margin: 20px auto; /* 가운데 정렬 */
+    }
 
-        .box {
-            border: 1px solid #ddd;
-            padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-
+    .box {
+        flex: 1 1 calc(33.33% - 10px); /* 기본 너비: 3열 배치 */
+        max-width: calc(33.33% - 10px); /* 컨테이너 크기에 따라 최대 너비 제한 */
+        min-width: 200px; /* 최소 너비 */
+        box-sizing: border-box; /* 패딩 포함 크기 계산 */
+        border: 1px solid #ddd;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
         .box h4 {
             margin: 0 0 10px;
             font-size: 1.2em;
@@ -40,12 +52,14 @@
             color: #555;
         }
 
-        /* 버튼을 화면 가운데로 배치 */
+        /* 버튼 그룹 스타일 */
         .button-group {
             display: flex;
             justify-content: center; /* 버튼을 가로로 중앙 정렬 */
-            gap: 10px; /* 버튼 사이 간격 */
-            margin-top: 20px; /* 버튼 그룹의 위쪽 간격 조정 */
+            gap: 15px; /* 버튼 간격 */
+            background-color: #fff; /* 배경색으로 시각적 분리 */
+            padding: 15px 0; /* 위아래 여백 추가 */
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* 상단 그림자 */
         }
 
         /* 네비게이션 바와 결과창 해당 페이지 적용 CSS */
@@ -60,29 +74,31 @@
             max-width: 300px;
             height: 300px;
         }
-    </style>       
+    </style>
 </head>
 
 <body>
- 
-        <nav th:replace="~{nav.html::side-nav}"></nav>
-        <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
+    <!-- 네비게이션 -->
+    <nav th:replace="~{nav.html::side-nav}"></nav>
+    <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
-
-
-    <div id="relative-position" class="question-box">
-        <h2>ChatGPT의 추천</h2>
-    </div>
-
-
-    <div class="container">
-        <!-- 주제별 상자. Thymeleaf를 사용하여 반복해서 생성 -->
-        <div th:each="category : ${categories}" class="box">
-            <h4 th:text="${category.name}">주제 제목</h4>
-            <div class="recommend-content" th:utext="${category.content}">추천 내용</div>
+    <main>
+        <!-- 추천 제목 -->
+        <div id="relative-position" class="question-box">
+            <h2>Sun 인공지능의 추천</h2>
         </div>
-    </div>
 
+        <!-- 상자 레이아웃 -->
+        <div class="container">
+            <!-- Thymeleaf 반복문으로 상자 생성 -->
+            <div th:each="category : ${categories}" class="box">
+                <h4 th:text="${category.name}">주제 제목</h4>
+                <div class="recommend-content" th:utext="${category.content}">추천 내용</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 버튼 그룹 -->
     <div class="button-group">
         <button onclick="location.href='/ui/index'">메인 페이지</button>
         <button onclick="location.href='/ui/select'">선택 추천</button>
