@@ -28,22 +28,23 @@
             gap: 10px;
             display: flex;
             flex-wrap: wrap;
-            left: 30%;
+            justify-content: space-between; /* 상자 사이 균등 배치 */
             max-width: 1200px;
-            height: 300px;            
+            margin: 0 auto; /* 가운데 정렬 */
         }
 
-    .box {
-        flex: 1 1 calc(33.33% - 10px); /* 기본 너비: 3열 배치 */
-        max-width: calc(33.33% - 10px); /* 컨테이너 크기에 따라 최대 너비 제한 */
-        min-width: 200px; /* 최소 너비 */
-        box-sizing: border-box; /* 패딩 포함 크기 계산 */
-        border: 1px solid #ddd;
-        padding: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        background-color: #f9f9f9;
-    }
+        .box {
+            flex: 1 1 calc(33.33% - 10px); /* 기본 너비: 3열 배치 */
+            max-width: calc(33.33% - 10px); /* 컨테이너 크기에 따라 최대 너비 제한 */
+            min-width: 200px; /* 최소 너비 */
+            box-sizing: border-box; /* 패딩 포함 크기 계산 */
+            border: 1px solid #ddd;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: #FFCC80;
+        }
+
         .box h4 {
             margin: 0 0 10px;
             font-size: 1.2em;
@@ -63,16 +64,26 @@
             background-color: #fff; /* 배경색으로 시각적 분리 */
             padding: 15px 0; /* 위아래 여백 추가 */
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* 상단 그림자 */
+            margin-top: 20px; /* 버튼 그룹과 상자 간 간격 */
         }
 
-        /* 네비게이션 바와 결과창 해당 페이지 적용 CSS */
+        .button-group button {
+            background-color: #ffb700cd;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* 결과창 해당 페이지 적용 CSS */
         #relative-position {
             position: absolute;
             top: 150px;
             left: 50%;
             transform: translateX(-50%);
         }
-        .recommend-content{
+
+        .recommend-content {
             min-width: 200px;
             max-width: 300px;
             height: 300px;
@@ -81,9 +92,7 @@
 </head>
 
 <body>
- 
-        <nav th:replace="~{nav.html::side-nav}"></nav>
-        <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
+    <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
     <main>
         <!-- 추천 제목 -->
@@ -102,7 +111,7 @@
     </main>
 
     <!-- 버튼 그룹 -->
-    <div class="button-group">
+    <div class="button-group" id ="button">
         <button onclick="location.href='/ui/index'">메인 페이지</button>
         <button onclick="location.href='/ui/select'">선택 추천</button>
     </div>

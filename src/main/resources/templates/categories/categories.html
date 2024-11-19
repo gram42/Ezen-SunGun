@@ -10,11 +10,11 @@
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
 
-    <div>
-        <a id="add" href="#">추가</a>
+    <div class="add-area">
+        <a id="add" class="btn" href="#">추가</a>
         <div class="add">
             <label for="categoryName">카테고리 이름을 입력해주세요</label><input id="inputAddCategoryName" type="text">
-            <a id="addSubmitButton" href="#">완료</a>
+            <a id="addSubmitButton" class="btn" href="#">완료</a>
         </div>
     </div>
     
@@ -22,15 +22,16 @@
     <div class="categories-list-container">
         <div class="categories-list-box">
             <div class="categories-list" th:each="category : ${categories}">
-                <div th:text="${category.id}"></div>
+                <!-- <div th:text="${category.id}"></div> -->
                 <div th:text="${category.name}"></div>
     
-                <a class="editCategories" href="#">수정</a>
+                <a class="editCategories btn" href="#">수정</a>
                 <br>
                 <div class="edit">
     
                     <input th:data-id="${category.id}" class="inputEditCategoryName" th:value="${category.name}" type="text">
-                    <a class="editSubmitButton" href="#">완료</a>
+                    <br>
+                    <a class="editSubmitButton btn" href="#">완료</a>
     
                 </div>
             </div>

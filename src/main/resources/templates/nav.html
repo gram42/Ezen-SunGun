@@ -9,20 +9,21 @@
         <img id="logo-img" src="/img/Preview.png" alt="Logo">
     </a>
 
-    <a sec:authorize="hasRole('ROLE_ADMIN')" class="link admin-pg" href="/categories">카테고리 설정</a>
-
     <div id="moveTopMenu">
         <a class="link" href="/">이용 안내</a>
         <a class="link" href="/record">일일 활동 기록</a>
         <a class="link" href="/community/community">게시판</a>
     </div>
 
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="link admin-pg" href="/categories">카테고리 설정</a>
+
+
     <div class="menu">
 
-        <span sec:authorize="isAnonymous">
-            <a class="link" href="/user/login">로그인</a>
-            <a class="link" href="/user/register">회원가입</a>
-        </span>
+        <div sec:authorize="isAnonymous">
+            <a class="link before-login" href="/user/login">로그인</a>
+            <a class="link before-login" href="/user/register">회원가입</a>
+        </div>
         
         
         <a sec:authorize="isAuthenticated" class="link" id="personalMenuBtn" href="#">개인메뉴</a>
@@ -45,13 +46,13 @@
     
 </nav>
 
-<nav class="side-nav" th:fragment="side-nav">
+<!-- <nav class="side-nav" th:fragment="side-nav">
     <div>
         <a class="link" href="/">이용 안내</a>
         <a class="link" href="/record">일일 활동 기록</a>
         <a class="link" href="/community/community">게시판</a>
     </div>
-</nav>
+</nav> -->
 
 <nav class="additional-contents" th:fragment="additional-contents-nav">
 

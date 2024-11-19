@@ -6,6 +6,7 @@ body{
 }
 .edit {
     display: none;
+
 }
 
 .add {
@@ -15,8 +16,11 @@ body{
 .categories-list{
     border: 2px solid #555;
     border-radius: 8px;
-    width: 150px;
+    width: 200px;
     height: 100px;
+    padding: 10px;
+    position: relative;
+    left: 80px;
 }
 
 .categories-list-box{
@@ -27,4 +31,16 @@ body{
 
 .categories-list-container{
     width: 900px;
+}
+
+.btn{
+    text-decoration: none;
+    border: 1px solid #555;
+    background-color: rgb(233, 233, 171);
+    padding: 1px;
+    border-radius: 4px;
+}
+
+.add-area{
+    margin-bottom: 10px;
 }

@@ -1,0 +1,65 @@
+#input-categories {
+    position: relative;
+    left: 700px;
+    bottom: 10vh;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 600px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: #f2bc6aa3;
+    padding: 15px;
+}
+
+input[type="checkbox"]{
+    display: none;
+}
+
+.category-labels{
+    border: 2px solid #555;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: block;
+    background-color: rgba(243, 191, 47, 0.702);
+    cursor: pointer;
+    border-radius: 16px;
+    margin: 5px 5px;
+}
+
+#submit-btn {
+    position: absolute;
+    bottom: 120%;
+    right: 0;
+    background-color: #fd9800;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: white; /* 흰색 글자 */
+    font-size: 16px;
+    cursor: pointer; /* 포인터 커서 */
+    transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
+}
+
+#submit-btn:active{
+    opacity: 0.7;
+}
+
+.category-labels:hover{
+    background-color: #fffcd1;
+}
+
+input[type="checkbox"]:checked + .category-labels{
+    background-color: #fd98009e;
+    border-color: #fd9800;
+    color: white;
+}
+
+#introduce {
+    position: absolute;
+    bottom: 120%;
+    left: 0;
+    font-size: large;
+    font-weight: bold;
+    color: #333;
+}
