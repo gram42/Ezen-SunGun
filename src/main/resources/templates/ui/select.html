@@ -51,17 +51,13 @@
             justify-content: center;
         }
 
-        .checkbox-position {
-            margin-top: 50px;
-        }
-
         /* 기본 체크박스 숨김 */
-        .checkbox-button input[type="checkbox"] {
+        input[type="checkbox"] {
             display: none; /* 체크박스 숨김 */
         }
 
         /* 버튼 기본 스타일 */
-        .checkbox-button {
+        .checkbox-button{
             display: flex;
             display: inline-block;
             cursor: pointer;
@@ -76,7 +72,7 @@
         }
 
         /* 체크박스 선택 시 */
-        .checkbox-button input[type="checkbox"]:checked + span {
+        input[type="checkbox"]:checked + label {
             background-color: orangered; /* 선택된 배경색 */
             color: white; /* 선택된 텍스트 색상 */
             border-color: #0056b3; /* 테두리 색상 변경 */
@@ -168,6 +164,15 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+
+        #test{
+            position: relative;
+            left: 5%;
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            width: 700px;
+        }
     </style>
 </head>
 
@@ -182,20 +187,20 @@
 
     <div class="checkbox-Container">
         <form id="chatgpt-form" action="/chatgpt-api" method="post">
-            <!-- 카테고리 목록을 체크박스로 표시 -->
-            <div class="checkbox-position" th:each="category : ${categories}">
-                <label class="checkbox-button">
-                    <input class="checkbox" type="checkbox" name="interest" th:value="${category.name}"> 
-                    <span th:text="${category.name}"></span>
-                </label>
-                <br>
-            </div>          
+            <div id="test">
+                <!-- 카테고리 목록을 체크박스로 표시 -->
+                <div class="checkbox-position" th:each="category : ${categories}">
+                        <input th:id="category- + ${category.name}" class="checkbox" type="checkbox" name="interest" th:value="${category.name}"> 
+                        <label class="checkbox-button" th:for="category- + ${category.name}" th:text="${category.name}"></label>
+                    <br>
+                </div>          
+            </div>
         </form>      
 
-    <div class="button-group">        
-        <button id ="button" type="submit" form="chatgpt-form">추천받기</button>
+        <div class="button-group">        
+            <button id ="button" type="submit" form="chatgpt-form">추천받기</button>
+        </div>
     </div>
-</div>
 
     <div id="lottie-wrapper">
         <div id="lottie-container"></div> <!-- Lottie 애니메이션 -->
