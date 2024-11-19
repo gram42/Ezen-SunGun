@@ -1,0 +1,58 @@
+
+/* 질문 상자 스타일 */
+.question-box {
+    position: fixed;
+    top: 100px; /* 질문 상자 위치 조정 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+}
+
+#elementsContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 85vh;
+}
+
+.button-container{
+    display: flex;
+    position: absolute;
+    top: 18%;
+    left: 18%;
+    width: 80%;
+    height: 75%;
+}
+
+#fastRecommendation{
+    width: 40%;
+    height: 100%;
+    background-color: #e0cda9;
+}
+
+#select-recommendation{
+    width: 40%;
+    height: 100%;
+    background-color: #ff9800;
+}
+
+#fastRecommendation h1 {
+    position: absolute;
+    top: 5%;
+    left: 13%;
+}
+
+#select-recommendation h1 {
+    position: absolute;
+    top: 5%;
+    left: 54%;
+}
