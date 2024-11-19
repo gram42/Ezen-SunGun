@@ -1,15 +1,19 @@
 #input-categories {
     position: relative;
-    left: 700px;
+    left: 650px;
     bottom: 10vh;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    width: 600px;
-    border: 1px solid #555;
+    width: 800px;
+    height: 500px;
+    border: 1px solid #cccccc75;
     border-radius: 8px;
     background-color: #f2bc6aa3;
     padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 input[type="checkbox"]{
@@ -17,9 +21,8 @@ input[type="checkbox"]{
 }
 
 .category-labels{
-    border: 2px solid #555;
-    padding: 10px;
-    margin-bottom: 10px;
+    border: 2px solid #cccccc75;
+    padding: 15px;
     display: block;
     background-color: rgba(243, 191, 47, 0.702);
     cursor: pointer;
@@ -56,10 +59,19 @@ input[type="checkbox"]:checked + .category-labels{
 }
 
 #introduce {
-    position: absolute;
-    bottom: 120%;
-    left: 0;
+    position: relative;
+    left: 40%;
+    bottom: 100px;
     font-size: large;
     font-weight: bold;
     color: #333;
+}
+
+.interests-container{
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    position: relative;
+    top: 5%;
+    left: 3%;
 }

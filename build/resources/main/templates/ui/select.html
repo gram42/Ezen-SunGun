@@ -20,8 +20,9 @@
         }
         .button-group button {
             background-color: #ffb700cd;
-            color: white;
+            color: #444;
             padding: 10px 15px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -41,13 +42,13 @@
 
         .checkbox-Container {
             position: relative;
-            margin-top: -50px;
+            top: 50%;
             margin-left:29%;
             border-radius: 8px;
             border: none;
             background-color: #FFCC80;
             width: 800px;
-            height: 600px;
+            height: 300px;
             justify-content: center;
         }
 
@@ -61,21 +62,22 @@
             display: flex;
             display: inline-block;
             cursor: pointer;
-            border: 1px solid black; /* 파란색 테두리 */
-            border-radius: 5px; /* 둥근 모서리 */
-            padding: 10px 20px; /* 내부 여백 */
+            padding: 15px; /* 내부 여백 */
             margin: 5px; /* 간격 */
-            background-color: orange; /* 기본 배경색 */
-            color: white; /* 텍스트 색상 */
+            color: #444; /* 텍스트 색상 */
             text-align: center;
             transition: all 0.3s ease; /* 부드러운 전환 효과 */
+            background-color: rgba(243, 191, 47, 0.867);
+            border: 2px solid #cccccc75;
+            border-radius: 16px;
+            margin: 5px 5px;
         }
 
         /* 체크박스 선택 시 */
         input[type="checkbox"]:checked + label {
-            background-color: orangered; /* 선택된 배경색 */
-            color: white; /* 선택된 텍스트 색상 */
-            border-color: #0056b3; /* 테두리 색상 변경 */
+            background-color: #fd98009e;
+            border-color: #fd9800;
+            color: white;
         }
 
         /* 호버 효과 */
@@ -165,7 +167,7 @@
             50% { opacity: 0.5; }
         }
 
-        #test{
+        #content-container{
             position: relative;
             left: 5%;
             display: flex;
@@ -187,7 +189,7 @@
 
     <div class="checkbox-Container">
         <form id="chatgpt-form" action="/chatgpt-api" method="post">
-            <div id="test">
+            <div id="content-container">
                 <!-- 카테고리 목록을 체크박스로 표시 -->
                 <div class="checkbox-position" th:each="category : ${categories}">
                         <input th:id="category- + ${category.name}" class="checkbox" type="checkbox" name="interest" th:value="${category.name}"> 
