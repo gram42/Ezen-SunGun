@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "^4.21.1",
     "gsap": "^3.12.5",
+    "lottie-web": "^5.12.2",
     "scrolltrigger": "^1.0.1"
   }
 }

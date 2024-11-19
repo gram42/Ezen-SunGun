@@ -1,5 +1,52 @@
 import InputUserInfo from "./InputUserInfo.js";
 
+// 변경 전 비밀번호 검사
+(()=>{
+    const $resultMessage = document.querySelector('#resultMessage');
+
+    document.querySelector('#sendPassword').addEventListener('click',()=>{
+
+        const password = document.querySelector('#inputPassword').value;
+
+        if (password !== ''){
+            
+            fetch('/user/checkPassword', {
+
+                method : 'POST',
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify({password})
+
+            })
+            .then(response => response.text())
+            .then((message)=>{
+
+                if (message === "비밀번호가 확인되었습니다."){
+
+                    document.querySelector('#editArea').style.display = 'block';
+                    document.querySelector('#checkPassword').style.display = 'none';
+
+
+                } else {
+                    $resultMessage.style.display = "block";
+                    $resultMessage.style.color = "red";
+                    $resultMessage.textContent = message;
+                }
+            })
+            .catch(error => {
+                alert("비밀번호 확인 중 문제가 발생했습니다: " + error.message);
+            })
+
+        }
+        else {
+
+            $resultMessage.style.display = "block";
+            $resultMessage.style.color = "red";
+            $resultMessage.textContent = "비밀번호를 입력해주세요.";
+
+        }
+    })
+})();
+
 (()=>{
 
     const inputUserInfo = new InputUserInfo();

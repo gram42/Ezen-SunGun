@@ -5,24 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="stylesheet" href="/css/user/findInput.css">
+    
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
 
-    <div class="inputShape">
-        <label class="required" for="inputEmail">이메일</label>
-        <pre id="emailChkRes"></pre>
-        <div>
-            <form id="emailForm" action="/codePlz" method="post" target="blankifr">
-                <input id="inputEmail" name="email" type="email" placeholder="SUN123@example.com" required>
-                <button id="emailAuthBtn" type="submit">인증요청</button>
-            </form>
+    <div>
+        <div class="inputShape">
+            <label class="required" for="inputEmail">이메일</label>
+            <pre id="emailChkRes"></pre>
+            <div>
+                <form id="emailForm" action="/codePlz" method="post" target="blankifr">
+                    <input id="inputEmail" name="email" type="email" placeholder="SUN123@example.com" required>
+                    <button id="emailAuthBtn" class="btn" type="submit">인증요청</button>
+                </form>
+            </div>
         </div>
+        <input id="inputEmailAuthNum" type="text" placeholder="인증번호를 입력해주세요" required>
+        <div><label for="inputUserid">아이디</label><div>
+        <input id="inputUserid" type="text" placeholder="아이디를 입력해주세요">
+        <br>
+        <button id="pwPlz" class="btn findBtn" type="button">비밀번호 찾기</button>
     </div>
-    <input id="inputEmailAuthNum" type="text" placeholder="인증번호를 입력해주세요" required>
-    <div><label for="inputUserid">아이디</label><div>
-    <input id="inputUserid" type="text" placeholder="아이디를 입력해주세요">
-    <button id="pwPlz" type="button">비밀번호 찾기</button>
 
     <script type="module" src="/js/user/FindPw.js"></script>
     <script src="/js/nav.js"></script>

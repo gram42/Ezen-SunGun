@@ -23,12 +23,15 @@
 
         /* 상자 레이아웃 스타일 */
         .container {
-        display: flex;
-        flex-wrap: wrap; /* 자동 줄바꿈 */
-        gap: 10px; /* 상자 간 간격 */
-        max-width: 1200px;
-        margin: 20px auto; /* 가운데 정렬 */
-    }
+            position: relative;
+            padding-top: 20px;
+            gap: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            left: 30%;
+            max-width: 1200px;
+            height: 300px;            
+        }
 
     .box {
         flex: 1 1 calc(33.33% - 10px); /* 기본 너비: 3열 배치 */
@@ -78,9 +81,9 @@
 </head>
 
 <body>
-    <!-- 네비게이션 -->
-    <nav th:replace="~{nav.html::side-nav}"></nav>
-    <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
+ 
+        <nav th:replace="~{nav.html::side-nav}"></nav>
+        <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
     <main>
         <!-- 추천 제목 -->

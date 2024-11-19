@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="stylesheet" href="/css/user/findInput.css">
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
@@ -13,17 +14,19 @@
 
     <div id="idPlzContainer">
         <div class="inputShape">
+            
             <label class="required" for="inputEmail">이메일</label>
             <pre id="emailChkRes"></pre>
             <div>
                 <form id="emailForm" action="/codePlz" method="post" target="blankifr">
                     <input id="inputEmail" name="email" type="email" placeholder="SUN123@example.com" required>
-                    <button id="emailAuthBtn" type="submit">인증요청</button>
+                    <button class="btn" id="emailAuthBtn" type="submit">인증요청</button>
                 </form>
             </div>
         </div>
         <input id="inputEmailAuthNum" type="text" placeholder="인증번호를 입력해주세요" required>
-        <button id="idPlz" type="button">아이디 찾기</button>
+        <br>
+        <button id="idPlz" class="btn findBtn" type="button">아이디 찾기</button>
     </div>
 
     <div id="resultMessage"></div>

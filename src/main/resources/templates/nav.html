@@ -9,7 +9,13 @@
         <img id="logo-img" src="/img/Preview.png" alt="Logo">
     </a>
 
-    <a sec:authorize="hasRole('ROLE_ADMIN')" class="link" href="/categories">카테고리 설정</a>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="link admin-pg" href="/categories">카테고리 설정</a>
+
+    <div id="moveTopMenu">
+        <a class="link" href="/">이용 안내</a>
+        <a class="link" href="/record">일일 활동 기록</a>
+        <a class="link" href="/community/community">게시판</a>
+    </div>
 
     <div class="menu">
 

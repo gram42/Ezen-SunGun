@@ -4,6 +4,7 @@
     justify-content: space-between;
     margin: 15px 0;
     gap: 20px;
+    font-size: x-large;
 }
 
 .elementsName {
@@ -23,12 +24,13 @@
     padding: 20px;
     position: relative;
     bottom: 8vh;
-    left: 40%;
+    top: 0;
+    left: 600px;
     border: 1px solid;
     border-radius: 8px;
     border-color: #fd9800;
-    width: 20vw;
-    height: 50vh;
+    width: 35vw;
+    height: 60vh;
 }
 
 #linkBtn {

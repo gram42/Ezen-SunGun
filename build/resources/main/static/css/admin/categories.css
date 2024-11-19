@@ -1,7 +1,30 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .edit {
     display: none;
 }
 
 .add {
     display: none;
+}
+
+.categories-list{
+    border: 2px solid #555;
+    border-radius: 8px;
+    width: 150px;
+    height: 100px;
+}
+
+.categories-list-box{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.categories-list-container{
+    width: 900px;
 }
