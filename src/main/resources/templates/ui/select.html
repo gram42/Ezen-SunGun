@@ -42,14 +42,15 @@
 
         .checkbox-Container {
             position: relative;
-            top: 50%;
-            margin-left:29%;
+            bottom: 60px;
+            margin-left:25%;
             border-radius: 8px;
             border: none;
             background-color: #FFCC80;
-            width: 800px;
-            height: 300px;
+            width: 1000px;
+            height: 500px;
             justify-content: center;
+
         }
 
         /* 기본 체크박스 숨김 */
@@ -59,18 +60,34 @@
 
         /* 버튼 기본 스타일 */
         .checkbox-button{
-            display: flex;
+            /* display: flex;
             display: inline-block;
             cursor: pointer;
-            padding: 15px; /* 내부 여백 */
-            margin: 5px; /* 간격 */
-            color: #444; /* 텍스트 색상 */
+            padding: 15px;
+            margin: 5px;
+            color: #444;
             text-align: center;
-            transition: all 0.3s ease; /* 부드러운 전환 효과 */
+            transition: all 0.3s ease;
             background-color: rgba(243, 191, 47, 0.867);
             border: 2px solid #cccccc75;
             border-radius: 16px;
-            margin: 5px 5px;
+            margin: 5px 5px; */
+
+            border: 2px solid #cccccc75;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(243, 191, 47, 0.702);
+            cursor: pointer;
+            border-radius: 16px;
+            margin: 40px 20px;
+            width: 100px;
+            height: 80px;
+            font-size: larger;
+            flex-wrap: wrap;
+            font-weight: bold;
+            text-align: center;
         }
 
         /* 체크박스 선택 시 */
@@ -166,15 +183,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-
-        #content-container{
-            position: relative;
-            left: 5%;
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            width: 700px;
-        }
     </style>
 </head>
 
@@ -189,14 +197,12 @@
 
     <div class="checkbox-Container">
         <form id="chatgpt-form" action="/chatgpt-api" method="post">
-            <div id="content-container">
                 <!-- 카테고리 목록을 체크박스로 표시 -->
                 <div class="checkbox-position" th:each="category : ${categories}">
                         <input th:id="category- + ${category.name}" class="checkbox" type="checkbox" name="interest" th:value="${category.name}"> 
                         <label class="checkbox-button" th:for="category- + ${category.name}" th:text="${category.name}"></label>
                     <br>
                 </div>          
-            </div>
         </form>      
 
         <div class="button-group">        

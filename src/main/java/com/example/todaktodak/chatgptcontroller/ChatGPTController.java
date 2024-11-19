@@ -75,7 +75,7 @@ public class ChatGPTController {
                 // API 호출
                 ResponseEntity<Map> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, Map.class);
                 Map<String, Object> responseBody = responseEntity.getBody();
-                System.out.println(responseBody);
+
                 List<Map<String, Object>> choices = (List<Map<String, Object>>) responseBody.get("choices");
                 String answer = (String) ((Map<String, Object>) choices.get(0).get("message")).get("content");
   

@@ -1,18 +1,16 @@
 #input-categories {
     position: relative;
-    left: 650px;
-    bottom: 10vh;
+    left: 30%;
+    bottom: 130px;
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
-    width: 800px;
+    width: 900px;
     height: 500px;
     border: 1px solid #cccccc75;
     border-radius: 8px;
     background-color: #f2bc6aa3;
     padding: 15px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
 }
 
@@ -23,16 +21,24 @@ input[type="checkbox"]{
 .category-labels{
     border: 2px solid #cccccc75;
     padding: 15px;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgba(243, 191, 47, 0.702);
     cursor: pointer;
     border-radius: 16px;
-    margin: 5px 5px;
+    margin: 60px 20px;
+    width: 100px;
+    height: 80px;
+    font-size: larger;
+    flex-wrap: wrap;
+    font-weight: bold;
+    text-align: center;
 }
 
 #submit-btn {
     position: absolute;
-    bottom: 120%;
+    bottom: 105%;
     right: 0;
     background-color: #fd9800;
     padding: 12px;
@@ -59,19 +65,10 @@ input[type="checkbox"]:checked + .category-labels{
 }
 
 #introduce {
-    position: relative;
-    left: 40%;
-    bottom: 100px;
+    position: absolute;
+    bottom: 112%;
     font-size: large;
     font-weight: bold;
     color: #333;
 }
 
-.interests-container{
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-    position: relative;
-    top: 5%;
-    left: 3%;
-}
