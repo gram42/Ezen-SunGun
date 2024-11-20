@@ -31,8 +31,8 @@
 
             <span id="pwChkRes"></span>
             <div sec:Authorize="isAuthenticated"><input id="inputBeforePw" type="password" name="beforePw" placeholder="현재 비밀번호 입력"></div>
-            <div><input id="inputPw" type="password" name="password" placeholder="비밀번호 입력"></div>
-            <div><input id="inputPwChk" type="password" name="passwordChk" placeholder="비밀번호 확인"></div>
+            <div><input id="inputPw" class="inputPw" type="password" name="password" placeholder= "8~20자, 대소문자, ~!@#$%^&*()중 하나를 입력해주세요"></div>
+            <div><input id="inputPwChk" class="inputPw" type="password" name="passwordChk" placeholder="비밀번호 확인"></div>
         </div>
         <button id="submitBtn" class="btn" type="button">변경</button>
 
