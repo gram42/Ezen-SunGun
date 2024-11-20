@@ -1,18 +1,40 @@
+<nav th:replace="~{nav.html::top-nav}"></nav>
+<nav th:replace="~{nav.html::side-nav}"></nav>
+<nav th:replace="~{nav.html::additional-contents-nav}"></nav>
+
 
 <nav class="global-nav" th:fragment="top-nav">
 
     <a id="logo" href="/ui/index">
-        <img id="logo-img" src="/img/1727768908340_7130.jpg" alt="Logo">
+        <img id="logo-img" src="/img/Preview.png" alt="Logo">
     </a>
 
-    <a sec:authorize="hasRole('ROLE_ADMIN')" class="link" href="/categories">카테고리 설정</a>
+    <div id="moveTopMenu">
+        <a class="link" href="/">이용 안내</a>
+        <a class="link" href="/record">일일 활동 기록</a>
+        <a class="link" href="/community/community">게시판</a>
+    </div>
+
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="link admin-pg" href="/categories">카테고리 설정</a>
+
 
     <div class="menu">
 
-        <span sec:authorize="isAnonymous">
-            <a class="link" href="/user/login">로그인</a>
-            <a class="link" href="/user/register">회원가입</a>
-        </span>
+        <div sec:authorize="isAnonymous">
+            <a class="link before-login" href="/user/login">로그인</a>
+            <a class="link before-login" href="/user/register">회원가입</a>
+        </div>
+        
+        
+        <a sec:authorize="isAuthenticated" class="link" id="personalMenuBtn" href="#">개인메뉴</a>
+        <div class="personalMenu">
+            
+            <a class="link" href="/mypage">활동 통계 보기</a>
+            <a class="link" href="/user/userInfo">개인 정보</a>
+            <a class="link" href="/interest">관심 분야</a>
+            <a class="link" href="/achievementRate">달성률 보러가기</a>
+            
+        </div>
         
         <span sec:authorize="isAuthenticated">
             <form action="/user/logout" method="post" class="logout-form">
@@ -20,23 +42,39 @@
             </form>
         </span>
         
-        <a sec:authorize="isAuthenticated" class="link" id="personalMenuBtn" href="#">개인메뉴</a>
-        <div class="personalMenu">
-
-            <a class="link" href="/mypage">마이페이지</a>
-            <a class="link" href="/user/userInfo">개인 정보</a>
-            <a class="link" href="/interest">관심 분야</a>
-            
-        </div>
-
     </div>
     
 </nav>
 
-<nav class="side-nav" th:fragment="side-nav">
+<!-- <nav class="side-nav" th:fragment="side-nav">
     <div>
         <a class="link" href="/">이용 안내</a>
         <a class="link" href="/record">일일 활동 기록</a>
         <a class="link" href="/community/community">게시판</a>
     </div>
+</nav> -->
+
+<nav class="additional-contents" th:fragment="additional-contents-nav">
+
+    <div id="additional-contents-info">
+        <a class="additional-btn" href="/ui/select">
+            뭘 할 지 갈피가 안 잡히신다면
+        </a>
+        <hr>
+    
+        <a class="additional-btn" href="/record">
+            오늘 뭐 했는지 기록해보세요!
+        </a>
+        <hr>
+    
+        <a class="additional-btn" href="/achievementRate">
+            목표를 달성해보세요!
+        </a>
+        <hr>
+    
+        <a class="additional-btn" href="/mypage">
+            얼마나 했는지 확인해보세요!
+        </a>
+    </div>
+
 </nav>

@@ -5,52 +5,141 @@
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>main</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <!-- <link rel="stylesheet" th:href="@{/css/main.css}"> -->
+    <!-- <link rel="stylesheet" href="/css/main-second.css"> -->
+    <link rel="stylesheet" href="/css/main-third.css">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
     <link rel="icon" href="data:;base64,=" />
     <nav th:replace="~{nav.html::top-nav}"></nav>
+    <style>
+/* 로딩 컨테이너 스타일 */
+#lottie-wrapper {
+    display: none; /* 초기 숨김 */
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9); /* 반투명 배경 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    text-align: center;
+}
+
+/* 애니메이션 영역 */
+#lottie-container {
+    width: 150px; /* 애니메이션 크기 */
+    height: 150px;
+}
+
+/* 텍스트 스타일 */
+#loading-text {
+    font-size: 1.5rem;
+    color: #555;
+    margin-top: 20px; /* 애니메이션 아래에 배치 */
+    animation: loadingTextFade 1.5s infinite; /* 페이드 효과 */
+}
+
+/* 텍스트 페이드 애니메이션 */
+@keyframes loadingTextFade {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+    </style>
+
 </head>
 <body>
-    <nav th:replace="~{nav.html::side-nav}"></nav>
+    <!-- <nav th:replace="~{nav.html::side-nav}"></nav> -->
 
     <div id="elementsContainer">
         <div class="question-box">
-            <h2>추천 받아보세요</h2>
+            <h1 id="guide">
+                어떻게 시작할 지 모르시겠나요? <br>
+                SUN 봇이 알려해드립니다
+            </h1>
         </div>
     
         <div class="button-container">
         
-            <button id="fastRecommendation">빠른 추천</button>
+            <button id="fastRecommendation" class="btn">
+                <h1>
+                    당장 시작! <br> 맞춤 추천으로 한 걸음 더
+                </h1>
+                <ul class="explain">
+                    <li><h2>로그인을 해주세요<h2></li>
+                    <li><h2>개인메뉴에서 관심분야를 저장해주세요<h2></li>
+                    <li><h2>빠르게 맞춤형 루틴 추천을 해드립니다<h2></li>
+                    <li><h2>맞춤형 서비스와 함께 발전해보세요!<h2></li>
+                </ul>
+            </button>
     
             <form id="submitForm" action="/chatgpt-api" method="POST" style="display:none;">
                 <input id="inputInterests" type="hidden" name="interest">
             </form>
     
-            <button onclick="location.href='/ui/select'">선택 추천</button>
+            <button id="select-recommendation" class="btn" onclick="location.href='/ui/select'">
+                <h1>
+                    선택만 하면 <br> 나만의 길이 보인다!
+                </h1>
+                <ul class="explain">
+                    <li><h2>도전 하고 싶으신 분야를 골라주세요<h2></li>
+                    <li><h2>SUN 봇의 추천을 받아보세요<h2></li>
+                    <li><h2>추천 서비스와 함께 발전해보세요!<h2></li>
+                </ul>
+            </button>
         </div>
     </div>
+
+
+    <div id="lottie-wrapper">
+        <div id="lottie-container"></div> <!-- Lottie 애니메이션 -->
+        <div id="loading-text">SunGPT 출근시키는 중 ...</div> <!-- 텍스트 -->
+    </div>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
 <script>
 (() => {
     document.querySelector('#fastRecommendation').addEventListener('click', () => {
+        // 로딩 래퍼 가져오기
+        const lottieWrapper = document.getElementById('lottie-wrapper');
+        const lottieContainer = document.getElementById('lottie-container');
 
+        // 로딩 래퍼가 화면에 보이도록 설정
+        lottieWrapper.style.display = 'flex';
+
+        // Lottie 애니메이션 로드
+        var animation = lottie.loadAnimation({
+            container: lottieContainer, // 애니메이션을 삽입할 요소
+            renderer: 'svg', // 렌더링 방식
+            loop: true, // 애니메이션 반복
+            autoplay: true, // 자동 재생
+            path: '/loading.json/로딩.json' // JSON 애니메이션 파일 경로
+        });
+
+        // API 호출
         fetch('/userInterestsPlz', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' }
         })
         .then(response => response.json())
         .then(res => {
-
             if (res && res.length > 0) {
-
                 document.querySelector('#inputInterests').value = res;
                 document.querySelector('#submitForm').submit();
-                
             } else {
                 alert("저장하신 관심사가 없습니다.");
+                lottieWrapper.style.display = 'none'; // 로딩 숨기기
             }
         })
-        .catch(error => { alert(error.message); });
+        .catch(error => {
+            alert(error.message);
+            lottieWrapper.style.display = 'none'; // 로딩 숨기기
+        });
     });
 })();
 

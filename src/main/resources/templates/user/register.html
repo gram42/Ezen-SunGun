@@ -5,74 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <link rel="stylesheet" th:href="@{/css/nav.css}">
-    <style>
-        body{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .registerContainer{
-            padding: 30px;
-            border-radius: 16px;
-            background-color: #FFCC80;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            margin-top: -50px;
-        }
-        .inputShape{
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            gap: 5px;
-        }
-        .required::after{
-            content: "*";
-            color: red;
-        }
-        #guide::before{
-            content: "*";
-            color: red;
-        }
-        #useridChkRes, #pwChkRes, #nicknmChkRes {
-            display: none;
-        }
-
-        /*  */
-        /*  */
-        /*  */
-
-        input[type="text"],
-        input[type="password"],
-        input[type="date"],
-        input[type="email"] {
-            padding: 12px; /* 여백 추가 */
-            border-radius: 8px; /* 모서리 둥글게 */
-            border: 1px solid #ccc; /* 테두리 색상 */
-            font-size: 16px; /* 글자 크기 */
-            transition: border 0.3s; /* 부드러운 전환 효과 */
-        }
-
-        input[type="text"]:focus,
-        input[type="password"]:focus,
-        input[type="date"]:focus,
-        input[type="email"]:focus {
-            border-color: #fd9800; /* 포커스 시 테두리 색상 변경 */
-            outline: none; /* 기본 포커스 아웃라인 제거 */
-        }
-
-        button {
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background-color: #fd9800; /* 주황색 배경 */
-            color: white; /* 흰색 글자 */
-            font-size: 16px;
-            cursor: pointer; /* 포인터 커서 */
-            transition: background-color 0.3s, transform 0.3s; /* 효과 전환 */
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="/css/user/register.css">
 </head>
 <body>
 
@@ -93,7 +26,7 @@
         <div class="inputShape">
             <label class="required" for="inputPw">비밀번호</label>
             <pre id="pwChkRes"></pre>
-            <input id="inputPw" type="password" required>
+            <input id="inputPw" type="password" placeholder= "8~20자, 대소문자, ~!@#$%^&*()중 하나를 입력해주세요" required>
             <input id="inputPwChk" type="password" placeholder="비밀번호를 다시 입력해주세요" required>
         </div>
         

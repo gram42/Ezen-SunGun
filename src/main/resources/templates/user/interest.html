@@ -5,25 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="stylesheet" href="/css/user/interest.css">
 </head>
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
-    <nav th:replace="~{nav.html::side-nav}"></nav>
+    <!-- <nav th:replace="~{nav.html::side-nav}"></nav> -->
+    <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
-    <h1>관심사 설정 페이지</h1>
-
-    <form action="/saveInterests" method="post">
-        <div th:each="category : ${categories}">
+    <form id="input-categories" action="/saveInterests" method="post">
+        <div id="introduce">빠르게 추천 받으실 관심사를 골라주세요</div>
+        <div class="print-categories" th:each="category : ${categories}">
                 <input th:id="'interest-' + ${category.id}" 
+                       class="interests-list"
                        type="checkbox" 
                        name="categories" 
-                       th:value="${category.id}" 
-                       th:checked="${#lists.contains(interests, new com.example.todaktodak.category.CategoriesDTO(category.id))}">
-                <label th:for="'interest-' + ${category.id}" th:text="${category.name}"></label>
+                       th:value="${category.id}">
+                <label class="category-labels" th:for="'interest-' + ${category.id}" th:text="${category.name}"></label>
         </div>
-        <button type="submit">설정</button>
+        <button id="submit-btn" type="submit">설정</button>
     </form>
 
+    <input class="user-selected-interests" th:each="interest : ${interests}" type="hidden" th:value="${interest.id}">
+
     <script src="/js/nav.js"></script>
+    <script src="/js/user/interest.js"></script>
 </body>
 </html>

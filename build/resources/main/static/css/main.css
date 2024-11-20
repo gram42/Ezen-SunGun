@@ -1,3 +1,4 @@
+
 /* 질문 상자 스타일 */
 .question-box {
     position: fixed;
@@ -31,7 +32,8 @@
 /* 구름 모양 버튼 스타일 */
 .button-container button {
     padding: 30px 60px; /* 패딩을 늘려 버튼 크기 증가 */
-    margin: 0 20px;
+    margin: 30px 20px;
+
     font-size: 24px; /* 폰트 크기 증가 */
     background: white; /* 기본 흰색 배경 */
     border: none;
@@ -42,6 +44,7 @@
     font-weight: bold; /* 버튼 텍스트를 두껍게 */
     font-family: 'Arial', sans-serif; /* 기본 글꼴 */
     overflow: hidden; /* 구름 효과가 버튼 외부로 나가지 않도록 */
+    top: 150px;
 }
 
 /* 그라데이션 효과 추가 */

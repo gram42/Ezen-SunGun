@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="stylesheet" href="/css/user/achievementRate.css">
+
+    <!-- 폰트 연결 -->
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap">
+
+    <style>
+    </style>
+</head>
+<body>
+    <nav th:replace="~{nav.html::top-nav}"></nav>
+    <!-- <nav th:replace="~{nav.html::side-nav}"></nav> -->
+    <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
+
+    <div id="elements">
+
+        <div th:if="${totalInfo} == null" style="margin-bottom: 20px;">
+            목표를 설정하고 달성률을 확인하세요!
+        </div>
+
+        <a class="addBtn" href="#">+ 추가</a>
+
+        <div id="submit-area">
+            <form id="submitAchievementGoal" action="/saveAchievementGoal" method="post">
+                
+                <div class="inputCategories">
+                    <div th:each="category : ${categories}">
+                        <input th:id="category- + ${category.id}" type="radio" name="categoryId" th:value="${category.id}"
+                                th:checked="${category.id} == 1" required>
+                        <label th:for="category- + ${category.id}" class="label-box" th:text="${category.name}">카테고리</label>
+                    </div>
+                </div>
+
+                <div id="input-date">
+    
+                    <pre id="dateError">종료 일은 시작 일보다 앞설 수 없습니다</pre>
+                    <label class="date-label" for="inputStartDate">시작 일
+                        <input type="date" name="startDate" id="inputStartDate" required>
+                    </label>
+                    <label class="date-label" for="inputEndDate">종료 일
+                        <input type="date" name="endDate" id="inputEndDate" required>
+                    </label>
+                    
+                </div>
+    
+                <textarea id="input-goal" name="goal" placeholder="목표를 적어주세요" required></textarea>
+    
+                <button id="submitBtn" type="submit">추가</button>
+            </form>
+        </div>
+        
+        <div id="goal">
+            <div class="goals-block" th:each="info:${totalInfo}">
+                <div class="additional-info">
+                    <div id="category-type" th:text="'종류 : ' + ${info.categoryName}">달성할 분야</div>
+    
+                    <div class="goal-date">
+                        <div th:text="'시작 일 ' + ${info.startDate}">시작 날짜</div>
+                        <div th:text="'종료 일 ' + ${info.endDate}">종료 날짜</div>
+                    </div>
+                </div>
+
+
+                <div id="goal-text" th:text="${info.goal}">목표</div>
+
+
+                <div class="achievement-point">
+                    <div th:utext="${info.achievementRate + ' &#37;'}">달성률</div>
+                    <div th:text="'&nbsp; (' + ${info.currPoint} + '/' + ${info.totalPoint} + ')'">현재 달성 점수 / 총 달성 점수</div>
+                </div>
+
+                <progress id="rate-bar" max="100" th:value="${info.achievementRate}">진행률 바</progress>
+            </div>
+        </div>
+
+        <div class="pageBar" th:if="${pgInfo.totalPg} != 0">
+
+
+            <button id="prevSection" class="pgnationBtn" type="button"><<</button>
+            <button id="prev" class="pgnationBtn" type="button"><</button>
+
+            <a  class="pageBtn"
+                th:each="pageNum : ${#numbers.sequence(pgInfo.startPg, pgInfo.endPg)}"  
+                th:href="'/achievementRate?p=' + ${pageNum}"
+                th:text="${pageNum}">
+            </a>
+
+            <button id="next" class="pgnationBtn" type="button">></button>
+            <button id="nextSection" class="pgnationBtn" type="button">>></button>
+
+        </div>
+    </div>
+
+    <input id="currPg" type="hidden" th:value="${pgInfo.currPg}">
+    <input id="totalPg" type="hidden" th:value="${pgInfo.totalPg}">
+    <input id="startPg" type="hidden" th:value="${pgInfo.startPg}">
+    <input id="endPg" type="hidden" th:value="${pgInfo.endPg}">
+    <input id="currSection" type="hidden" th:value="${pgInfo.currSection}">
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/user/Achievement.js"></script>
+</body>
+</html>

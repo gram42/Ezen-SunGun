@@ -49,14 +49,14 @@ class InputUserInfo{
         let bEng = /[a-z]/.test(pw.value);
         let sEng = /[A-Z]/.test(pw.value);
         let num = /[0-9]/.test(pw.value);
-        let specialLetter = /[!@#$%^&*(),.?:{}|<>]/.test(pw.value);
+        let specialLetter = /[~!@#$%^&*()]/.test(pw.value);
 
         if (pw.value.length >= 8 && pw.value.length <= 20 && bEng && sEng && num && specialLetter){
             return true;
         }
 
 
-        this.errMessage(pwChkRes, "비밀번호는 8~20자, 영문자 대문자, 소문자, 특수문자가(!@#$%^&*(),.?:{}|<> 중 하나) 포함되어야 합니다");
+        this.errMessage(pwChkRes, "비밀번호는 8~20자, 영문자 대문자, 소문자, 특수문자가(~!@#$%^&*() 중 하나) 포함되어야 합니다");
 
         pw.focus();
 

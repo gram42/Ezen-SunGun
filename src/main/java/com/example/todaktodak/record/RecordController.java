@@ -87,12 +87,12 @@ public class RecordController {
 
     // 본문 기록
     @PostMapping("/record/saveContent")
-    public ResponseEntity<String> recordContent(@RequestBody List<RecordDTO> recordDTOs) {
+    public ResponseEntity<Boolean> recordContent(@RequestBody List<RecordDTO> recordDTOs) {
 
         System.out.println(recordDTOs);
         recordService.saveContent(recordDTOs);
         
-        return ResponseEntity.status(200).body("Success");
+        return ResponseEntity.status(200).body(true);
     }
 
     // 마이페이지 접속 - 포인트 값 리턴, 기본 접속 - 카테고리별 포인트 전부 리턴
@@ -110,7 +110,7 @@ public class RecordController {
             model.addAttribute("pointsByMonths", pointsByMonths);
         }
 
-        return "/record/mypage-kmg";
+        return "/user/mypage";
     }
     
 
