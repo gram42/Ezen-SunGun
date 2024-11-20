@@ -29,7 +29,7 @@
             <button onclick="location.href='/ui/select'">선택 추천</button>
         </div>
     </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
 <script>
 (() => {
     document.querySelector('#fastRecommendation').addEventListener('click', () => {
@@ -53,6 +53,17 @@
         .catch(error => { alert(error.message); });
     });
 })();
+
+
+
+
+var animation = lottie.loadAnimation({
+    container: document.getElementById('lottie-container'), // 애니메이션을 삽입할 요소
+    renderer: 'svg', // 렌더링 방식 (svg 방식 사용)
+    loop: true, // 애니메이션 반복 여부
+    autoplay: true, // 자동 실행 여부
+    path: '/json/robot-running.json' // 다운로드한 JSON 애니메이션 파일의 경로
+  });
 </script>
 
 

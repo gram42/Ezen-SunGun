@@ -64,3 +64,12 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 호버 시 그림자 증가 */
     transform: translateY(-2px); /* 위로 살짝 올라가는 효과 */
 }
+
+
+#lottie-container {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 150px; /* 원하는 크기 */
+    height: 150px;
+  }
