@@ -191,4 +191,11 @@ public class AchievementService {
 
         return pageInfo;
     }
+
+    // 달성률 삭제
+    public void deleteAchievementRate(AchievementDTO achievementDTO){
+        
+        achievementRepository.deleteById(achievementDTO.getId());
+
+    }
 }

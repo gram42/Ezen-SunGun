@@ -20,6 +20,7 @@
 
     <div id="elements">
 
+        <!-- 목표 추가 -->
         <div th:if="${totalInfo} == null" style="margin-bottom: 20px;">
             목표를 설정하고 달성률을 확인하세요!
         </div>
@@ -55,6 +56,7 @@
             </form>
         </div>
         
+        <!-- 목표 달성률 -->
         <div id="goal">
             <div class="goals-block" th:each="info:${totalInfo}">
                 <div class="additional-info">
@@ -68,6 +70,7 @@
 
 
                 <div id="goal-text" th:text="${info.goal}">목표</div>
+                <a class="delete-button" href="#" th:content-id="${info.id}">삭제</a>
 
 
                 <div class="achievement-point">
@@ -79,6 +82,8 @@
             </div>
         </div>
 
+
+        <!-- 페이지네이션 -->
         <div class="pageBar" th:if="${pgInfo.totalPg} != 0">
 
 

@@ -94,4 +94,32 @@ document.querySelector('.addBtn').addEventListener('click', (event)=>{
             button.classList.remove('active');
         }
     })
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+    // 목표 삭제    
+    document.querySelectorAll('.delete-button').forEach((button)=>{
+        button.addEventListener('click',(event)=>{
+            event.preventDefault();
+
+            fetch("/delete-achievementRate",{
+                method: "POST",
+                headers: {"Content-type":"application/json"},
+                body: JSON.stringify({
+                    id: event.target.getAttribute("content-id")
+                })
+
+            })
+            .then(response=>{return response.json()})
+            .then(res=>{
+                console.log(res)
+                if(res){
+                    location.reload()
+                } else{
+                    alert("목표 삭제에 실패했습니다.")
+                }
+            })
+            .catch(error=>{alert(error.message)})
+        })
+    })
 })();
