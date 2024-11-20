@@ -209,8 +209,7 @@ progress::-webkit-progress-value {
 
 .delete-button{
     position: absolute;
-    right: 2%;
-    top: 30%;
+    right: 3%;
     text-decoration: none;
 
     color: #444;

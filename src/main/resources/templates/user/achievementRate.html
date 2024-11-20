@@ -70,12 +70,12 @@
 
 
                 <div id="goal-text" th:text="${info.goal}">목표</div>
-                <a class="delete-button" href="#" th:content-id="${info.id}">삭제</a>
-
-
+                
+                
                 <div class="achievement-point">
                     <div th:utext="${info.achievementRate + ' &#37;'}">달성률</div>
                     <div th:text="'&nbsp; (' + ${info.currPoint} + '/' + ${info.totalPoint} + ')'">현재 달성 점수 / 총 달성 점수</div>
+                    <a class="delete-button" href="#" th:content-id="${info.id}">삭제</a>
                 </div>
 
                 <progress id="rate-bar" max="100" th:value="${info.achievementRate}">진행률 바</progress>

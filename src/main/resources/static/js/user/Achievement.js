@@ -102,24 +102,26 @@ document.querySelector('.addBtn').addEventListener('click', (event)=>{
         button.addEventListener('click',(event)=>{
             event.preventDefault();
 
-            fetch("/delete-achievementRate",{
-                method: "POST",
-                headers: {"Content-type":"application/json"},
-                body: JSON.stringify({
-                    id: event.target.getAttribute("content-id")
+            if(confirm('정말 삭제하시겠습니까?')){
+                fetch("/delete-achievementRate",{
+                    method: "POST",
+                    headers: {"Content-type":"application/json"},
+                    body: JSON.stringify({
+                        id: event.target.getAttribute("content-id")
+                    })
+    
                 })
-
-            })
-            .then(response=>{return response.json()})
-            .then(res=>{
-                console.log(res)
-                if(res){
-                    location.reload()
-                } else{
-                    alert("목표 삭제에 실패했습니다.")
-                }
-            })
-            .catch(error=>{alert(error.message)})
+                .then(response=>{return response.json()})
+                .then(res=>{
+                    console.log(res)
+                    if(res){
+                        location.reload()
+                    } else{
+                        alert("목표 삭제에 실패했습니다.")
+                    }
+                })
+                .catch(error=>{alert(error.message)})
+            }
         })
     })
 })();
