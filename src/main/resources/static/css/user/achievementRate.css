@@ -119,6 +119,7 @@ input[type="radio"] {
     background-color: #ffb84d5a;
     border-color: #ccc;
     min-width: 1000px;
+    position: relative;
 }
 
 .goals-block:first-child{
@@ -133,6 +134,8 @@ input[type="radio"] {
 .goal-date{
     display: flex;
     gap: 10px;
+    position: absolute;
+    right: 0;
 }
 
 #rate-bar{
@@ -165,11 +168,9 @@ progress::-webkit-progress-value {
     white-space: nowrap;
     display: flex;
     margin-bottom: 10px;
+    position: relative;
 }
 
-.additional-info #category-type{
-    margin-right: 65%;
-}
 #goal-text{
     color: #444;
     font-size: larger;

@@ -2,7 +2,8 @@
 
     // 카테고리 10개 이상이면 추가 버튼 안보이게
     const countCategories = function() {
-        const categories = document.querySelectorAll('categories-list')
+        const categories = document.querySelectorAll('.categories-list')
+        
         if (categories.length >= 10){
             document.querySelector('.add-area').style.display = 'none';
         }

@@ -13,16 +13,16 @@
     <nav th:replace="~{nav.html::additional-contents-nav}"></nav>
 
     <form id="input-categories" action="/saveInterests" method="post">
-        <div id="introduce">빠르게 추천 받으실 관심사를 골라주세요</div>
-        <div class="print-categories" th:each="category : ${categories}">
-                <input th:id="'interest-' + ${category.id}" 
-                       class="interests-list"
-                       type="checkbox" 
-                       name="categories" 
-                       th:value="${category.id}">
-                <label class="category-labels" th:for="'interest-' + ${category.id}" th:text="${category.name}"></label>
-        </div>
-        <button id="submit-btn" type="submit">설정</button>
+            <div id="introduce">빠르게 추천 받으실 관심사를 골라주세요</div>
+            <div class="print-categories" th:each="category : ${categories}">
+                    <input th:id="'interest-' + ${category.id}" 
+                           class="interests-list"
+                           type="checkbox" 
+                           name="categories" 
+                           th:value="${category.id}">
+                    <label class="category-labels" th:for="'interest-' + ${category.id}" th:text="${category.name}"></label>
+            </div>
+        <button id="submit-btn" type="submit">저장</button>
     </form>
 
     <input class="user-selected-interests" th:each="interest : ${interests}" type="hidden" th:value="${interest.id}">

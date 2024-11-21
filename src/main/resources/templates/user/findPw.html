@@ -12,6 +12,8 @@
     <nav th:replace="~{nav.html::top-nav}"></nav>
 
     <div>
+        <div><label for="inputUserid">아이디</label><div>
+        <input id="inputUserid" type="text" placeholder="아이디를 입력해주세요">
         <div class="inputShape">
             <label class="required" for="inputEmail">이메일</label>
             <pre id="emailChkRes"></pre>
@@ -23,8 +25,6 @@
             </div>
         </div>
         <input id="inputEmailAuthNum" type="text" placeholder="인증번호를 입력해주세요" required>
-        <div><label for="inputUserid">아이디</label><div>
-        <input id="inputUserid" type="text" placeholder="아이디를 입력해주세요">
         <br>
         <button id="pwPlz" class="btn findBtn" type="button">비밀번호 찾기</button>
     </div>

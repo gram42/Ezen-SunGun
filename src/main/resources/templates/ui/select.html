@@ -20,8 +20,9 @@
         }
         .button-group button {
             background-color: #ffb700cd;
-            color: white;
+            color: #444;
             padding: 10px 15px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -41,45 +42,59 @@
 
         .checkbox-Container {
             position: relative;
-            margin-top: -50px;
-            margin-left:29%;
+            bottom: 60px;
+            margin-left:25%;
             border-radius: 8px;
             border: none;
             background-color: #FFCC80;
-            width: 800px;
-            height: 600px;
+            width: 1000px;
+            height: 500px;
             justify-content: center;
-        }
 
-        .checkbox-position {
-            margin-top: 50px;
         }
 
         /* 기본 체크박스 숨김 */
-        .checkbox-button input[type="checkbox"] {
+        input[type="checkbox"] {
             display: none; /* 체크박스 숨김 */
         }
 
         /* 버튼 기본 스타일 */
-        .checkbox-button {
-            display: flex;
+        .checkbox-button{
+            /* display: flex;
             display: inline-block;
             cursor: pointer;
-            border: 1px solid black; /* 파란색 테두리 */
-            border-radius: 5px; /* 둥근 모서리 */
-            padding: 10px 20px; /* 내부 여백 */
-            margin: 5px; /* 간격 */
-            background-color: orange; /* 기본 배경색 */
-            color: white; /* 텍스트 색상 */
+            padding: 15px;
+            margin: 5px;
+            color: #444;
             text-align: center;
-            transition: all 0.3s ease; /* 부드러운 전환 효과 */
+            transition: all 0.3s ease;
+            background-color: rgba(243, 191, 47, 0.867);
+            border: 2px solid #cccccc75;
+            border-radius: 16px;
+            margin: 5px 5px; */
+
+            border: 2px solid #cccccc75;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(243, 191, 47, 0.702);
+            cursor: pointer;
+            border-radius: 16px;
+            margin: 40px 20px;
+            width: 100px;
+            height: 80px;
+            font-size: larger;
+            flex-wrap: wrap;
+            font-weight: bold;
+            text-align: center;
         }
 
         /* 체크박스 선택 시 */
-        .checkbox-button input[type="checkbox"]:checked + span {
-            background-color: orangered; /* 선택된 배경색 */
-            color: white; /* 선택된 텍스트 색상 */
-            border-color: #0056b3; /* 테두리 색상 변경 */
+        input[type="checkbox"]:checked + label {
+            background-color: #fd98009e;
+            border-color: #fd9800;
+            color: white;
         }
 
         /* 호버 효과 */
@@ -182,20 +197,18 @@
 
     <div class="checkbox-Container">
         <form id="chatgpt-form" action="/chatgpt-api" method="post">
-            <!-- 카테고리 목록을 체크박스로 표시 -->
-            <div class="checkbox-position" th:each="category : ${categories}">
-                <label class="checkbox-button">
-                    <input class="checkbox" type="checkbox" name="interest" th:value="${category.name}"> 
-                    <span th:text="${category.name}"></span>
-                </label>
-                <br>
-            </div>          
+                <!-- 카테고리 목록을 체크박스로 표시 -->
+                <div class="checkbox-position" th:each="category : ${categories}">
+                        <input th:id="category- + ${category.name}" class="checkbox" type="checkbox" name="interest" th:value="${category.name}"> 
+                        <label class="checkbox-button" th:for="category- + ${category.name}" th:text="${category.name}"></label>
+                    <br>
+                </div>          
         </form>      
 
-    <div class="button-group">        
-        <button id ="button" type="submit" form="chatgpt-form">추천받기</button>
+        <div class="button-group">        
+            <button id ="button" type="submit" form="chatgpt-form">추천받기</button>
+        </div>
     </div>
-</div>
 
     <div id="lottie-wrapper">
         <div id="lottie-container"></div> <!-- Lottie 애니메이션 -->
