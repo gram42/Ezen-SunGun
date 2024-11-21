@@ -86,12 +86,3 @@
 #select-recommendation h1{
 
 }
-
-
-#lottie-container {
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    width: 150px; /* 원하는 크기 */
-    height: 150px;
-  }
