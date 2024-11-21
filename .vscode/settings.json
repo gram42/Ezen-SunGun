@@ -1,4 +1,4 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000
 }
-// "java.configuration.updateBuildConfiguration": "interactive",

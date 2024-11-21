@@ -5,9 +5,23 @@
 
 <nav class="global-nav" th:fragment="top-nav">
 
-    <a id="logo" href="/ui/index">
+    <!-- <a id="logo" href="/ui/index">
         <img id="logo-img" src="/img/로고.png" alt="Logo">
-    </a>
+    </a> -->
+
+    <div class="logo-container">
+        <a href="/ui/main" class="logo-link">
+          <div class="background">
+            <canvas id="stars"></canvas>
+          </div>
+          <div class="sun-effect"></div>
+          <div class="sun-text">
+            <span>S</span>
+            <span>u</span>
+            <span>n</span>
+          </div>
+        </a>
+    </div>
 
     <div id="moveTopMenu">
         <a class="link" href="/">이용 안내</a>
