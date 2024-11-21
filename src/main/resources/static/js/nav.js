@@ -56,36 +56,7 @@
             });
         }
 
-        // 유성우 생성 (대각선으로 떨어지는 유성우)
-        function createMeteor() {
-            const startX = Math.random() * canvas.width;
-            const startY = -20; // 화면 위에서 시작
-            meteors.push({ x: startX, y: startY });
-        }
 
-        // 유성우 애니메이션 (대각선으로 빠르게 떨어지도록)
-        function animateMeteors() {
-            meteors.forEach((meteor, index) => {
-                ctx.beginPath();
-                ctx.arc(meteor.x, meteor.y, 4, 0, Math.PI * 2); // 큰 점으로 유성우 구현
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                ctx.fill();
-
-                // 유성우가 대각선으로 빠르게 떨어지도록
-                meteor.x += Math.random() * 4 - 2; // 좌우로 조금씩 이동
-                meteor.y += 8; // 아래로 빠르게 떨어짐
-
-                // 유성우가 화면 밖으로 나가면 삭제
-                if (meteor.y > canvas.height || meteor.x < 0 || meteor.x > canvas.width) {
-                    meteors.splice(index, 1);
-                }
-            });
-
-            // 새로운 유성우 생성
-            if (Math.random() < 0.02) { // 유성우 발생 확률
-                createMeteor();
-            }
-        }
 
         // 별 그리기 (화면 전체에 고르게 분포)
         function drawStars() {
