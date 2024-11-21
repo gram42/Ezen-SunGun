@@ -70,6 +70,7 @@
     transform: translateY(-2px); /* 위로 살짝 올라가는 효과 */
 }
 
+<<<<<<< HEAD
 #fastRecommendation{
     position: relative;
 }
@@ -86,3 +87,13 @@
 #select-recommendation h1{
 
 }
+=======
+
+#lottie-container {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 150px; /* 원하는 크기 */
+    height: 150px;
+  }
+>>>>>>> 45d920d7cf3672077e50c399eb37eaf459f75273
