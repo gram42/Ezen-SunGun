@@ -70,19 +70,3 @@
     transform: translateY(-2px); /* 위로 살짝 올라가는 효과 */
 }
 
-#fastRecommendation{
-    position: relative;
-}
-
-#fastRecommendation h1{
-
-}
-
-
-#select-recommendation{
-    position: relative;
-}
-
-#select-recommendation h1{
-
-}
