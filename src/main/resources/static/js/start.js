@@ -104,12 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
         end: 'bottom+=100',
         scrub: 1, // 스크롤에 맞춰 애니메이션을 부드럽게 진행
         pin: true, // 스크롤 시 섹션을 고정
-        onEnter: () => {
-          document.body.style.backgroundColor = "#000"; // 배경 강제 검정
-        },
-        onLeave: () => {
-          document.body.style.backgroundColor = "#fff"; // 애니메이션 종료 후 복원
-        },
       },
     });
 
