@@ -15,7 +15,7 @@ public class SecurityConfig {
         // CSRF 비활성화
         // httpSecurity.csrf(csrf -> csrf.disable());
         httpSecurity.csrf(csrf -> csrf
-            .ignoringRequestMatchers("/user/login", "/user/login?error=true", "/user/logout") // 로그인 페이지, 로그인 실패, 로그아웃에 대해서만 CSRF 비활성화
+            .ignoringRequestMatchers("/user/login", "/user/login?error=true", "/user/logout", "/chatgpt-api") // 로그인 페이지, 로그인 실패, 로그아웃에 대해서만 CSRF 비활성화
         );
 
         // 인증 필요 설정
