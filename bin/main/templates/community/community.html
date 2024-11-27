@@ -11,11 +11,11 @@
 <body>
     <nav th:replace="~{nav.html::top-nav}"></nav>
 
-    <div class="sidebar">
-        <a class="side-link" href="/">이용 안내</a>
+    <div class="sidebar" sec:authorize="isAuthenticated">
+        <!-- <a class="side-link" href="/">이용 안내</a>
         <a class="side-link" href="/record">일일 활동 기록</a>
-        <a class="side-link" href="/community/community">게시판</a>
-        <div sec:authorize="isAuthenticated">
+        <a class="side-link" href="/community/community">게시판</a> -->
+        <div>
             <a class="side-link" href="/community/my-posts">내가 쓴 게시물</a>
             <a class="side-link" href="/community/my-comments">내가 쓴 댓글</a>
         </div>
