@@ -347,7 +347,7 @@ let currentUserId = null; // currentUserId를 정의합니다.
 
 async function fetchCurrentUser() {
 try {
-const response = await fetch('http://localhost:9090/user/current', {
+const response = await fetch('/user/current', {
     method: 'GET',
     credentials: 'include' // 쿠키를 포함시켜 인증 정보를 보냄
 });

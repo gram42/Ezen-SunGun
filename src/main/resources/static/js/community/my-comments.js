@@ -53,7 +53,7 @@ function isUserLoggedIn() {
 async function fetchCurrentUser() {
     try {
         console.log('현재 사용자 정보 요청'); // 사용자 정보 요청 로그
-        const response = await fetch("http://localhost:9090/user/current", {
+        const response = await fetch("/user/current", {
             method: 'GET',
             credentials: 'include' // 세션 쿠키 포함
         });
